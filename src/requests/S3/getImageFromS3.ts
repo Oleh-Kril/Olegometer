@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 
-const uploadImageToS3 = async (key: string, image: any) => {
+const uploadImageToS3 = async (key: string) => {
     const S3_BUCKET = "olegometer.storage";
     const REGION = process.env.S3_REGION;
 
@@ -15,16 +15,13 @@ const uploadImageToS3 = async (key: string, image: any) => {
     const params = {
         Bucket: S3_BUCKET,
         Key: key,
-        Body: image,
-        ContentType: 'image/jpeg',
     };
 
     try {
-        const data = await s3.upload(params).promise();
-        console.log("File uploaded successfully.", data);
+        const data = await s3.getObject(params).promise();
+        return data.Body as Buffer
     } catch (err) {
         console.error("Error uploading file:", err);
-        // Handle the error appropriately, e.g., throw an exception or log it
     }
 };
 

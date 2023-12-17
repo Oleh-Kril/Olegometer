@@ -1,4 +1,5 @@
 interface Project {
+    id: string;
     name: string;
     author: string;
     domainUrl: string;

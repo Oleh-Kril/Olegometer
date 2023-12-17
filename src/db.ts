@@ -1,21 +1,36 @@
 // db.ts
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient } from 'mongodb';
+const uri = process.env.MONGODB_URI as string
+const options = {};
 
-let client: MongoClient | null = null;
+declare global {
+    var _mongoClientPromise: Promise<MongoClient>;
+}
 
-async function connectDatabase() {
-    if (!client) {
-        client = new MongoClient(process.env.MONGODB_URI as string);
+class Singleton {
+    private static _instance: Singleton;
+    private client: MongoClient;
+    private clientPromise: Promise<MongoClient>;
 
-        await client.connect();
-        return client.db();
+    private constructor() {
+        this.client = new MongoClient(uri, options);
+        this.clientPromise = this.client.connect();
+
+        if (process.env.NODE_ENV === 'development') {
+            // In development mode, use a global variable to preserve the value
+            // across module reloads caused by HMR (Hot Module Replacement).
+            global._mongoClientPromise = this.clientPromise;
+        }
+    }
+
+    public static get instance() {
+        if (!this._instance) {
+            this._instance = new Singleton();
+        }
+        return this._instance.clientPromise;
     }
 }
 
-async function getDatabase() {
-    const db = await connectDatabase();
+const clientPromise = Singleton.instance;
 
-    return db
-}
-
-export { connectDatabase, getDatabase };
+export default clientPromise;

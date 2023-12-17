@@ -1,0 +1,153 @@
+// MEDIA QUERY MANAGER
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop
+
+$breakpoint arguement choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER: Base + typography > general layout + grid > page layout > components
+
+1em = 16px
+*/
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media only screen and (max-width: 37.5em) { @content };    //600px
+    }
+    @if $breakpoint == tab-port {
+        @media only screen and (max-width: 56.25em) { @content };     //900px
+    }
+    @if $breakpoint == tab-land {
+        @media only screen and (max-width: 75em) { @content };    //1200px
+    }
+    @if $breakpoint == big-desktop {
+        @media only screen and (min-width: 112.5em) and
+            (-webkit-max-device-pixel-ratio: 1) { @content };    //1800
+    }
+}
+
+@mixin container(
+    $add-padding: 0rem
+) {
+    padding: 0 calc(var(--container-padding-default) + $add-padding);
+
+    @include respond(phone){
+        padding: 0 0;
+    }
+    @include respond(tab-port){
+        padding: 0 calc(var(--container-padding-small) + $add-padding);
+    }
+    @include respond(tab-land){
+        padding: 0  calc(var(--container-padding-average) + $add-padding);
+    }
+    @include respond(big-desktop){
+        padding: 0 calc(var(--container-padding-big) + $add-padding);
+    }
+}
+
+// Positioning
+
+@mixin flex-center(
+    $justify-content: center,
+    $align-items: center,
+    $flex-direction: row
+) {
+    display: flex;
+    justify-content: $justify-content;
+    align-items: $align-items;
+    flex-direction: $flex-direction;
+}
+
+@mixin square-size(
+    $size
+) {
+    width: $size;
+    height: $size;
+}
+
+@mixin full-screen-size {
+    width: 100vw;
+    height: 100vh;
+}
+
+@mixin fixed-top-right(){
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+// Colors
+@mixin box-background-gradient {
+    background: linear-gradient(129.8deg, rgba(236, 240, 243, 0.16) 8.45%, rgba(236, 240, 243, 0.04) 86.56%);
+}
+
+@mixin box-shadow-dark {
+    box-shadow: 0 0 10px rgba(black, 0.2);
+}
+
+
+//TYPOGRAPHY
+@mixin text-h1 {
+    font-size: var(--h1-size);
+    font-weight: var(--h1-h2-font-weight);
+    letter-spacing: var(--h1-letter-spacing);
+}
+
+@mixin text-h2 {
+    font-size: var(--h2-size);
+    font-weight: var(--h1-h2-font-weight);
+    letter-spacing: var(--h2-letter-spacing);
+}
+
+@mixin text-h3 {
+    font-size: var(--h3-size);
+    font-weight: var(--h3-h4-font-weight);
+    letter-spacing: var(--h3-letter-spacing);
+}
+
+@mixin text-h4 {
+    font-size: var(--h4-size);
+    font-weight: var(--h3-h4-font-weight);
+    letter-spacing: var(--h4-letter-spacing);
+}
+
+@mixin text-main {
+    font-size: var(--main-text-size);
+    font-weight: var(--h-default-font-weight);
+    letter-spacing: var(--main-letter-spacing);
+}
+
+@mixin text-small {
+    font-size: var(--small-text-size);
+    font-weight: var(--small-text-font-weight);
+    letter-spacing: var(--small-letter-spacing);
+}
+
+@mixin text-gradient($gradient){
+    background-image: $gradient;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+@mixin text-truncated($line-num: 3, $text-overflow: ellipsis) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: $text-overflow;
+    word-break: break-word;
+
+    @supports (-webkit-line-clamp: $line-num) {
+        overflow: hidden;
+        text-overflow: $text-overflow;
+        white-space: initial;
+        display: -webkit-box;
+        -webkit-line-clamp: $line-num;
+        -webkit-box-orient: vertical;
+    }
+}

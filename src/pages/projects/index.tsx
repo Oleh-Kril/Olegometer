@@ -21,6 +21,23 @@ const testProject: Project = {
                 },
             ],
         },
+        {
+            url: "/about-us",
+            designs: [
+                {
+                    width: 720,
+                    designUrl: "https://figma.com/design2",
+                    snapshotUrl: "https://s3.com/snapshot2",
+                    name: "Home DesignModel",
+                },
+                {
+                    width: 260,
+                    designUrl: "https://figma.com/design3",
+                    snapshotUrl: "https://s3.com/snapshot3",
+                    name: "Home DesignModel",
+                },
+            ],
+        }
     ],
 }
 

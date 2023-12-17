@@ -1,32 +1,33 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getDatabase} from "../../db"
+import clientPromise, { getDatabase} from "../../db"
 import {ObjectId} from "bson"
+import {getSession, withApiAuthRequired} from "@auth0/nextjs-auth0"
 
 const COLLECTION_NAME = 'projects';
 
-export default async function handler(
+export default withApiAuthRequired(async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
+    const { user } = await getSession(req, res);
     const { method } = req;
     const projectId = req.query.id as string;
 
-    const db = await getDatabase();
+    const client = await clientPromise
+    const projectsCollection = client.db().collection<Project>(COLLECTION_NAME)
 
-    if(!db){
+    if(!projectsCollection){
         res.status(500).json({error: "Connection to db wasn't established"});
+        return res
     }
-
-    const projectsCollection = db.collection<Project>(COLLECTION_NAME);
 
     switch (method) {
         case 'GET':
-            // Get all projects
-            const allProjects = await projectsCollection.find().toArray();
+            const allProjects = await projectsCollection.find({ author: user?.email }).toArray();
 
             const projectsWithIdAsString = allProjects.map((project) => {
                 const { _id, ...rest } = project;
-                return { id: _id.toString(), ...rest };
+                return {...rest, id: _id.toString() };
             });
 
             res.status(200).json(projectsWithIdAsString);
@@ -75,4 +76,4 @@ export default async function handler(
             res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
             res.status(405).end(`Method ${method} Not Allowed`);
     }
-}
+})

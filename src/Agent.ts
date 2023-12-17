@@ -13,7 +13,7 @@ const responseBody = <T> (response: AxiosResponse<T>) => response.data
 
 const Agent = {
     get: async <T> (url: string, params?: object) => {
-        return axios.get<T>(url, { params })
+        return axios.get<T>(url, { ...params })
             .then(responseBody)
     },
 

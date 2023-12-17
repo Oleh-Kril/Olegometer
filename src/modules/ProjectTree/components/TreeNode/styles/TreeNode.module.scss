@@ -1,0 +1,21 @@
+@import "src/styles/mixins";
+
+.treeNode{
+    @include flex-center();
+    width: 10rem;
+    height: 3rem;
+    background: aliceblue;
+
+    p{
+        @include text-truncated(1);
+    }
+
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.treeNodeOutlined{
+    background: transparent;
+    border: black dashed 2px;
+}

@@ -1,0 +1,19 @@
+@import "src/styles/mixins";
+
+.projectTree{
+    @include flex-center($justify-content: space-evenly);
+    gap: 2rem;
+
+    %treeContainer{
+        @include flex-center($flex-direction: column);
+        gap: 2rem;
+    }
+
+    .treeRoots{
+       @extend %treeContainer;
+    }
+
+    .treeLeafs{
+        @extend %treeContainer;
+    }
+}

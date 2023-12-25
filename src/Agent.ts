@@ -27,6 +27,11 @@ const Agent = {
             .then(responseBody)
     },
 
+    patch: async <T> (url: string, body: object) => {
+        return axios.patch<T>(url, body)
+            .then(responseBody)
+    },
+
     delete: async <T>(url: string) => {
         return axios.delete<T>(url)
             .then(responseBody)

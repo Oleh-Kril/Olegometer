@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import Header from "../modules/Header"
 import Footer from "../modules/Footer"
+import ConfirmationModal from "../components/ConfirmationModal"
+
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -10,6 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Header/>
           <Component {...pageProps} />
           <Footer/>
+          <ConfirmationModal />
       </UserProvider>
   )
 }

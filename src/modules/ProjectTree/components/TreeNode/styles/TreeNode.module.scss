@@ -5,6 +5,7 @@
     width: 10rem;
     height: 3rem;
     background: aliceblue;
+    position: relative;
 
     p{
         @include text-truncated(1);
@@ -12,6 +13,12 @@
 
     &:hover{
         cursor: pointer;
+    }
+
+    .deleteButton{
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 

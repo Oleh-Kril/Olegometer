@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 
-const uploadImageToS3 = async (key: string) => {
+const getImageFromS3 = async (key: string) => {
     const S3_BUCKET = "olegometer.storage";
     const REGION = process.env.S3_REGION;
 
@@ -25,4 +25,4 @@ const uploadImageToS3 = async (key: string) => {
     }
 };
 
-export default uploadImageToS3;
+export default getImageFromS3;

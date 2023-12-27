@@ -1,4 +1,5 @@
 import Agent from "../../../../../Agent"
+import parseFigmaUrl from "../../../../../utils/parseFigmaUrl";
 
 export default async function addDesign(projectId: string, pageUrl: string, designUrl: string, name: string, userEmail?: string){
     if(!userEmail){
@@ -35,18 +36,4 @@ export default async function addDesign(projectId: string, pageUrl: string, desi
     } catch (error) {
         console.error('Error fetching Figma images and uploading to s3:', error);
     }
-}
-
-function parseFigmaUrl(url: string) {
-    const fileKeyMatch = url.match(/file\/([^\/]+)/);
-    const imageIdMatch = url.match(/node-id=([0-9-]+)/);
-
-    if (fileKeyMatch && imageIdMatch) {
-        const fileKey = fileKeyMatch[1];
-        const imageId = imageIdMatch[1];
-
-        return { fileKey, imageId };
-    }
-
-    return { fileKey: '', imageId: '' }
 }

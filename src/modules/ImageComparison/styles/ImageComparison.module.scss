@@ -1,0 +1,13 @@
+.imageComparison{
+  display: flex;
+
+  *{
+    width: 50%;
+    max-width: 50%;
+  }
+
+  img{
+    align-self: start;
+    object-fit: contain;
+  }
+}

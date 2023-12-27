@@ -31,17 +31,17 @@ export default withApiAuthRequired(async function handler(
                     responseType: 'arraybuffer',
                 })
                     .then(async (data: any) => {
-                        const key = `${userEmail}:${projectId}:${fileKey}:${imageId}`
+                        const imageBuffer = Buffer.from(data, 'base64');
+                        const dimensions = sizeOf(imageBuffer);
+                        const { width } = dimensions;
+
+                        const key = `${userEmail}:/${projectId}:${pageUrl}:/${width}:design`
 
                         uploadImageToS3(key, data).then(async () => {
-                            const imageBuffer = Buffer.from(data, 'base64');
-                            const dimensions = sizeOf(imageBuffer);
-                            const { width } = dimensions;
-
                             const design = {
                                     width: width || 1900,
                                     designUrl,
-                                    snapshotUrl: `s3://olegometer.storage/${key}`,
+                                    designSnapshotUrl: key,
                                     name
                                 } as Design
 

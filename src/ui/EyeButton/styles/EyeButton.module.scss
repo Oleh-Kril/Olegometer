@@ -1,0 +1,22 @@
+@import "src/styles/mixins";
+
+.eyeButton{
+    @include flex-center();
+    position: relative;
+
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    background: coral;
+
+    &:hover{
+        cursor: pointer;
+    }
+
+    img{
+        width: 70%;
+        height: 70%;
+        max-width: 70%;
+        max-height: 70%;
+    }
+}

@@ -34,7 +34,8 @@ export default function ProjectTree({pages} : Props){
                     <>
                         <TreeNodeWithActions key={design.designUrl}
                                              id={design.name}
-                                             name={design.name}/>
+                                             name={design.name}
+                                             pageUrl={pages[activePageIdx].url}/>
 
                         <TreeNodeArrow start={pages[activePageIdx].url}
                                        end = {design.name}/>

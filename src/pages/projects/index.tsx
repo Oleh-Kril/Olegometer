@@ -16,7 +16,7 @@ const testProject: Project = {
                 {
                     width: 1920,
                     designUrl: "https://figma.com/design1",
-                    snapshotUrl: "https://s3.com/snapshot1",
+                    designSnapshotUrl: "https://s3.com/snapshot1",
                     name: "Home DesignModel",
                 },
             ],
@@ -27,13 +27,13 @@ const testProject: Project = {
                 {
                     width: 720,
                     designUrl: "https://figma.com/design2",
-                    snapshotUrl: "https://s3.com/snapshot2",
+                    designSnapshotUrl: "https://s3.com/snapshot2",
                     name: "Home DesignModel",
                 },
                 {
                     width: 260,
                     designUrl: "https://figma.com/design3",
-                    snapshotUrl: "https://s3.com/snapshot3",
+                    designSnapshotUrl: "https://s3.com/snapshot3",
                     name: "Home DesignModel",
                 },
             ],

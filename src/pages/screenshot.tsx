@@ -5,19 +5,20 @@ import uploadImageToS3 from "../requests/S3/uploadImageToS3"
 import Agent from "../Agent"
 import getImageFromS3 from "../requests/S3/getImageFromS3"
 import {GetStaticProps} from "next"
+import useProjects from "../store/projectsStore";
 
-const ScreenshotComponent = ({ url="https://react.aidept.com.ua", width=1920} : {url?: string, width?: number}) => {
-    const [image, setImage] = useState('')
+const ScreenshotComponent = ({ url="https://streetcode.com.ua/catalog", width=1920} : {url?: string, width?: number}) => {
+    const [image, setImage] = useState(null)
 
     useEffect(() => {
         // Agent.get(`/api/export-figma-frame`)
 
         const getWebPageScreenshot = async ()=> {
             const { base64 } =  await Agent.get(`/api/make-screenshot?url=${url}&width=${width}`)
-            console.log(base64)
+            setImage(base64)
         }
 
-        // getWebPageScreenshot();
+        getWebPageScreenshot();
 
         const getS3Image = async ()=> {
             const base64 =  await Agent.get('/api/get-s3-image') as string
@@ -30,10 +31,9 @@ const ScreenshotComponent = ({ url="https://react.aidept.com.ua", width=1920} : 
 
     return (
         <div>
-            {/* Your component UI goes here */}
-            <p>Loading competed</p>
-            <img src={'data:image/jpeg;base64,' + image}
-                 alt='screenshot'/>
+            {image ? <img src={'data:image/jpeg;base64,' + image}
+                          alt='screenshot'/> : <p>Loading...</p>}
+
         </div>
     )
 }

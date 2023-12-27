@@ -1,0 +1,40 @@
+@import "src/styles/mixins";
+
+.runButton{
+    @include flex-center();
+    position: relative;
+
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    background: coral;
+
+    &:hover{
+        cursor: pointer;
+    }
+
+    img{
+        margin-left: 10%;
+
+        width: 60%;
+        height: 60%;
+        max-width: 60%;
+        max-height: 60%;
+    }
+
+    %doubleIcon{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .additionalIcon{
+        @extend %doubleIcon;
+        left: .55rem;
+    }
+
+    .mainIcon{
+        @extend %doubleIcon;
+        left: 0rem;
+    }
+}

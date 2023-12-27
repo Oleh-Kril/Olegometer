@@ -1,6 +1,7 @@
 interface Design {
     name: string;
     width: number;
-    designUrl?: string;
-    snapshotUrl?: string;
+    designUrl: string;
+    designSnapshotUrl?: string;
+    websiteSnapshotUrl?: string;
 }

@@ -8,14 +8,15 @@ import useProjects from "../../../../../store/projectsStore"
 
 export type TreeNodeProps = {
     name: string
-    children?: React.ReactNode[]
+    children?: React.ReactNode
     onClick?: MouseEventHandler<HTMLDivElement>
+    onDeleteClick?: MouseEventHandler<HTMLButtonElement>
     className?: string
     isOutlined?: boolean
     id?: string
 }
 
-export default function TreeNode({name, children, className, isOutlined, ...props}: TreeNodeProps){
+export default function TreeNode({name, onDeleteClick, children, className, isOutlined, ...props}: TreeNodeProps){
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
     const router = useRouter()
     const { projects, setProjects } = useProjects()
@@ -34,14 +35,15 @@ export default function TreeNode({name, children, className, isOutlined, ...prop
 
     function onDeleteHandler(e: React.MouseEvent<HTMLButtonElement>){
         e.stopPropagation()
-
-        setConfirmationModal({modalTitle: 'Are you sure you want to delete the page?', onConfirm: deletePage, showModal: true})
+        onDeleteClick
+            ? setConfirmationModal({modalTitle: 'Are you sure you want to delete the design?', onConfirm: onDeleteClick, showModal: true})
+            : setConfirmationModal({modalTitle: 'Are you sure you want to delete the page?', onConfirm: deletePage, showModal: true})
     }
 
     return (
         <div className={`${styles.treeNode} ${className} ${isOutlined && styles.treeNodeOutlined}`} {...props}>
             <p>{name}</p>
-            <button onClick={onDeleteHandler} className={styles.deleteButton}>X</button>
+            {!isOutlined && <button onClick={onDeleteHandler} className={styles.deleteButton}>X</button>}
             {children}
         </div>
     )

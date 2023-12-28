@@ -1,18 +1,23 @@
-import '../styles/globals.css'
+import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import Header from "../modules/Header"
 import Footer from "../modules/Footer"
 import ConfirmationModal from "../components/ConfirmationModal"
+import Loader from "../components/Loader"
+import Layout from "../modules/Layout"
 
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
       <UserProvider>
-          <Header/>
-          <Component {...pageProps} />
-          <Footer/>
+          <Layout>
+              <Header/>
+              <Component {...pageProps} />
+              <Footer/>
+          </Layout>
           <ConfirmationModal />
+          <Loader />
       </UserProvider>
   )
 }

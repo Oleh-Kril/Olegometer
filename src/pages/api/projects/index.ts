@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import clientPromise from "../../../db"
 import {getSession, withApiAuthRequired} from "@auth0/nextjs-auth0"
 import transformIdProperty from "../../../utils/transformIdProperty"
 import getProjectsHandlerData from "../../../utils/getProjectsHandlerData"
@@ -21,11 +20,13 @@ export default withApiAuthRequired(async function handler(
                 break;
 
             case 'POST':
-                const newProject: Project = req.body;
+                const newProject: Omit<Project, 'id'> = req.body;
+                newProject.author = user?.email;
+                // @ts-ignore
                 const result = await projectsCollection.insertOne(newProject);
 
                 if(result.acknowledged){
-                    res.status(201).json(result.insertedId.toString());
+                    res.status(201).json({...newProject, id: result.insertedId.toString()} as Project)
                 }else{
                     res.status(400).json({ error: 'Project not created' })
                 }

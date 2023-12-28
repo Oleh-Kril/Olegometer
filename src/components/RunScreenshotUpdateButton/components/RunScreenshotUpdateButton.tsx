@@ -3,6 +3,9 @@ import styles from '../styles/RunScreenshotUpdateButton.module.scss'
 import useProjects from "../../../store/projectsStore";
 import {useRouter} from "next/router";
 import Agent from "../../../Agent";
+import useProjectsEndpoint from "../../../hooks/useProjectsEndpoint"
+import useGlobalLoader from "../../../store/globalLoaderStore"
+import {RESET} from "jotai/utils"
 
 type Props = {
     pageOnly?: boolean,
@@ -14,6 +17,8 @@ export default function RunScreenshotUpdateButton({pageOnly = false, pageUrl, de
     const {projects, setProjects} = useProjects()
     const isDoubleIcon = !pageOnly
     const router = useRouter()
+    const makeRequestAndUpdateState = useProjectsEndpoint()
+    const [globalLoader, setGlobalLoader] = useGlobalLoader()
 
     async function runScreenshotUpdate(){
         const projectId = router.query.id as string
@@ -21,14 +26,14 @@ export default function RunScreenshotUpdateButton({pageOnly = false, pageUrl, de
         const page = project.pages.find(page => page.url === pageUrl) as Page
         const design = page.designs.find(design => design.name === designName) as Design
 
-        const updatedProject = await Agent.post(`/api/projects/${projectId}/pages/make-screenshot?url=${pageUrl}`, {
-            design,
-            projectDomainUrl: project.domainUrl,
-        })
+        setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${page} in ${design.width} width`})
 
-        const newProjectsList = projects.map((project) => project.id === projectId ? updatedProject : project) as Project[]
+        await makeRequestAndUpdateState(() =>
+            Agent.post(`/api/projects/${projectId}/pages/make-screenshot?url=${pageUrl}`,
+                {design, projectDomainUrl: project.domainUrl,})
+        )
 
-        setProjects(newProjectsList)
+        setGlobalLoader(RESET)
     }
 
     return (

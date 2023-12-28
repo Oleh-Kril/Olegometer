@@ -1,10 +1,11 @@
 import TreeNode from "./TreeNode"
 import TreeNodeWithActions from "./TreeNodeWithActions"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import styles from '../styles/ProjectTree.module.scss'
 import AddPageModal from "./AddPageModal"
 import TreeNodeArrow from "./TreeNodeArrow"
 import AddDesignModal from "./AddDesignModal"
+import {useRouter} from "next/router"
 
 type Props = {
     pages: Page[]
@@ -14,6 +15,31 @@ export default function ProjectTree({pages} : Props){
     const [activePageIdx,setActivePageIdx] = useState(0)
     const [showAddPageModal, setShowAddPageModal] = useState(false)
     const [showAddDesignModal, setShowAddDesignModal] = useState(false)
+    const router = useRouter()
+
+    useEffect(() => {
+        getActivePageFromUrl()
+    }, [])
+
+    useEffect(() => {
+        updateUrlBasedOnActivePage()
+    }, [activePageIdx])
+
+    function getActivePageFromUrl(){
+        const pageUrl = router.query.pageUrl as string
+        if(pageUrl){
+            const pageIdx = pages.findIndex(page => page.url === pageUrl)
+            if(pageIdx !== -1){
+                setActivePageIdx(pageIdx)
+            }
+        }
+    }
+    function updateUrlBasedOnActivePage(){
+        const pageUrl = router.query.pageUrl as string
+        if(pageUrl !== pages[activePageIdx]?.url){
+            router.push(`/projects/${router.query.id}?pageUrl=${pages[activePageIdx]?.url}`, undefined, {shallow: true})
+        }
+    }
 
     return (
         <div className={styles.projectTree}>
@@ -33,12 +59,12 @@ export default function ProjectTree({pages} : Props){
                 {pages[activePageIdx]?.designs.map((design, idx) =>
                     <>
                         <TreeNodeWithActions key={design.designUrl}
-                                             id={design.name}
+                                             id={`${pages[activePageIdx].url}:${design.name}`}
                                              name={design.name}
                                              pageUrl={pages[activePageIdx].url}/>
 
                         <TreeNodeArrow start={pages[activePageIdx].url}
-                                       end = {design.name}/>
+                                       end = {`${pages[activePageIdx].url}:${design.name}`}/>
                     </>
                 )}
                 <TreeNode isOutlined key={-1} name={'Add design'} onClick={()=>setShowAddDesignModal(true)}/>

@@ -3,92 +3,47 @@ import {useState} from "react"
 import {useUser} from "@auth0/nextjs-auth0/client"
 import Agent from "../../Agent"
 import ProjectsList from "../../modules/ProjectsList"
-
-const testProject: Project = {
-    name: "Olegometer 2",
-    author: "",
-    domainUrl: "https://my-website.com",
-    figmaToken: "your-figma-token",
-    pages: [
-        {
-            url: "/home",
-            designs: [
-                {
-                    width: 1920,
-                    designUrl: "https://figma.com/design1",
-                    designSnapshotUrl: "https://s3.com/snapshot1",
-                    name: "Home DesignModel",
-                },
-            ],
-        },
-        {
-            url: "/about-us",
-            designs: [
-                {
-                    width: 720,
-                    designUrl: "https://figma.com/design2",
-                    designSnapshotUrl: "https://s3.com/snapshot2",
-                    name: "Home DesignModel",
-                },
-                {
-                    width: 260,
-                    designUrl: "https://figma.com/design3",
-                    designSnapshotUrl: "https://s3.com/snapshot3",
-                    name: "Home DesignModel",
-                },
-            ],
-        }
-    ],
-}
+import Link from "next/link"
+import AddProjectModal from "../../components/AddProjectModal"
 
 export default withPageAuthRequired(function Projects() {
     const { user, error, isLoading } = useUser()
-
+    const [showModal, setShowModal] = useState(false)
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>{error.message}</div>
 
     const [createdProject, setCreatedProject] = useState<Project | null>(null)
 
     const handleCreateProject = async () => {
-        try {
-            const createdProject = await Agent.post<Project>('/api/projects', testProject);
-            setCreatedProject(createdProject)
-        } catch (error) {
-            console.error("Error creating project:", error)
-        }
+        setShowModal(true)
     }
 
-    const handleDeleteProject = async () => {
-        if (createdProject) {
-            try {
-                await Agent.delete(`/api/projects/${createdProject.name}`);
-                setCreatedProject(null);
-            } catch (error) {
-                console.error('Error deleting project:', error);
-            }
-        }
-    };
+    // const handleDeleteProject = async () => {
+    //     if (createdProject) {
+    //         try {
+    //             await Agent.delete(`/api/projects/${createdProject.name}`);
+    //             setCreatedProject(null);
+    //         } catch (error) {
+    //             console.error('Error deleting project:', error);
+    //         }
+    //     }
+    // };
 
 
     return (
-        <div>
-            <p>WELCOME TO OLEGOMETER</p>
-            <a href='/api/auth/logout'>Logout</a>
+        <>
+            <div style={{width: '80vw'}}>
+                <p>WELCOME TO OLEGOMETER</p>
+                <Link href='/api/auth/logout'>Logout</Link>
 
-            <h1>Projects Page</h1>
+                <h1>Projects Page</h1>
 
-            <button onClick={handleCreateProject}>Create Test Project</button>
+                <button onClick={handleCreateProject}>Create New Project</button>
 
-            <button onClick={handleDeleteProject}>Delete Project</button>
-
-            {createdProject && (
-                <div>
-                    <h2>Created Project</h2>
-                    <pre>{JSON.stringify(createdProject, null, 2)}</pre>
-                </div>
-            )}
-            <ProjectsList />
-        </div>
+                <ProjectsList />
+            </div>
+            <AddProjectModal showModal={showModal} setShowModal={setShowModal}/>
+        </>
     )
 })
 

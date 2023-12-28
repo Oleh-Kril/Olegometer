@@ -11,37 +11,23 @@ export default withApiAuthRequired(async function handler(
         const {projectsCollection, user, method, projectId} =  await getProjectsHandlerData(req, res)
 
         switch (method) {
-        case 'PATCH':
-            const updatedProject: Project = req.body;
 
-            const patchedProject = await projectsCollection.findOneAndUpdate(
-                { _id: new ObjectId(projectId) },
-                { $set: updatedProject },
-                { returnDocument: 'after' }
-            );
+        case 'DELETE':
+            const deletedProject = await projectsCollection.findOneAndDelete({
+                _id: new ObjectId(projectId),
+                author: user.email,
+            });
 
-            if (patchedProject) {
-                res.status(200).json(patchedProject);
+            if (deletedProject) {
+                res.status(200).json(deletedProject._id.toString());
             } else {
                 res.status(404).json({ error: 'Project not found' });
             }
             break;
 
-            case 'DELETE':
-                const deletedProject = await projectsCollection.findOneAndDelete({
-                    _id: new ObjectId(projectId),
-                });
-                console.log(deletedProject)
-                if (deletedProject) {
-                    res.status(200).json(deletedProject._id.toString());
-                } else {
-                    res.status(404).json({ error: 'Project not found' });
-                }
-                break;
-
-            default:
-                res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-                res.status(405).end(`Method ${method} Not Allowed`);
+        default:
+            res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
+            res.status(405).end(`Method ${method} Not Allowed`);
         }
 
     }catch{

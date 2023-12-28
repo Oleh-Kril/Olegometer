@@ -35,7 +35,7 @@ export default withApiAuthRequired(async function handler(
 
                     const key = `${user.email}:/${projectId}:${url}:/${design.width}`
 
-                    uploadImageToS3(key, imageBuffer).then(async () => {
+                    // uploadImageToS3(key, imageBuffer).then(async () => {
                         const updatedProject = await projectsCollection.findOneAndUpdate(
                             {
                                 _id: new ObjectId(projectId),
@@ -62,7 +62,7 @@ export default withApiAuthRequired(async function handler(
                         } else {
                             res.status(404).json({ error: 'Project not found' });
                         }
-                    })
+                    // })
 
                 }catch (error) {
                     console.error('Error capturing screenshot:', error);

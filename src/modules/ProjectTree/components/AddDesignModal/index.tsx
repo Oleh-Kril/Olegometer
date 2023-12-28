@@ -1,3 +1,3 @@
-import AddPageModal from "./components/AddPageModal"
+import AddPageModal from "./components/AddDesignModal"
 
 export default AddPageModal

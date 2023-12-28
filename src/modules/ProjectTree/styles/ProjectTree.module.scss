@@ -2,7 +2,7 @@
 
 .projectTree{
     @include flex-center($justify-content: space-evenly);
-    gap: 2rem;
+    gap: 18rem;
 
     %treeContainer{
         @include flex-center($flex-direction: column);

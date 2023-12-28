@@ -27,12 +27,12 @@ export default withApiAuthRequired( async function DELETE(
         if(page){
             const design = page.designs.find(design => design.name === designName) as Design
             if(design){
-                if(design.designSnapshotUrl) {
-                    await deleteImageFromS3(design.designSnapshotUrl)
-                }
-                if(design.websiteSnapshotUrl) {
-                    await deleteImageFromS3(design.websiteSnapshotUrl)
-                }
+                // if(design.designSnapshotUrl) {
+                //     await deleteImageFromS3(design.designSnapshotUrl)
+                // }
+                // if(design.websiteSnapshotUrl) {
+                //     await deleteImageFromS3(design.websiteSnapshotUrl)
+                // }
             }
         }
     }

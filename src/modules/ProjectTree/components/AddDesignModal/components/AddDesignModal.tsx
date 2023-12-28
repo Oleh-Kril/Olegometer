@@ -4,29 +4,35 @@ import {ModalProps} from "../../../../../ui/Modal"
 import {FieldValues, useForm} from "react-hook-form"
 import styles from '../styles/AddPageModal.module.scss'
 import {useRouter} from "next/router"
-import useProjects from "../../../../../store/projectsStore"
 import addDesign from "../requests/addDesign"
 import {useUser} from "@auth0/nextjs-auth0/client"
+import useGlobalLoader from "../../../../../store/globalLoaderStore"
+import {RESET} from "jotai/utils"
+import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
 
 type Props = Omit<ModalProps, 'children'> & {
     page: Page
 }
 
 function AddDesignModal({showModal, onRequestClose, page} : Props){
-    const {projects, setProjects} = useProjects()
     const router = useRouter()
     const { user, error, isLoading } = useUser()
+    const [globalLoader, setGlobalLoader] = useGlobalLoader()
+    const makeRequestAndUpdateState = useProjectsEndpoint()
 
-    const onCreatePageSubmit = async (data: FieldValues) => {
+    const onCreateDesignSubmit = async (data: FieldValues) => {
         const projectId = router.query.id as string
 
-        const updatedProject = await addDesign(projectId, page.url, data.url, data.name, user?.email ?? undefined)
+        setGlobalLoader({showLoader: true, text: 'Exporting frame from figma to create design...'})
 
-        if(updatedProject){
-            const newProjectsList = projects.map((project) => project.id === projectId ? updatedProject : project) as Project[]
-
-            setProjects(newProjectsList)
+        try {
+            await makeRequestAndUpdateState(() => addDesign(projectId, page.url, data.url, data.name, user?.email ?? undefined))
+        }catch (e){
+            window.alert(`Design isn't added. Please try again.`)
         }
+
+        setGlobalLoader(RESET)
+        onRequestClose()
     }
 
     const {
@@ -43,7 +49,7 @@ function AddDesignModal({showModal, onRequestClose, page} : Props){
     return (
         <Modal showModal={showModal} onRequestClose={onRequestClose}>
             <div className={styles.addPageModal}>
-                <form onSubmit={handleSubmit(onCreatePageSubmit)}>
+                <form onSubmit={handleSubmit(onCreateDesignSubmit)}>
                     <input {...register('url', { required: true })} />
                     {errors.url && <p>Please enter url before saving.</p>}
                     <input {...register('name', { required: true })} />

@@ -8,32 +8,27 @@ export default async function addDesign(projectId: string, pageUrl: string, desi
 
     const {fileKey, imageId} = parseFigmaUrl(designUrl)
     const personalAccessToken = await Agent.get(`/api/projects/${projectId}/figmaToken`)
-    console.log(fileKey, imageId, personalAccessToken, userEmail, name)
 
-    try {
-        const response = await Agent.get(`https://api.figma.com/v1/images/${fileKey}?ids=${imageId}&format=jpg`, {
-            headers: {
-                'X-FIGMA-TOKEN': personalAccessToken,
-            },
-        });
-        const { images } = response
+    const response = await Agent.get(`https://api.figma.com/v1/images/${fileKey}?ids=${imageId}&format=jpg`, {
+        headers: {
+            'X-FIGMA-TOKEN': personalAccessToken,
+        },
+    });
 
-        const imageUrl = images[imageId.replace(/-/g, ':')]
+    const { images } = response as any
 
-        const updatedProject: Project = await Agent.post('/api/s3/upload-from-figma', {
-            projectId,
-            pageUrl,
-            designUrl,
-            name,
-            userEmail,
-            imageUrl,
-            fileKey,
-            imageId
-        })
+    const imageUrl = images[imageId.replace(/-/g, ':')]
 
-        return updatedProject
+    const updatedProject: Project = await Agent.post('/api/s3/upload-from-figma', {
+        projectId,
+        pageUrl,
+        designUrl,
+        name,
+        userEmail,
+        imageUrl,
+        fileKey,
+        imageId
+    })
 
-    } catch (error) {
-        console.error('Error fetching Figma images and uploading to s3:', error);
-    }
+    return updatedProject
 }

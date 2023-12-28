@@ -37,7 +37,7 @@ export default withApiAuthRequired(async function handler(
 
                         const key = `${userEmail}:/${projectId}:${pageUrl}:/${width}:design`
 
-                        uploadImageToS3(key, data).then(async () => {
+                        // uploadImageToS3(key, data).then(async () => {
                             const design = {
                                     width: width || 1900,
                                     designUrl,
@@ -65,7 +65,7 @@ export default withApiAuthRequired(async function handler(
                                 res.status(404).json({ error: 'Project not found' });
                             }
                             })
-                    })
+                    // })
                     .catch(error => {
                         res.status(500).json({ error: 'Something went wrong' });
                     });

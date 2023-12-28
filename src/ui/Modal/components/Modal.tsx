@@ -3,7 +3,7 @@ import styles from '../styles/Modal.module.scss'
 
 export type ModalProps = {
     showModal: boolean,
-    onRequestClose: MouseEventHandler<HTMLDivElement | HTMLButtonElement>,
+    onRequestClose: () => void,
     children: ReactNode
 }
 

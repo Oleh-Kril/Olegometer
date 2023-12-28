@@ -1,26 +1,22 @@
-import React, {useState} from "react"
+import React from "react"
 import Modal from "../../../../../ui/Modal"
 import {ModalProps} from "../../../../../ui/Modal"
 import {FieldValues, useForm} from "react-hook-form"
 import styles from '../styles/AddPageModal.module.scss'
 import Agent from "../../../../../Agent"
 import {useRouter} from "next/router"
-import useProjects from "../../../../../store/projectsStore"
+import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
 
 type Props = Omit<ModalProps, 'children'>
 
 function AddPageModal({showModal, onRequestClose} : Props){
-    const {projects, setProjects} = useProjects()
     const router = useRouter()
+    const makeRequestAndUpdateState = useProjectsEndpoint()
 
     const onCreatePageSubmit = async (data: FieldValues) => {
         const projectId = router.query.id as string
 
-        const updatedProject = await Agent.post(`/api/projects/${projectId}/pages`, {url: data.url, designs: []})
-
-        const newProjectsList = projects.map((project) => project.id === projectId ? updatedProject : project) as Project[]
-
-        setProjects(newProjectsList)
+        await makeRequestAndUpdateState(() => Agent.post<Project>(`/api/projects/${projectId}/pages`, { url: data.url, designs: [] }));
     }
 
     const {

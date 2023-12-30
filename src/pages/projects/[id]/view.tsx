@@ -26,12 +26,18 @@ export default function ViewPage(){
         }
     }, [router])
 
-    if (!slug?.pageUrl || !slug?.designName) {
-        return <div>Loading...</div>
+    const routerBack = () => {
+        const id = router.query.id as string
+        const pageUrl = router.query.pageUrl as string
+
+        router.push(`/projects/${id}?pageUrl=${pageUrl}`)
     }
 
     return (
         <div>
+            <button onClick={routerBack}>
+                Back to project tree
+            </button>
             <h1>Project View Page</h1>
             <p>Project ID: {slug?.id}</p>
             <p>Page ID: {slug?.pageUrl}</p>
@@ -44,7 +50,6 @@ export default function ViewPage(){
                         projectId={slug.id} />
                     : <></>
             }
-
         </div>
     )
 }

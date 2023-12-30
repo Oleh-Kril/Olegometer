@@ -3,32 +3,35 @@ import Modal from "../../../../../ui/Modal"
 import {ModalProps} from "../../../../../ui/Modal"
 import {FieldValues, useForm} from "react-hook-form"
 import styles from '../styles/AddPageModal.module.scss'
-import {useRouter} from "next/router"
 import addDesign from "../requests/addDesign"
 import {useUser} from "@auth0/nextjs-auth0/client"
 import useGlobalLoader from "../../../../../store/globalLoaderStore"
 import {RESET} from "jotai/utils"
 import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
+import useCurrentProject from "../../../../../hooks/useCurrentProject"
 
 type Props = Omit<ModalProps, 'children'> & {
     page: Page
 }
 
 function AddDesignModal({showModal, onRequestClose, page} : Props){
-    const router = useRouter()
     const { user, error, isLoading } = useUser()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
     const makeRequestAndUpdateState = useProjectsEndpoint()
+    const {project} = useCurrentProject()
 
     const onCreateDesignSubmit = async (data: FieldValues) => {
-        const projectId = router.query.id as string
+        if(page?.designs.find(design => design.name === data.name)){
+            window.alert('Design with this name already exists.')
+            return
+        }
 
         setGlobalLoader({showLoader: true, text: 'Exporting frame from figma to create design...'})
 
         try {
-            await makeRequestAndUpdateState(() => addDesign(projectId, page.url, data.url, data.name, user?.email ?? undefined))
+            await makeRequestAndUpdateState(() => addDesign(project, page.url, data.url, data.name, user?.email ?? undefined))
         }catch (e){
-            window.alert(`Design isn't added. Please try again.`)
+            window.alert(`Design isn't added. Please try again. ${e}`)
         }
 
         setGlobalLoader(RESET)

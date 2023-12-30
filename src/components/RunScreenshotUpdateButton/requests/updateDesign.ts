@@ -1,7 +1,7 @@
-import Agent from "../../../../../Agent"
-import parseFigmaUrl from "../../../../../utils/parseFigmaUrl";
+import parseFigmaUrl from "../../../utils/parseFigmaUrl"
+import Agent from "../../../Agent"
 
-export default async function addDesign(project: Project, pageUrl: string, designUrl: string, name: string, userEmail?: string){
+export default async function updateDesign(project: Project, pageUrl: string, design: Design, name: string, userEmail?: string){
     if(!userEmail){
         throw new Error('User not authorized')
     }
@@ -10,7 +10,7 @@ export default async function addDesign(project: Project, pageUrl: string, desig
         throw new Error('User has no access to this project')
     }
 
-    const {fileKey, imageId} = parseFigmaUrl(designUrl)
+    const {fileKey, imageId} = parseFigmaUrl(design.designUrl)
 
     if(!fileKey || !imageId){
         throw new Error('Invalid Figma URL')
@@ -26,16 +26,22 @@ export default async function addDesign(project: Project, pageUrl: string, desig
 
     const imageUrl = images[imageId.replace(/-/g, ':')]
 
-    const design: Design = await Agent.post('/api/s3/upload-from-figma', {
+    const updates: Design = await Agent.post('/api/s3/upload-from-figma', {
         projectId: project.id,
         pageUrl,
-        designUrl,
+        url: design.designUrl,
         name,
         userEmail,
         imageUrl,
     })
 
-    const updatedProject: Project = await Agent.post(`/api/projects/${project.id}/pages/add-design?url=${pageUrl}`, design)
+    const updatedDesign: Design = {
+        ...design,
+        width: updates.width,
+        designSnapshotUrl: updates.designSnapshotUrl,
+    }
+
+    const updatedProject: Project = await Agent.put(`/api/projects/${project.id}/pages/update-design?url=${pageUrl}`, updatedDesign)
 
     return updatedProject
 }

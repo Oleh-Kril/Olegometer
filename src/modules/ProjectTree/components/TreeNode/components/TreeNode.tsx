@@ -1,11 +1,10 @@
 import React, {MouseEventHandler} from "react"
 import styles from '../styles/TreeNode.module.scss'
 import useConfirmationModal from "../../../../../store/confirmationModalStore"
-import {useRouter} from "next/router"
 import Agent from "../../../../../Agent"
 import {RESET} from "jotai/utils"
-import useProjects from "../../../../../store/projectsStore"
 import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
+import useCurrentProject from "../../../../../hooks/useCurrentProject"
 
 export type TreeNodeProps = {
     name: string
@@ -19,17 +18,12 @@ export type TreeNodeProps = {
 
 export default function TreeNode({name, onDeleteClick, children, className, isOutlined, ...props}: TreeNodeProps){
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
-    const router = useRouter()
-    const {projects, setProjects} = useProjects()
     const makeRequestAndUpdateState = useProjectsEndpoint()
+    const {project, page} = useCurrentProject(true)
 
     async function deletePage(){
-        const projectId = router.query.id
-        const project = projects.find(project => project.id === projectId) as Project
-        const page = project.pages.find(page => page.url === name)
-
         if(page && page.designs.length === 0) {
-            await makeRequestAndUpdateState(() => Agent.delete<string>(`/api/projects/${projectId}/pages?url=${name}`))
+            await makeRequestAndUpdateState(() => Agent.delete<string>(`/api/projects/${project.id}/pages?url=${name}`))
         }else{
             window.alert('You can only delete pages without designs')
         }

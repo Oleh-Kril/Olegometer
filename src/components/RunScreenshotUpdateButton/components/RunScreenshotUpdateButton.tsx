@@ -6,34 +6,44 @@ import Agent from "../../../Agent";
 import useProjectsEndpoint from "../../../hooks/useProjectsEndpoint"
 import useGlobalLoader from "../../../store/globalLoaderStore"
 import {RESET} from "jotai/utils"
+import useCurrentProject from "../../../hooks/useCurrentProject"
+import updateDesign from "../requests/updateDesign"
+import {useUser} from "@auth0/nextjs-auth0/client"
 
 type Props = {
     pageOnly?: boolean,
-    pageUrl: string,
     designName: string
 }
 
-export default function RunScreenshotUpdateButton({pageOnly = false, pageUrl, designName}: Props){
-    const {projects, setProjects} = useProjects()
-    const isDoubleIcon = !pageOnly
-    const router = useRouter()
+export default function RunScreenshotUpdateButton({pageOnly = false, designName}: Props){
     const makeRequestAndUpdateState = useProjectsEndpoint()
+    const { user} = useUser()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
+    const {project, page} = useCurrentProject(true)
+
+    const isDoubleIcon = !pageOnly
 
     async function runScreenshotUpdate(){
-        const projectId = router.query.id as string
-        const project = projects.find(project => project.id === projectId) as Project
-        const page = project.pages.find(page => page.url === pageUrl) as Page
-        const design = page.designs.find(design => design.name === designName) as Design
+        if(page){
+            const design = page.designs.find(design => design.name === designName) as Design
 
-        setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${page} in ${design.width} width`})
+            setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${page.url} in ${design.width} width`})
 
-        await makeRequestAndUpdateState(() =>
-            Agent.post(`/api/projects/${projectId}/pages/make-screenshot?url=${pageUrl}`,
-                {design, projectDomainUrl: project.domainUrl,})
-        )
+            await makeRequestAndUpdateState(() =>
+                Agent.post(`/api/projects/${project.id}/pages/make-screenshot?url=${page.url}`,
+                    {design, projectDomainUrl: project.domainUrl,})
+            )
 
-        setGlobalLoader(RESET)
+            setGlobalLoader(RESET)
+
+            if(!pageOnly && design){
+                setGlobalLoader({showLoader: true, text: `Exporting new snapshot of the ${page?.url || ''} page design from figma`})
+
+                await makeRequestAndUpdateState(() => updateDesign(project, page?.url, design, designName, user?.email || undefined))
+
+                setGlobalLoader(RESET)
+            }
+        }
     }
 
     return (

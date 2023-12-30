@@ -39,7 +39,8 @@ export default withApiAuthRequired(async function handler(
                     { _id: new ObjectId(projectId), author: user?.email },
                     {
                         $pull: {
-                            pages: { url: url },
+                            // @ts-ignore
+                            pages: { url },
                         },
                     },
                     { returnDocument: 'after' }

@@ -12,23 +12,9 @@ export default withPageAuthRequired(function Projects() {
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>{error.message}</div>
 
-    const [createdProject, setCreatedProject] = useState<Project | null>(null)
-
     const handleCreateProject = async () => {
         setShowModal(true)
     }
-
-    // const handleDeleteProject = async () => {
-    //     if (createdProject) {
-    //         try {
-    //             await Agent.delete(`/api/projects/${createdProject.name}`);
-    //             setCreatedProject(null);
-    //         } catch (error) {
-    //             console.error('Error deleting project:', error);
-    //         }
-    //     }
-    // };
-
 
     return (
         <>

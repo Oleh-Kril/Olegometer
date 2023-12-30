@@ -8,48 +8,33 @@ import transformIdProperty from "../../../../../utils/transformIdProperty";
 import getImageFromS3 from "../../../../../requests/s3/getImageFromS3";
 import deleteImageFromS3 from "../../../../../requests/s3/deleteImageFromS3";
 
-export default withApiAuthRequired( async function DELETE(
+export default withApiAuthRequired( async function PUT(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { url, designName } = req.query
     const {projectsCollection, user, method, projectId} =  await getProjectsHandlerData(req, res)
 
-    const project = await projectsCollection.findOne<Project>({
-        _id: new ObjectId(projectId),
-        author: user?.email,
-        'pages.url': url,
-        'pages.designs.name': designName,
-    });
-
-    if(project){
-        const page = project.pages.find(page => page.url === url)
-        if(page){
-            const design = page.designs.find(design => design.name === designName) as Design
-            if(design){
-                if(design.designSnapshotUrl) {
-                    await deleteImageFromS3(design.designSnapshotUrl)
-                }
-                if(design.websiteSnapshotUrl) {
-                    await deleteImageFromS3(design.websiteSnapshotUrl)
-                }
-            }
-        }
-    }
+    const { url } = req.query
+    const design = req.body
 
     const updatedProject = await projectsCollection.findOneAndUpdate(
         {
             _id: new ObjectId(projectId),
             author: user?.email,
             'pages.url': url,
+            'pages.designs.name': design.name
         },
         {
-            $pull: {
-                'pages.$.designs': { name: designName },
+            $set: {
+                'pages.$[i].designs.$[j]': design
             },
         },
         {
             returnDocument: 'after',
+            arrayFilters: [
+                { 'i.url': url },
+                { 'j.name': design.name },
+            ],
         }
     );
 

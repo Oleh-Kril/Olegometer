@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {getSession, withApiAuthRequired} from "@auth0/nextjs-auth0"
+import {withApiAuthRequired} from "@auth0/nextjs-auth0"
 import transformIdProperty from "../../../utils/transformIdProperty"
 import getProjectsHandlerData from "../../../utils/getProjectsHandlerData"
 

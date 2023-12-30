@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "../styles/ImageComparison.module.scss";
-import useProjects from "../../../store/projectsStore";
 import Agent from "../../../Agent";
+import useCurrentProject from "../../../hooks/useCurrentProject"
 
 type Props = {
     pageUrl: string;
@@ -12,25 +12,32 @@ type Props = {
 export default function ImageComparison({pageUrl, designName, projectId}: Props){
     const [designSnapshot, setDesignSnapshot] = useState<string>('');
     const [websiteSnapshot, setWebsiteSnapshot] = useState<string>('');
-    const {projects, setProjects} = useProjects();
+    const {design} = useCurrentProject(true, true)
 
     useEffect(() => {
-        const project = projects?.find(project => project.id === projectId) as Project
-        const page = project?.pages.find(page => page.url === pageUrl) as Page
-        const design = page?.designs.find(design => design.name === designName) as Design
-
         if(design){
-            Agent.get<string>('/api/s3/get-image?key=' + design.websiteSnapshotUrl).then(snapshot => setWebsiteSnapshot(snapshot))
-            Agent.get<string>('/api/s3/get-image?key=' + design.designSnapshotUrl).then(snapshot => setDesignSnapshot(snapshot))
+            if(design.websiteSnapshotUrl){
+                Agent.get<string>('/api/s3/get-image?key=' + design.websiteSnapshotUrl).then(snapshot => setWebsiteSnapshot(snapshot))
+            }
+            if(design.designSnapshotUrl){
+                Agent.get<string>('/api/s3/get-image?key=' + design.designSnapshotUrl).then(snapshot => setDesignSnapshot(snapshot))
+            }
         }
-    }, [projects]);
+    }, [design]);
 
     return (
         <div className={styles.imageComparison}>
-            {designSnapshot ? <img src={"data:image/jpeg;base64," + designSnapshot}
-                          alt="screenshot"/> : <p>Loading...</p>}
-            {websiteSnapshot ? <img src={"data:image/jpeg;base64," + websiteSnapshot}
-                                   alt="screenshot"/> : <p>Loading...</p>}
+            <div>
+                <h3>Design snapshot</h3>
+                {design?.designSnapshotUrl ? designSnapshot ? <img src={"data:image/jpeg;base64," + designSnapshot}
+                                                                   alt="screenshot"/> : <p>Loading...</p> : <p>No website snapshot</p>}
+            </div>
+            <div>
+                <h3>Website snapshot</h3>
+                {design?.websiteSnapshotUrl ? websiteSnapshot ? <img src={"data:image/jpeg;base64," + websiteSnapshot}
+                                                                     alt="screenshot"/> : <p>Loading...</p> : <p>No design snapshot</p>}
+            </div>
+
         </div>
     );
 }

@@ -1,17 +1,22 @@
-import useProjects from "../../../store/projectsStore"
 import {useRouter} from "next/router"
 import ProjectTree from "../../../modules/ProjectTree"
+import useCurrentProject from "../../../hooks/useCurrentProject"
 
 export default function ProjectPage(){
-    const { projects } = useProjects()
     const router = useRouter()
-
-    const project = projects.find(pj => pj.id === router.query.id)
+    const { project } = useCurrentProject()
 
     return (
-        project ?
-            <ProjectTree pages={project?.pages || []}/>
-            :
-            <p>Loading,,</p>
+        <div>
+            <button style={{position: 'absolute', top: '1rem', left: '1rem'}}
+                    onClick={() => router.push('/projects')}>Back to all projects</button>
+            {
+                project ?
+                    <ProjectTree pages={project?.pages || []}/>
+                    :
+                    <p>Loading..</p>
+            }
+        </div>
+
     )
 }

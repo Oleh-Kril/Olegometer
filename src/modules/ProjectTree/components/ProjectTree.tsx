@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function ProjectTree({pages} : Props){
-    const [activePageIdx,setActivePageIdx] = useState(0)
+    const [activePageIdx,setActivePageIdx] = useState<number | null>(null)
     const [showAddPageModal, setShowAddPageModal] = useState(false)
     const [showAddDesignModal, setShowAddDesignModal] = useState(false)
     const router = useRouter()
@@ -32,12 +32,17 @@ export default function ProjectTree({pages} : Props){
             if(pageIdx !== -1){
                 setActivePageIdx(pageIdx)
             }
+        }else{
+            setActivePageIdx(0)
         }
     }
+
     function updateUrlBasedOnActivePage(){
-        const pageUrl = router.query.pageUrl as string
-        if(pageUrl !== pages[activePageIdx]?.url){
-            router.push(`/projects/${router.query.id}?pageUrl=${pages[activePageIdx]?.url}`, undefined, {shallow: true})
+        if(activePageIdx !== null){
+            const pageUrl = router.query.pageUrl as string
+            if(pageUrl !== pages[activePageIdx]?.url){
+                router.push(`/projects/${router.query.id}?pageUrl=${pages[activePageIdx]?.url}`, undefined, {shallow: true})
+            }
         }
     }
 
@@ -55,24 +60,25 @@ export default function ProjectTree({pages} : Props){
                               onRequestClose={()=>setShowAddPageModal(false)}
                               key={-2}/>
             </div>
-            <div className={styles.treeLeafs}>
-                {pages[activePageIdx]?.designs.map((design, idx) =>
-                    <>
-                        <TreeNodeWithActions key={design.designUrl}
-                                             id={`${pages[activePageIdx].url}:${design.name}`}
-                                             name={design.name}
-                                             pageUrl={pages[activePageIdx].url}/>
+            {activePageIdx !== null
+                ? <div className={styles.treeLeafs}>
+                    {pages[activePageIdx]?.designs.map((design, idx) =>
+                        <>
+                            <TreeNodeWithActions key={design.designUrl}
+                                                 id={`${pages[activePageIdx].url}:${design.name}`}
+                                                 name={design.name}
+                                                 pageUrl={pages[activePageIdx].url}/>
 
-                        <TreeNodeArrow start={pages[activePageIdx].url}
-                                       end = {`${pages[activePageIdx].url}:${design.name}`}/>
-                    </>
-                )}
-                <TreeNode isOutlined key={-1} name={'Add design'} onClick={()=>setShowAddDesignModal(true)}/>
-                <AddDesignModal showModal={showAddDesignModal}
-                                onRequestClose={()=>setShowAddDesignModal(false)}
-                                page={pages[activePageIdx]}
-                                key={-2}/>
-            </div>
+                            <TreeNodeArrow start={pages[activePageIdx].url}
+                                           end = {`${pages[activePageIdx].url}:${design.name}`}/>
+                        </>
+                    )}
+                    <TreeNode isOutlined key={-1} name={'Add design'} onClick={()=>setShowAddDesignModal(true)}/>
+                    <AddDesignModal showModal={showAddDesignModal}
+                                    onRequestClose={()=>setShowAddDesignModal(false)}
+                                    page={pages[activePageIdx]}
+                                    key={-2}/>
+                </div> : null}
         </div>
     )
 }

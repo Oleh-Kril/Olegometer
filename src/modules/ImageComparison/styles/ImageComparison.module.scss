@@ -1,12 +1,16 @@
 .imageComparison{
   display: flex;
+  gap: 2rem;
 
-  *{
+  & > *{
     width: 50%;
     max-width: 50%;
   }
 
   img{
+    border: 1px solid black;
+    padding: 1rem;
+    max-width: 100%;
     align-self: start;
     object-fit: contain;
   }

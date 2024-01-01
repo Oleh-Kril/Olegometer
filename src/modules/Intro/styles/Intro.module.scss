@@ -1,0 +1,11 @@
+@import "src/styles/mixins";
+
+.dudeContainer{
+  @include flex-center();
+  height: 100vh;
+
+  .dude{
+
+  }
+}
+

@@ -1,14 +1,14 @@
-import React from "react"
-import Modal from "../../../../../ui/Modal"
-import {ModalProps} from "../../../../../ui/Modal"
-import {FieldValues, useForm} from "react-hook-form"
+import React from 'react'
+import Modal from '../../../../../ui/Modal'
+import {ModalProps} from '../../../../../ui/Modal'
+import {FieldValues, useForm} from 'react-hook-form'
 import styles from '../styles/AddPageModal.module.scss'
-import addDesign from "../requests/addDesign"
-import {useUser} from "@auth0/nextjs-auth0/client"
-import useGlobalLoader from "../../../../../store/globalLoaderStore"
-import {RESET} from "jotai/utils"
-import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
-import useCurrentProject from "../../../../../hooks/useCurrentProject"
+import addDesign from '../requests/addDesign'
+import {useUser} from '@auth0/nextjs-auth0/client'
+import useGlobalLoader from '../../../../../store/globalLoaderStore'
+import {RESET} from 'jotai/utils'
+import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
+import useCurrentProject from '../../../../../hooks/useCurrentProject'
 
 type Props = Omit<ModalProps, 'children'> & {
     page: Page

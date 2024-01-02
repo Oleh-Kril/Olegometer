@@ -1,36 +1,36 @@
 // db.ts
-import { MongoClient } from 'mongodb';
+import { MongoClient } from 'mongodb'
 const uri = process.env.MONGODB_URI as string
-const options = {};
+const options = {}
 
 declare global {
-    var _mongoClientPromise: Promise<MongoClient>;
+    var _mongoClientPromise: Promise<MongoClient>
 }
 
 class Singleton {
-    private static _instance: Singleton;
-    private client: MongoClient;
-    private clientPromise: Promise<MongoClient>;
+    private static _instance: Singleton
+    private client: MongoClient
+    private clientPromise: Promise<MongoClient>
 
     private constructor() {
-        this.client = new MongoClient(uri, options);
-        this.clientPromise = this.client.connect();
+        this.client = new MongoClient(uri, options)
+        this.clientPromise = this.client.connect()
 
         if (process.env.NODE_ENV === 'development') {
             // In development mode, use a global variable to preserve the value
             // across module reloads caused by HMR (Hot Module Replacement).
-            global._mongoClientPromise = this.clientPromise;
+            global._mongoClientPromise = this.clientPromise
         }
     }
 
     public static get instance() {
         if (!this._instance) {
-            this._instance = new Singleton();
+            this._instance = new Singleton()
         }
-        return this._instance.clientPromise;
+        return this._instance.clientPromise
     }
 }
 
-const clientPromise = Singleton.instance;
+const clientPromise = Singleton.instance
 
-export default clientPromise;
+export default clientPromise

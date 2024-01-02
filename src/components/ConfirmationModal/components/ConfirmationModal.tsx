@@ -1,20 +1,20 @@
-"use client"
+'use client'
 
-import Modal from "../../../ui/Modal"
-import useConfirmationModal from "../../../store/confirmationModalStore"
-import {RESET} from "jotai/utils"
-import {createPortal} from "react-dom"
-import {useEffect, useState} from "react"
+import Modal from '../../../ui/Modal'
+import useConfirmationModal from '../../../store/confirmationModalStore'
+import {RESET} from 'jotai/utils'
+import {createPortal} from 'react-dom'
+import {useEffect, useState} from 'react'
 
 type Props = {
 
 }
 
 function ConfirmationModal({}: Props){
-    const [mounted, setMounted] = useState(false);
+    const [mounted, setMounted] = useState(false)
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
 
-    useEffect(() => setMounted(true), []);
+    useEffect(() => setMounted(true), [])
 
     function onModalResetHandler(){
         setConfirmationModal(RESET)

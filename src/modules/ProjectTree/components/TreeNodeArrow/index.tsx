@@ -1,3 +1,3 @@
-import TreeNodeArrow from "./components/TreeNodeArrow"
+import TreeNodeArrow from './components/TreeNodeArrow'
 
 export default TreeNodeArrow

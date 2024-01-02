@@ -1,5 +1,5 @@
-import {useRouter} from "next/router";
-import EyeButton from "../../../../../../../ui/EyeButton";
+import {useRouter} from 'next/router'
+import EyeButton from '../../../../../../../ui/EyeButton'
 
 type Props = {
     designName: string

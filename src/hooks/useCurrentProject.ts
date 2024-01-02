@@ -1,10 +1,10 @@
-import { useCallback } from 'react';
-import useProjects from "../store/projectsStore"
-import {useRouter} from "next/router"
+import { useCallback } from 'react'
+import useProjects from '../store/projectsStore'
+import {useRouter} from 'next/router'
 
 const useCurrentProject = (getPage?: boolean, getDesign?: boolean) => {
-    const { projects, setProjects } = useProjects();
-    const router = useRouter();
+    const { projects, setProjects } = useProjects()
+    const router = useRouter()
 
     const getProjectAndData = useCallback(() => {
         const project = projects.find(project => project.id === router.query.id) as Project
@@ -22,9 +22,9 @@ const useCurrentProject = (getPage?: boolean, getDesign?: boolean) => {
         }
 
         return {project}
-    }, [router.query, projects]);
+    }, [router.query, projects])
 
-    return getProjectAndData();
-};
+    return getProjectAndData()
+}
 
-export default useCurrentProject;
+export default useCurrentProject

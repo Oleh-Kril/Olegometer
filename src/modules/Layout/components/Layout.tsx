@@ -1,4 +1,4 @@
-import {ReactNode} from "react"
+import {ReactNode} from 'react'
 import styles from '../styles/Layout.module.scss'
 type Props = {
     children: ReactNode[]

@@ -1,10 +1,10 @@
-import React, {MouseEventHandler} from "react"
+import React, {MouseEventHandler} from 'react'
 import styles from '../styles/TreeNode.module.scss'
-import useConfirmationModal from "../../../../../store/confirmationModalStore"
-import Agent from "../../../../../Agent"
-import {RESET} from "jotai/utils"
-import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
-import useCurrentProject from "../../../../../hooks/useCurrentProject"
+import useConfirmationModal from '../../../../../store/confirmationModalStore'
+import Agent from '../../../../../Agent'
+import {RESET} from 'jotai/utils'
+import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
+import useCurrentProject from '../../../../../hooks/useCurrentProject'
 
 export type TreeNodeProps = {
     name: string

@@ -1,12 +1,12 @@
-import React from "react"
-import Modal from "../../../../../ui/Modal"
-import {ModalProps} from "../../../../../ui/Modal"
-import {FieldValues, useForm} from "react-hook-form"
+import React from 'react'
+import Modal from '../../../../../ui/Modal'
+import {ModalProps} from '../../../../../ui/Modal'
+import {FieldValues, useForm} from 'react-hook-form'
 import styles from '../styles/AddPageModal.module.scss'
-import Agent from "../../../../../Agent"
-import {useRouter} from "next/router"
-import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
-import useCurrentProject from "../../../../../hooks/useCurrentProject"
+import Agent from '../../../../../Agent'
+import {useRouter} from 'next/router'
+import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
+import useCurrentProject from '../../../../../hooks/useCurrentProject'
 
 type Props = Omit<ModalProps, 'children'>
 
@@ -32,7 +32,7 @@ function AddPageModal({showModal, onRequestClose} : Props){
             url = url.replace(project.domainUrl, '')
         }
 
-        await makeRequestAndUpdateState(() => Agent.post<Project>(`/api/projects/${project.id}/pages`, { url, designs: [] }));
+        await makeRequestAndUpdateState(() => Agent.post<Project>(`/api/projects/${project.id}/pages`, { url, designs: [] }))
     }
 
     const {

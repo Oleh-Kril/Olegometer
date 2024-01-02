@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import {ObjectId} from "bson"
-import {withApiAuthRequired} from "@auth0/nextjs-auth0"
-import getProjectsHandlerData from "../../../../utils/getProjectsHandlerData"
+import { NextApiRequest, NextApiResponse } from 'next'
+import {ObjectId} from 'bson'
+import {withApiAuthRequired} from '@auth0/nextjs-auth0'
+import getProjectsHandlerData from '../../../../utils/getProjectsHandlerData'
 
 export default withApiAuthRequired(async function handler(
     req: NextApiRequest,
@@ -16,18 +16,18 @@ export default withApiAuthRequired(async function handler(
             const deletedProject = await projectsCollection.findOneAndDelete({
                 _id: new ObjectId(projectId),
                 author: user.email,
-            });
+            })
 
             if (deletedProject) {
-                res.status(200).json(deletedProject._id.toString());
+                res.status(200).json(deletedProject._id.toString())
             } else {
-                res.status(404).json({ error: 'Project not found' });
+                res.status(404).json({ error: 'Project not found' })
             }
-            break;
+            break
 
         default:
-            res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-            res.status(405).end(`Method ${method} Not Allowed`);
+            res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE'])
+            res.status(405).end(`Method ${method} Not Allowed`)
         }
 
     }catch{

@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, ReactNode} from "react"
+import React, {MouseEventHandler, ReactNode} from 'react'
 import styles from '../styles/Modal.module.scss'
 
 export type ModalProps = {

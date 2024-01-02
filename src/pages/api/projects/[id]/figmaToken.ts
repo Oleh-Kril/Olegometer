@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import {ObjectId} from "bson"
-import {withApiAuthRequired} from "@auth0/nextjs-auth0"
-import getProjectsHandlerData from "../../../../utils/getProjectsHandlerData"
+import { NextApiRequest, NextApiResponse } from 'next'
+import {ObjectId} from 'bson'
+import {withApiAuthRequired} from '@auth0/nextjs-auth0'
+import getProjectsHandlerData from '../../../../utils/getProjectsHandlerData'
 
 export default withApiAuthRequired(async function handler(
     req: NextApiRequest,
@@ -15,19 +15,19 @@ export default withApiAuthRequired(async function handler(
             const project = await projectsCollection.findOne({
                 _id: new ObjectId(projectId),
                 author: user.email,
-            });
+            })
 
             if (project && project.figmaToken) {
-                const { figmaToken } = project;
-                res.status(200).json(figmaToken);
+                const { figmaToken } = project
+                res.status(200).json(figmaToken)
             } else {
-                res.status(404).json({ error: 'Token not found' });
+                res.status(404).json({ error: 'Token not found' })
             }
-            break;
+            break
 
-            default:
-                res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-                res.status(405).end(`Method ${method} Not Allowed`);
+        default:
+            res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE'])
+            res.status(405).end(`Method ${method} Not Allowed`)
         }
 
     }catch{

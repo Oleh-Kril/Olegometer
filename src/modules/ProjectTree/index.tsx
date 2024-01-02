@@ -1,3 +1,3 @@
-import ProjectTree from "./components/ProjectTree"
+import ProjectTree from './components/ProjectTree'
 
 export default ProjectTree

@@ -1,3 +1,3 @@
-import Intro from "./components/Intro"
+import Intro from './components/Intro'
 
 export default Intro

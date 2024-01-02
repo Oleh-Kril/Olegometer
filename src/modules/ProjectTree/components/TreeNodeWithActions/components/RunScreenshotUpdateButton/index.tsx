@@ -1,3 +1,3 @@
-import RunScreenshotUpdateButton from "./components/RunScreenshotUpdateButton"
+import RunScreenshotUpdateButton from './components/RunScreenshotUpdateButton'
 
 export default RunScreenshotUpdateButton

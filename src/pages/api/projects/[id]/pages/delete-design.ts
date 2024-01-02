@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import getProjectsHandlerData from "../../../../../utils/getProjectsHandlerData";
-import puppeteer, {Page} from "puppeteer";
-import uploadImageToS3 from "../../../../../requests/s3/uploadImageToS3";
-import {ObjectId} from "bson";
-import transformIdProperty from "../../../../../utils/transformIdProperty";
-import getImageFromS3 from "../../../../../requests/s3/getImageFromS3";
-import deleteImageFromS3 from "../../../../../requests/s3/deleteImageFromS3";
+import { NextApiRequest, NextApiResponse } from 'next'
+import { withApiAuthRequired } from '@auth0/nextjs-auth0'
+import getProjectsHandlerData from '../../../../../utils/getProjectsHandlerData'
+import puppeteer, {Page} from 'puppeteer'
+import uploadImageToS3 from '../../../../../requests/s3/uploadImageToS3'
+import {ObjectId} from 'bson'
+import transformIdProperty from '../../../../../utils/transformIdProperty'
+import getImageFromS3 from '../../../../../requests/s3/getImageFromS3'
+import deleteImageFromS3 from '../../../../../requests/s3/deleteImageFromS3'
 
 export default withApiAuthRequired( async function DELETE(
     req: NextApiRequest,
@@ -20,7 +20,7 @@ export default withApiAuthRequired( async function DELETE(
         author: user?.email,
         'pages.url': url,
         'pages.designs.name': designName,
-    });
+    })
 
     if(project){
         const page = project.pages.find(page => page.url === url)
@@ -51,11 +51,11 @@ export default withApiAuthRequired( async function DELETE(
         {
             returnDocument: 'after',
         }
-    );
+    )
 
     if (updatedProject) {
-        res.status(200).json(transformIdProperty(updatedProject));
+        res.status(200).json(transformIdProperty(updatedProject))
     } else {
-        res.status(404).json({ error: 'Project not found' });
+        res.status(404).json({ error: 'Project not found' })
     }
 })

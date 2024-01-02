@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import useProjects from "./store/projectsStore"
+import useProjects from './store/projectsStore'
 
 axios.interceptors.response.use(
     async (response) => response,

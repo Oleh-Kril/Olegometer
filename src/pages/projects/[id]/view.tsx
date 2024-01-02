@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
-import ImageComparison from "../../../modules/ImageComparison"
+import ImageComparison from '../../../modules/ImageComparison'
 
 type Slug = {
     id?: string;

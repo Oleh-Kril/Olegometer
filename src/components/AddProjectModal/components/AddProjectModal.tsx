@@ -1,5 +1,5 @@
-import Modal from "../../../ui/Modal"
-import AddProjectForm from "./AddProjectForm"
+import Modal from '../../../ui/Modal'
+import AddProjectForm from './AddProjectForm'
 
 type Props = {
     showModal: boolean
@@ -9,7 +9,7 @@ type Props = {
 function AddProjectModal({showModal, setShowModal}: Props) {
     return (
         <Modal showModal={showModal}
-               onRequestClose={() => setShowModal(false)}>
+            onRequestClose={() => setShowModal(false)}>
             <AddProjectForm />
         </Modal>
     )

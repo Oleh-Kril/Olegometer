@@ -1,3 +1,3 @@
-import ProjectsList from "./components/ProjectsList"
+import ProjectsList from './components/ProjectsList'
 
 export default ProjectsList

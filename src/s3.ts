@@ -1,37 +1,37 @@
 // s3.ts
-import AWS from 'aws-sdk';
+import AWS from 'aws-sdk'
 
-const REGION = process.env.S3_REGION;
+const REGION = process.env.S3_REGION
 
 AWS.config.update({
     accessKeyId: process.env.S3_ACCESS_KEY_ID,
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
     region: REGION,
-});
+})
 
 declare global {
-    var _s3Instance: AWS.S3;
+    var _s3Instance: AWS.S3
 }
 
 class S3Singleton {
-    private static _instance: S3Singleton;
-    private s3Instance: AWS.S3;
+    private static _instance: S3Singleton
+    private s3Instance: AWS.S3
 
     private constructor() {
-        this.s3Instance = new AWS.S3();
+        this.s3Instance = new AWS.S3()
 
         if (process.env.NODE_ENV === 'development') {
             // In development mode, use a global variable to preserve the value
             // across module reloads caused by HMR (Hot Module Replacement).
-            global._s3Instance = this.s3Instance;
+            global._s3Instance = this.s3Instance
         }
     }
 
     public static get instance() {
         if (!this._instance) {
-            this._instance = new S3Singleton();
+            this._instance = new S3Singleton()
         }
-        return this._instance.s3Instance;
+        return this._instance.s3Instance
     }
 
     public static getParams(key: string, params?: any) {
@@ -43,8 +43,8 @@ class S3Singleton {
     }
 }
 
-const s3Instance = S3Singleton.instance;
+const s3Instance = S3Singleton.instance
 
-export default s3Instance;
+export default s3Instance
 
-export const getS3Params = S3Singleton.getParams;
+export const getS3Params = S3Singleton.getParams

@@ -1,3 +1,3 @@
-import ImageComparison from "./components/ImageComparison"
+import ImageComparison from './components/ImageComparison'
 
 export default ImageComparison

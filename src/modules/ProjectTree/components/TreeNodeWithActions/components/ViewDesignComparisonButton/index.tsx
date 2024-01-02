@@ -1,3 +1,3 @@
-import ViewDesignComparisonButton from "./components/ViewDesignComparisonButton"
+import ViewDesignComparisonButton from './components/ViewDesignComparisonButton'
 
 export default ViewDesignComparisonButton

@@ -1,5 +1,5 @@
 import styles from '../styles/EyeButton.module.scss'
-import {MouseEventHandler} from "react";
+import {MouseEventHandler} from 'react'
 
 type Props = {
     onClick: MouseEventHandler<HTMLButtonElement>,
@@ -11,7 +11,7 @@ export default function EyeButton({className='', ...props}: Props) {
         <button className={`${className} ${styles.eyeButton}`}
             {...props}>
             <img src="/icons/eye-solid.svg"
-                 alt="view" />
+                alt="view" />
         </button>
     )
 }

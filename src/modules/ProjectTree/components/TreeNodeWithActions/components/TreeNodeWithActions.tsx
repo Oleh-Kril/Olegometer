@@ -1,11 +1,11 @@
-import {useRouter} from "next/router"
-import {RESET} from "jotai/utils"
-import useGlobalLoader from "@store/globalLoaderStore"
-import useConfirmationModal from "@store/confirmationModalStore"
-import useProjectsEndpoint from "@hooks/useProjectsEndpoint"
-import Agent from "@/Agent"
+import {useRouter} from 'next/router'
+import {RESET} from 'jotai/utils'
+import useGlobalLoader from '@store/globalLoaderStore'
+import useConfirmationModal from '@store/confirmationModalStore'
+import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
+import Agent from '@/Agent'
 
-import TreeNode, {TreeNodeProps} from "../../TreeNode/components/TreeNode"
+import TreeNode, {TreeNodeProps} from '../../TreeNode/components/TreeNode'
 import RunScreenshotUpdateButton from '../components/RunScreenshotUpdateButton'
 import ViewDesignComparisonButton from '../components/ViewDesignComparisonButton'
 import styles from '../styles/TreeNodeWithActions.module.scss'

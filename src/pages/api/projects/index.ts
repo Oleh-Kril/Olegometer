@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import {withApiAuthRequired} from "@auth0/nextjs-auth0"
-import transformIdProperty from "../../../utils/transformIdProperty"
-import getProjectsHandlerData from "../../../utils/getProjectsHandlerData"
+import { NextApiRequest, NextApiResponse } from 'next'
+import {withApiAuthRequired} from '@auth0/nextjs-auth0'
+import transformIdProperty from '../../../utils/transformIdProperty'
+import getProjectsHandlerData from '../../../utils/getProjectsHandlerData'
 
 export default withApiAuthRequired(async function handler(
     req: NextApiRequest,
@@ -11,30 +11,30 @@ export default withApiAuthRequired(async function handler(
         const {projectsCollection, user, method} =  await getProjectsHandlerData(req, res)
 
         switch (method) {
-            case 'GET':
-                const allProjects = await projectsCollection.find({ author: user?.email }).toArray();
+        case 'GET':
+            const allProjects = await projectsCollection.find({ author: user?.email }).toArray()
 
-                const projectsWithIdAsString = allProjects.map((project) => transformIdProperty(project)) as Project[];
+            const projectsWithIdAsString = allProjects.map((project) => transformIdProperty(project)) as Project[]
 
-                res.status(200).json(projectsWithIdAsString);
-                break;
+            res.status(200).json(projectsWithIdAsString)
+            break
 
-            case 'POST':
-                const newProject: Omit<Project, 'id'> = req.body;
-                newProject.author = user?.email;
-                // @ts-ignore
-                const result = await projectsCollection.insertOne(newProject);
+        case 'POST':
+            const newProject: Omit<Project, 'id'> = req.body
+            newProject.author = user?.email
+            // @ts-ignore
+            const result = await projectsCollection.insertOne(newProject)
 
-                if(result.acknowledged){
-                    res.status(201).json({...newProject, id: result.insertedId.toString()} as Project)
-                }else{
-                    res.status(400).json({ error: 'Project not created' })
-                }
-                break;
+            if(result.acknowledged){
+                res.status(201).json({...newProject, id: result.insertedId.toString()} as Project)
+            }else{
+                res.status(400).json({ error: 'Project not created' })
+            }
+            break
 
-            default:
-                res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE']);
-                res.status(405).end(`Method ${method} Not Allowed`);
+        default:
+            res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE'])
+            res.status(405).end(`Method ${method} Not Allowed`)
         }
 
     }catch{

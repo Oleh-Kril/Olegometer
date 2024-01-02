@@ -1,5 +1,5 @@
-import Agent from "../../../../../Agent"
-import parseFigmaUrl from "../../../../../utils/parseFigmaUrl";
+import Agent from '../../../../../Agent'
+import parseFigmaUrl from '../../../../../utils/parseFigmaUrl'
 
 export default async function addDesign(project: Project, pageUrl: string, designUrl: string, name: string, userEmail?: string){
     if(!userEmail){
@@ -20,7 +20,7 @@ export default async function addDesign(project: Project, pageUrl: string, desig
         headers: {
             'X-FIGMA-TOKEN': project.figmaToken,
         },
-    });
+    })
 
     const { images } = response as any
 

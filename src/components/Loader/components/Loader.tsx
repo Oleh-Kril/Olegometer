@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState} from 'react'
 import styles from '../styles/Loader.module.scss'
-import {createPortal} from "react-dom"
-import useGlobalLoader from "../../../store/globalLoaderStore"
-import Image from "next/image"
+import {createPortal} from 'react-dom'
+import useGlobalLoader from '../../../store/globalLoaderStore'
+import Image from 'next/image'
 
-const NUM_IMAGES = 10;
-const INITIAL_OPACITY = 0.4;
-const FINAL_OPACITY = 1;
-const INTERVAL_DURATION_MS = 700;
+const NUM_IMAGES = 10
+const INITIAL_OPACITY = 0.4
+const FINAL_OPACITY = 1
+const INTERVAL_DURATION_MS = 700
 
 interface ImageWithOpacity {
     opacity: number;
@@ -17,34 +17,34 @@ interface ImageWithOpacity {
 }
 
 function Loader(){
-    const [mounted, setMounted] = useState(false);
+    const [mounted, setMounted] = useState(false)
     const [globalLoader, _] = useGlobalLoader()
-    const [images, setImages] = useState<ImageWithOpacity[]>(getDefaultImages());
-    const [progress, setProgress] = useState(0);
+    const [images, setImages] = useState<ImageWithOpacity[]>(getDefaultImages())
+    const [progress, setProgress] = useState(0)
 
     useEffect(() => {
         setMounted(true)
 
-        let timerId: NodeJS.Timeout;
+        let timerId: NodeJS.Timeout
         timerId = setInterval(() => {
-            setProgress((prev) => prev + 1);
-        }, INTERVAL_DURATION_MS);
+            setProgress((prev) => prev + 1)
+        }, INTERVAL_DURATION_MS)
 
-        return () => clearInterval(timerId);
-    }, []);
+        return () => clearInterval(timerId)
+    }, [])
 
     useEffect(() => {
         if(progress < NUM_IMAGES) {
             setImages((prevImages) => {
-                const newImages = [...prevImages];
-                newImages[progress].opacity = FINAL_OPACITY;
-                return newImages;
-            });
+                const newImages = [...prevImages]
+                newImages[progress].opacity = FINAL_OPACITY
+                return newImages
+            })
         }else{
-            setImages(getDefaultImages());
-            setProgress(0);
+            setImages(getDefaultImages())
+            setProgress(0)
         }
-    }, [progress]);
+    }, [progress])
 
 
     function getDefaultImages(): ImageWithOpacity[]{
@@ -69,7 +69,7 @@ function Loader(){
             <p>{globalLoader.text}</p>
         </div>
     ),
-        document.getElementById('loader-root') || document.body
+    document.getElementById('loader-root') || document.body
     ): null
 }
 

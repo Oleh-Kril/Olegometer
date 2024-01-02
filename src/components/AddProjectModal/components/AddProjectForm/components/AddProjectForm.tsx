@@ -1,8 +1,8 @@
 import styles from '../styles/AddProjectForm.module.scss'
-import {FieldValues, useForm} from "react-hook-form"
-import React from "react"
-import Agent from "../../../../../Agent"
-import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
+import {FieldValues, useForm} from 'react-hook-form'
+import React from 'react'
+import Agent from '../../../../../Agent'
+import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
 type Props = {
 
 }
@@ -18,7 +18,7 @@ export default function AddProjectForm({}: Props){
             pages: []
         }
 
-        await makeRequestAndUpdateState( () => Agent.post<Project>('/api/projects', project), 'POST');
+        await makeRequestAndUpdateState( () => Agent.post<Project>('/api/projects', project), 'POST')
     }
 
     const {

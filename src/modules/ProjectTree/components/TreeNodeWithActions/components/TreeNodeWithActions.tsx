@@ -1,16 +1,15 @@
-import TreeNode from "../../TreeNode"
-import ViewDesignComparisonButton from "./ViewDesignComparisonButton"
-import RunScreenshotUpdateButton from "../../../../../components/RunScreenshotUpdateButton"
-import {TreeNodeProps} from "../../TreeNode/components/TreeNode"
+import {useRouter} from "next/router"
+import {RESET} from "jotai/utils"
+import useGlobalLoader from "@store/globalLoaderStore"
+import useConfirmationModal from "@store/confirmationModalStore"
+import useProjectsEndpoint from "@hooks/useProjectsEndpoint"
+import Agent from "@/Agent"
+
+import TreeNode, {TreeNodeProps} from "../../TreeNode/components/TreeNode"
+import RunScreenshotUpdateButton from '../components/RunScreenshotUpdateButton'
+import ViewDesignComparisonButton from '../components/ViewDesignComparisonButton'
 import styles from '../styles/TreeNodeWithActions.module.scss'
-import Agent from "../../../../../Agent";
-import {useRouter} from "next/router";
-import useProjects from "../../../../../store/projectsStore";
-import useConfirmationModal from "../../../../../store/confirmationModalStore";
-import {RESET} from "jotai/utils";
-import addDesign from "../../AddDesignModal/requests/addDesign"
-import useGlobalLoader from "../../../../../store/globalLoaderStore"
-import useProjectsEndpoint from "../../../../../hooks/useProjectsEndpoint"
+
 type Props = Omit<TreeNodeProps, 'chilren'> & {
     pageUrl: string,
 }
@@ -33,11 +32,11 @@ export default function TreeNodeWithActions(props: Props){
 
     return (
         <TreeNode {...props}
-                  className={styles.treeNodeWithActions}
-                  onDeleteClick={deleteDesign}>
+            className={styles.treeNodeWithActions}
+            onDeleteClick={deleteDesign}>
             <div className={styles.buttons}>
                 <RunScreenshotUpdateButton pageOnly
-                                           designName={props.name}/>
+                    designName={props.name}/>
 
                 <RunScreenshotUpdateButton designName={props.name}/>
 

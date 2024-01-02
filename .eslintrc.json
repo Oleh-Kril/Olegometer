@@ -1,3 +1,7 @@
 {
+  "rules": {
+    "semi": ["error", "never"],
+    "indent": ["warn", 4]
+  },
   "extends": "next/core-web-vitals"
 }

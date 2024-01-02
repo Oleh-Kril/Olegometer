@@ -1,14 +1,12 @@
-import RunButton from "../../../ui/RunButton";
 import styles from '../styles/RunScreenshotUpdateButton.module.scss'
-import useProjects from "../../../store/projectsStore";
-import {useRouter} from "next/router";
-import Agent from "../../../Agent";
-import useProjectsEndpoint from "../../../hooks/useProjectsEndpoint"
-import useGlobalLoader from "../../../store/globalLoaderStore"
 import {RESET} from "jotai/utils"
-import useCurrentProject from "../../../hooks/useCurrentProject"
 import updateDesign from "../requests/updateDesign"
 import {useUser} from "@auth0/nextjs-auth0/client"
+import useProjectsEndpoint from "../../../../../../../hooks/useProjectsEndpoint"
+import useGlobalLoader from "../../../../../../../store/globalLoaderStore"
+import useCurrentProject from "../../../../../../../hooks/useCurrentProject"
+import Agent from "../../../../../../../Agent"
+import RunButton from "../../../../../../../ui/RunButton"
 
 type Props = {
     pageOnly?: boolean,

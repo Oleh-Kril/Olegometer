@@ -6,6 +6,7 @@ import AddPageModal from './AddPageModal'
 import TreeNodeArrow from './TreeNodeArrow'
 import AddDesignModal from './AddDesignModal'
 import {useRouter} from 'next/router'
+import TreeNodeDynamicElement from '@modules/ProjectTree/components/TreeNodeDynamicElement'
 
 type Props = {
     pages: Page[]
@@ -71,6 +72,15 @@ export default function ProjectTree({pages} : Props){
 
                             <TreeNodeArrow start={pages[activePageIdx].url}
                                 end = {`${pages[activePageIdx].url}:${design.name}`}/>
+
+                            {design?.dynamicElements ? Object.entries(design.dynamicElements).map(([key, value]) =>{
+                                return <TreeNodeDynamicElement
+                                    key={key}
+                                    name={key}
+                                    pageUrl={pages[activePageIdx].url}
+                                    design={design}
+                                    dynamicElement={value} />
+                            }) : null}
                         </>
                     )}
                     <TreeNode isOutlined key={-1} name={'Add design'} onClick={()=>setShowAddDesignModal(true)}/>

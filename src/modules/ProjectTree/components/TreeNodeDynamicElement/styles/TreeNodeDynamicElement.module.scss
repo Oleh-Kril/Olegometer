@@ -1,0 +1,16 @@
+@import "src/styles/mixins";
+
+.treeNodeWithActions{
+    background: beige;
+    position: relative;
+
+    .buttons{
+        @include flex-center();
+        gap: 1rem;
+
+        position: absolute;
+        transform: translateY(-50%);
+        top: 50%;
+        left: calc(10rem + 1rem);
+    }
+}

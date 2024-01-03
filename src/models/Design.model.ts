@@ -4,4 +4,5 @@ interface Design {
     designUrl: string;
     designSnapshotUrl?: string;
     websiteSnapshotUrl?: string;
+    dynamicElements?: Map<string, DynamicElement>;
 }

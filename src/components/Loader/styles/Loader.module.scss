@@ -3,7 +3,7 @@
 .loader{
     @include flex-center($flex-direction: column);
     gap: 1rem;
-    background: rgba(white, 0.99);
+    background: rgba(white, 0.95);
     z-index: 1000;
     position: absolute;
     top:0;

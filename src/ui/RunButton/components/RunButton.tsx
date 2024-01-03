@@ -3,13 +3,14 @@ import {MouseEventHandler} from 'react'
 
 type Props = {
     onClick: MouseEventHandler<HTMLButtonElement>,
-    className: string,
-    isDoubleIcon?: boolean
+    className?: string,
+    isDoubleIcon?: boolean,
+    id?: string
 }
 
 export default function RunButton({className, isDoubleIcon, ...props}: Props) {
     return (
-        <button className={`${className} ${styles.runButton}`}
+        <button className={`${styles.runButton} ${className}`}
             {...props}>
             <img className={isDoubleIcon ? styles.mainIcon : ''}
                 src="/icons/play-solid.svg"

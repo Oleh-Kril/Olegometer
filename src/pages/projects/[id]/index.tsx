@@ -1,8 +1,10 @@
 import {useRouter} from 'next/router'
-import ProjectTree from '../../../modules/ProjectTree'
-import useCurrentProject from '../../../hooks/useCurrentProject'
+import useCurrentProject from "@hooks/useCurrentProject"
+import ProjectTree from "@modules/ProjectTree"
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
+import UpdateAllSnapshotsPanel from "@components/UpdateAllSnapshotsPanel"
 
-export default function ProjectPage(){
+export default withPageAuthRequired(function ProjectPage(){
     const router = useRouter()
     const { project } = useCurrentProject()
 
@@ -16,7 +18,8 @@ export default function ProjectPage(){
                     :
                     <p>Loading..</p>
             }
+            <UpdateAllSnapshotsPanel />
         </div>
 
     )
-}
+})

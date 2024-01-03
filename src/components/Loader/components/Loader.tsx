@@ -6,7 +6,7 @@ import {createPortal} from 'react-dom'
 import useGlobalLoader from '../../../store/globalLoaderStore'
 import Image from 'next/image'
 
-const NUM_IMAGES = 10
+const NUM_IMAGES = 5
 const INITIAL_OPACITY = 0.4
 const FINAL_OPACITY = 1
 const INTERVAL_DURATION_MS = 700

@@ -35,8 +35,10 @@ export default function TreeNodeWithActions(props: Props){
             className={styles.treeNodeWithActions}
             onDeleteClick={deleteDesign}>
             <div className={styles.buttons}>
-                <RunScreenshotUpdateButton pageOnly
-                    designName={props.name}/>
+                <RunScreenshotUpdateButton
+                    pageOnly
+                    designName={props.name}
+                />
 
                 <RunScreenshotUpdateButton designName={props.name}/>
 

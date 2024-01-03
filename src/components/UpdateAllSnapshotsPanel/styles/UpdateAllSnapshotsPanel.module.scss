@@ -1,0 +1,14 @@
+@import 'src/styles/mixins';
+
+.updateAllSnapshotsPanel{
+  position: absolute;
+  right: 3rem;
+  bottom: 3rem;
+  z-index: 999;
+
+  @include flex-center();
+  gap: 1rem;
+  background: burlywood;
+  padding: 0.5rem 2rem;
+  border: 1px solid black;
+}

@@ -1,8 +1,10 @@
+type Action = {
+    type: string,
+    className: string
+}
+
 interface DynamicElement {
-    actions: {
-        type: string,
-        className: string
-    }[],
+    actions: Action[],
     elementToCapture: {
         className: string
     },

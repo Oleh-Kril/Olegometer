@@ -13,13 +13,13 @@ export default withApiAuthRequired(async function handler(
 
         switch (method) {
         case 'POST':
-            const page: Page = req.body
+            const {pageUrl}: {pageUrl: Url} = req.body
 
             const updatedProject = await projectsCollection.findOneAndUpdate(
                 { _id: new ObjectId(projectId), author: user?.email },
                 {
-                    $push: {
-                        pages: page,
+                    $set: {
+                        [`pages.${pageUrl}`]: {designs: {}},
                     },
                 },
                 { returnDocument: 'after' }
@@ -38,10 +38,7 @@ export default withApiAuthRequired(async function handler(
             const deletedProject = await projectsCollection.findOneAndUpdate(
                 { _id: new ObjectId(projectId), author: user?.email },
                 {
-                    $pull: {
-                        // @ts-ignore
-                        pages: { url },
-                    },
+                    $unset: { [`pages.${url}`]: 1 },
                 },
                 { returnDocument: 'after' }
             )

@@ -6,7 +6,8 @@ const BuyMeACoffeeWidget = () => {
   `
 
     return (
-        <div dangerouslySetInnerHTML={{ __html: widgetCode }} />
+        <></>
+        // <div dangerouslySetInnerHTML={{ __html: widgetCode }} />
     )
 }
 

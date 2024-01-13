@@ -1,5 +1,5 @@
-import BuyMeACoffeeWidget from "@components/BuyMeACoffeeWidget"
-import styles from "../styles/Header.module.scss"
+import BuyMeACoffeeWidget from '@components/BuyMeACoffeeWidget'
+import styles from '../styles/Header.module.scss'
 
 export default function Header(){
     return (

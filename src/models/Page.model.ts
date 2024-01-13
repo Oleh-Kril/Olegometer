@@ -1,4 +1,3 @@
 interface Page {
-    url: string;
-    designs: Design[];
+    designs: Record<string, Design>;
 }

@@ -5,13 +5,14 @@ import Agent from '../../../../../Agent'
 import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
 import useConfirmationModal from '../../../../../store/confirmationModalStore'
 import {RESET} from 'jotai/utils'
-import useCurrentProject from '../../../../../hooks/useCurrentProject'
+import useProjects from "@store/projectsStore";
 
 export default function ProjectCard({name, domainUrl, id}: Project){
     const router = useRouter()
     const callApiAndUpdateState = useProjectsEndpoint()
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
-    const { project } = useCurrentProject()
+    const { projects } = useProjects()
+    const project = projects.find(project => project.id === id) as Project
 
     function openProjectPage(){
         router?.push('/projects/' + id)

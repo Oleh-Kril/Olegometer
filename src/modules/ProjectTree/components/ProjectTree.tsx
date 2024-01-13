@@ -6,43 +6,41 @@ import AddPageModal from './AddPageModal'
 import TreeNodeArrow from './TreeNodeArrow'
 import AddDesignModal from './AddDesignModal'
 import {useRouter} from 'next/router'
-import TreeNodeDynamicElement from '@modules/ProjectTree/components/TreeNodeDynamicElement'
 
 type Props = {
-    pages: Page[]
+    pages: Record<Url, Page>
 }
 
 export default function ProjectTree({pages} : Props){
-    const [activePageIdx,setActivePageIdx] = useState<number | null>(null)
+    const [activePageUrl,setActivePageUrl] = useState<string | null>(null)
     const [showAddPageModal, setShowAddPageModal] = useState(false)
     const [showAddDesignModal, setShowAddDesignModal] = useState(false)
-    const router = useRouter()
 
+    const currentPage = pages[activePageUrl ?? '']
+    const router = useRouter()
     useEffect(() => {
         getActivePageFromUrl()
     }, [])
 
     useEffect(() => {
         updateUrlBasedOnActivePage()
-    }, [activePageIdx])
+    }, [activePageUrl])
 
     function getActivePageFromUrl(){
         const pageUrl = router.query.pageUrl as string
         if(pageUrl){
-            const pageIdx = pages.findIndex(page => page.url === pageUrl)
-            if(pageIdx !== -1){
-                setActivePageIdx(pageIdx)
-            }
+            setActivePageUrl(pageUrl)
         }else{
-            setActivePageIdx(0)
+            const firstPageUrl = Object.keys(pages)[0]
+            setActivePageUrl(firstPageUrl)
         }
     }
 
     function updateUrlBasedOnActivePage(){
-        if(activePageIdx !== null){
+        if(activePageUrl){
             const pageUrl = router.query.pageUrl as string
-            if(pageUrl !== pages[activePageIdx]?.url){
-                router.push(`/projects/${router.query.id}?pageUrl=${pages[activePageIdx]?.url}`, undefined, {shallow: true})
+            if(pageUrl !== activePageUrl){
+                router.push(`/projects/${router.query.id}?pageUrl=${activePageUrl}`, undefined, {shallow: true})
             }
         }
     }
@@ -50,43 +48,44 @@ export default function ProjectTree({pages} : Props){
     return (
         <div className={styles.projectTree}>
             <div className={styles.treeRoots}>
-                {pages.map((page, idx) =>
-                    <TreeNode key={idx}
-                        id={page.url}
-                        name={page.url}
-                        onClick={() => setActivePageIdx(idx)}/>
+                {Object.entries(pages).map(([url]) =>
+                    <TreeNode key={url}
+                        id={url}
+                        name={url}
+                        onClick={() => setActivePageUrl(url)}/>
                 )}
                 <TreeNode isOutlined key={-1} name={'Add page'} onClick={()=>setShowAddPageModal(true)}/>
                 <AddPageModal showModal={showAddPageModal}
                     onRequestClose={()=>setShowAddPageModal(false)}
                     key={-2}/>
             </div>
-            {activePageIdx !== null
+            {activePageUrl && currentPage
                 ? <div className={styles.treeLeafs}>
-                    {pages[activePageIdx]?.designs.map((design, idx) =>
+                    {Object.entries(currentPage.designs)?.map(([designName, design]) =>
                         <>
                             <TreeNodeWithActions key={design.designUrl}
-                                id={`${pages[activePageIdx].url}:${design.name}`}
-                                name={design.name}
-                                pageUrl={pages[activePageIdx].url}/>
+                                id={`${activePageUrl}:${designName}`}
+                                name={designName}
+                                pageUrl={activePageUrl}/>
 
-                            <TreeNodeArrow start={pages[activePageIdx].url}
-                                end = {`${pages[activePageIdx].url}:${design.name}`}/>
+                            <TreeNodeArrow start={activePageUrl}
+                                end = {`${activePageUrl}:${designName}`}/>
 
-                            {design?.dynamicElements ? Object.entries(design.dynamicElements).map(([key, value]) =>{
-                                return <TreeNodeDynamicElement
-                                    key={key}
-                                    name={key}
-                                    pageUrl={pages[activePageIdx].url}
-                                    design={design}
-                                    dynamicElement={value} />
-                            }) : null}
+                            {/*{design?.dynamicElements ? Object.entries(design.dynamicElements).map(([key, value]) =>{*/}
+                            {/*    return <TreeNodeDynamicElement*/}
+                            {/*        key={key}*/}
+                            {/*        name={key}*/}
+                            {/*        pageUrl={pages[activePageIdx].url}*/}
+                            {/*        design={design}*/}
+                            {/*        dynamicElement={value} />*/}
+                            {/*}) : null}*/}
                         </>
                     )}
                     <TreeNode isOutlined key={-1} name={'Add design'} onClick={()=>setShowAddDesignModal(true)}/>
                     <AddDesignModal showModal={showAddDesignModal}
                         onRequestClose={()=>setShowAddDesignModal(false)}
-                        page={pages[activePageIdx]}
+                        page={currentPage}
+                        pageUrl={activePageUrl}
                         key={-2}/>
                 </div> : null}
         </div>

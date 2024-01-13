@@ -15,7 +15,7 @@ export default function AddProjectForm({}: Props){
             name: data.name,
             domainUrl: data.url,
             figmaToken: data.figmaToken,
-            pages: []
+            pages: new Map<Url, Page>()
         }
 
         await makeRequestAndUpdateState( () => Agent.post<Project>('/api/projects', project), 'POST')

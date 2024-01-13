@@ -14,8 +14,8 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <main className={signikaFont.className}>
             <UserProvider>
+                <Header/>
                 <Layout>
-                    <Header/>
                     <Component {...pageProps} />
                     <Footer/>
                 </Layout>

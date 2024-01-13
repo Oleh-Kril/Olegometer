@@ -11,7 +11,6 @@ import useCurrentProject from '../../../../../hooks/useCurrentProject'
 type Props = Omit<ModalProps, 'children'>
 
 function AddPageModal({showModal, onRequestClose} : Props){
-    const router = useRouter()
     const makeRequestAndUpdateState = useProjectsEndpoint()
     const { project } = useCurrentProject()
 
@@ -23,7 +22,7 @@ function AddPageModal({showModal, onRequestClose} : Props){
             return
         }
 
-        if(project.pages.find(page => page.url === url)){
+        if(project.pages[url]){
             window.alert('Page with this url already exists.')
             return
         }
@@ -32,7 +31,10 @@ function AddPageModal({showModal, onRequestClose} : Props){
             url = url.replace(project.domainUrl, '')
         }
 
-        await makeRequestAndUpdateState(() => Agent.post<Project>(`/api/projects/${project.id}/pages`, { url, designs: [] }))
+        await makeRequestAndUpdateState(() => Agent.post<Project>(
+            `/api/projects/${project.id}/pages`,
+            {pageUrl: url} )
+        )
     }
 
     const {

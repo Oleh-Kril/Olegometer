@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withApiAuthRequired } from '@auth0/nextjs-auth0'
-import Agent from '../../../Agent'
 import sizeOf from 'image-size'
-import uploadImageToS3 from '../../../requests/s3/uploadImageToS3'
+import Agent from '@/Agent'
+import uploadImageToS3 from '@requests/s3/uploadImageToS3'
 
 export default withApiAuthRequired(async function handler(
     req: NextApiRequest,
@@ -13,7 +13,6 @@ export default withApiAuthRequired(async function handler(
             projectId,
             pageUrl,
             designUrl,
-            name,
             userEmail,
             imageUrl,
         } = req.body
@@ -34,7 +33,6 @@ export default withApiAuthRequired(async function handler(
                         width: width || 1900,
                         designUrl,
                         designSnapshotUrl: key,
-                        name
                     } as Design
 
                     res.status(200).json(design)

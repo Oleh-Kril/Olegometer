@@ -1,12 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withApiAuthRequired } from '@auth0/nextjs-auth0'
-import getProjectsHandlerData from '../../../../../utils/getProjectsHandlerData'
-import puppeteer, {Page} from 'puppeteer'
-import uploadImageToS3 from '../../../../../requests/s3/uploadImageToS3'
 import {ObjectId} from 'bson'
-import transformIdProperty from '../../../../../utils/transformIdProperty'
-import getImageFromS3 from '../../../../../requests/s3/getImageFromS3'
-import deleteImageFromS3 from '../../../../../requests/s3/deleteImageFromS3'
+import getProjectsHandlerData from '@utils/getProjectsHandlerData'
+import transformIdProperty from '@utils/transformIdProperty'
 
 export default withApiAuthRequired( async function POST(
     req: NextApiRequest,
@@ -15,17 +11,17 @@ export default withApiAuthRequired( async function POST(
     const {projectsCollection, user, method, projectId} =  await getProjectsHandlerData(req, res)
 
     const { url } = req.query
-    const design = req.body
+    const {design, designName} = req.body
 
     const updatedProject = await projectsCollection.findOneAndUpdate(
         {
             _id: new ObjectId(projectId),
             author: user?.email,
-            'pages.url': url
+            [`pages.${url}`]: { $exists: true },
         },
         {
-            $push: {
-                'pages.$.designs': design
+            $set: {
+                [`pages.${url}.designs.${designName}`]: design,
             },
         },
         { returnDocument: 'after' }

@@ -2,6 +2,7 @@
 
 .layout{
   @include flex-center();
+  padding-top: 5rem;
 
   width: 100vw;
   min-height: 100vh;

@@ -1,10 +1,11 @@
 import React, {MouseEventHandler} from 'react'
 import styles from '../styles/TreeNode.module.scss'
-import useConfirmationModal from '../../../../../store/confirmationModalStore'
-import Agent from '../../../../../Agent'
+
 import {RESET} from 'jotai/utils'
-import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
-import useCurrentProject from '../../../../../hooks/useCurrentProject'
+import useConfirmationModal from '@store/confirmationModalStore'
+import useCurrentProject from '@hooks/useCurrentProject'
+import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
+import Agent from '@/Agent'
 
 export type TreeNodeProps = {
     name: string
@@ -22,7 +23,7 @@ export default function TreeNode({name, onDeleteClick, children, className, isOu
     const {project, page} = useCurrentProject(true)
 
     async function deletePage(){
-        if(page && page.designs.length === 0) {
+        if(page && Object.keys(page.designs).length === 0) {
             await makeRequestAndUpdateState(() => Agent.delete<string>(`/api/projects/${project.id}/pages?url=${name}`))
         }else{
             window.alert('You can only delete pages without designs')

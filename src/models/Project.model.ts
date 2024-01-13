@@ -1,8 +1,10 @@
+type Url = string;
+
 interface Project {
     id: string;
     name: string;
     author: string;
     domainUrl: string;
     figmaToken: string;
-    pages: Page[];
+    pages: Record<Url, Page>;
 }

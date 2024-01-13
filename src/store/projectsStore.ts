@@ -1,6 +1,6 @@
 import { atom, useAtom } from 'jotai'
 import useSWR from 'swr'
-import Agent from '../Agent'
+import Agent from '@/Agent'
 
 const fetcher = async (url: string) => await Agent.get<Project[]>(url)
 

@@ -10,10 +10,10 @@ const useCurrentProject = (getPage?: boolean, getDesign?: boolean) => {
         const project = projects.find(project => project.id === router.query.id) as Project
 
         if(getPage){
-            const page = project?.pages.find(page => page.url === router.query.pageUrl) as Page
+            const page = project?.pages[router.query.pageUrl as string] as Page
 
             if(getDesign){
-                const design = page?.designs.find(design => design.name === router.query.designName) as Design
+                const design = page?.designs[router.query.designName as string] as Design
 
                 return {project, page, design}
             }

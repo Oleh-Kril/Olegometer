@@ -1,11 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withApiAuthRequired } from '@auth0/nextjs-auth0'
-import getProjectsHandlerData from '../../../../../utils/getProjectsHandlerData'
-import puppeteer, {Page} from 'puppeteer'
-import uploadImageToS3 from '../../../../../requests/s3/uploadImageToS3'
+import puppeteer from 'puppeteer'
 import {ObjectId} from 'bson'
-import transformIdProperty from '../../../../../utils/transformIdProperty'
-import waitTillHTMLRendered from "@utils/waitTillHTMLRendered"
+import waitTillHTMLRendered from '@utils/waitTillHTMLRendered'
+import getProjectsHandlerData from '@utils/getProjectsHandlerData'
+import uploadImageToS3 from '@requests/s3/uploadImageToS3'
+import transformIdProperty from '@utils/transformIdProperty'
+
+interface Body {
+    design: Design;
+    projectDomainUrl: string;
+    designName: string;
+}
 
 export default withApiAuthRequired(async function handler(
     req: NextApiRequest,
@@ -17,7 +23,7 @@ export default withApiAuthRequired(async function handler(
 
         switch (method) {
         case 'POST':
-            const { design, projectDomainUrl } = req.body as { design: Design, projectDomainUrl: string }
+            const { design, projectDomainUrl, designName }: Body = req.body
 
             if (!design) {
                 return res.status(400).json({ error: 'Missing required design parameter.' })
@@ -41,19 +47,14 @@ export default withApiAuthRequired(async function handler(
                         {
                             _id: new ObjectId(projectId),
                             author: user?.email,
-                            'pages.url': url,
-                            'pages.designs.name': design.name,
+                            [`pages.${url}.designs.${designName}`]: { $exists: true },
                         },
                         {
                             $set: {
-                                'pages.$[i].designs.$[j].websiteSnapshotUrl': key,
+                                [`pages.${url}.designs.${designName}.websiteSnapshotUrl`]: key,
                             },
                         },
                         {
-                            arrayFilters: [
-                                { 'i.url': url },
-                                { 'j.name': design.name },
-                            ],
                             returnDocument: 'after',
                         }
                     )

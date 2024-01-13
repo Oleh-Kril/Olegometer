@@ -18,27 +18,27 @@ export default function RunScreenshotUpdateButton({pageOnly = false, designName}
     const makeRequestAndUpdateState = useProjectsEndpoint()
     const { user} = useUser()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
-    const {project, page} = useCurrentProject(true)
+    const {project, page, pageUrl} = useCurrentProject(true)
 
     const isDoubleIcon = !pageOnly
 
     async function runScreenshotUpdate(){
-        if(page){
-            const design = page.designs.find(design => design.name === designName) as Design
+        if(page && pageUrl){
+            const design = page.designs[designName] as Design
 
-            setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${page.url} in ${design.width} width`})
+            setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${pageUrl} in ${design.width} width`})
 
             await makeRequestAndUpdateState(() =>
-                Agent.post(`/api/projects/${project.id}/pages/make-screenshot?url=${page.url}`,
-                    {design, projectDomainUrl: project.domainUrl,})
+                Agent.post(`/api/projects/${project.id}/pages/make-screenshot?url=${pageUrl}`,
+                    {design, projectDomainUrl: project.domainUrl, designName})
             )
 
             setGlobalLoader(RESET)
 
             if(!pageOnly && design){
-                setGlobalLoader({showLoader: true, text: `Exporting new snapshot of the ${page?.url || ''} page design from figma`})
+                setGlobalLoader({showLoader: true, text: `Exporting new snapshot of the ${pageUrl || ''} page design from figma`})
 
-                await makeRequestAndUpdateState(() => updateDesign(project, page?.url, design, designName, user?.email || undefined))
+                await makeRequestAndUpdateState(() => updateDesign(project, pageUrl, design, designName, user?.email || undefined))
 
                 setGlobalLoader(RESET)
             }

@@ -2,6 +2,7 @@ import parseFigmaUrl from '@utils/parseFigmaUrl'
 import Agent from '@/Agent'
 
 export default async function updateAllSnapshots(project: Project, userEmail?: string, exportFigmaDesigns?: boolean){
+
     if(!userEmail){
         throw new Error('User not authorized')
     }
@@ -11,10 +12,14 @@ export default async function updateAllSnapshots(project: Project, userEmail?: s
     }
 
     const promises: Promise<void>[] = []
-    let updatedProject: Project = {...project}
+    const updatedProject: Project = {...project}
 
-    project.pages.forEach((page, pageIdx) => {
-        page.designs.forEach((design, designIdx) => {
+    Object.entries(project.pages).forEach(([pageUrl, page]) => {
+        Object.entries(page.designs).forEach(([designName, design]) => {
+            const promiseForPageSnapshot = Agent.post<Project>(`/api/projects/${project.id}/pages/make-screenshot?url=${pageUrl}`,
+                {design, projectDomainUrl: project.domainUrl, designName}).then((updates) => {
+                updatedProject.pages = updates.pages
+            })
 
             if(exportFigmaDesigns){
                 const {fileKey, imageId} = parseFigmaUrl(design.designUrl)
@@ -29,9 +34,8 @@ export default async function updateAllSnapshots(project: Project, userEmail?: s
 
                         return Agent.post<Design>('/api/s3/upload-from-figma', {
                             projectId: project.id,
-                            pageUrl: page.url,
-                            url: design.designUrl,
-                            name: design.name,
+                            pageUrl,
+                            designUrl: design.designUrl,
                             userEmail,
                             imageUrl,
                         }).then((updates: Design) => {
@@ -41,25 +45,17 @@ export default async function updateAllSnapshots(project: Project, userEmail?: s
                                 designSnapshotUrl: updates.designSnapshotUrl,
                             }
 
-                            updatedProject.pages[pageIdx].designs[designIdx] = updatedDesign
+                            updatedProject.pages[pageUrl].designs[designName] = updatedDesign
 
-                            return Agent.post<Project>(`/api/projects/${project.id}/pages/make-screenshot?url=${page.url}`,
-                                {updatedDesign, projectDomainUrl: project.domainUrl}).then((updates) => {
-                                updatedProject = updates
-                            })
+                            return promiseForPageSnapshot
                         })
                     })
-
                     promises.push(promise)
                 }
             }else{
-                const promise = Agent.post<Project>(`/api/projects/${project.id}/pages/make-screenshot?url=${page.url}`,
-                    {design, projectDomainUrl: project.domainUrl}).then((updates) => {
-                    updatedProject = updates
-                })
-
-                promises.push(promise)
+                promises.push(promiseForPageSnapshot)
             }
+
         })
     })
 

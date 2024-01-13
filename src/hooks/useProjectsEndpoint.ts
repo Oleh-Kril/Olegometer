@@ -1,10 +1,13 @@
 import { useCallback } from 'react'
 import useProjects from '../store/projectsStore'
+import {RESET} from 'jotai/utils'
+import useGlobalLoader from '@store/globalLoaderStore'
 
 type Method = 'POST' | 'PUT' | 'DELETE' | 'GET'
 
 const useProjectsEndpoint = () => {
     const { projects, setProjects } = useProjects()
+    const [globalLoader, setGlobalLoader] = useGlobalLoader()
 
     const makeRequestAndUpdateState = useCallback(async (apiRequest: () => Promise<Project | string>, method: Method = 'PUT') => {
         try {
@@ -29,6 +32,7 @@ const useProjectsEndpoint = () => {
             return response
         } catch (error) {
             console.error('Error making request:', error)
+            setGlobalLoader(RESET)
             throw error
         }
     }, [setProjects])

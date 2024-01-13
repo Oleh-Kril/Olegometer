@@ -24,7 +24,7 @@ export default function RunUpdateAllButton({updateDesigns = false}: Props){
         setGlobalLoader({
             showLoader: true,
             text: updateDesigns
-                ? 'Making new snapshots of all pages and making new snapshots of all pages'
+                ? 'Making new snapshots of all pages and exporting all designs'
                 : 'Making new snapshots of all pages'
         })
 

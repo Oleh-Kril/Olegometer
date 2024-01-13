@@ -7,6 +7,7 @@ const fetcher = async (url: string) => await Agent.get<Project[]>(url)
 const projectsAtom = atom<Project[] | null>(null)
 
 function useProjects(){
+    // console.log("IN USE PROJECTS")
     const [projects, setProjects] = useAtom(projectsAtom)
 
     const { data: apiProjects, error } = useSWR('/api/projects', fetcher)

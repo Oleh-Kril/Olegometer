@@ -1,12 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withApiAuthRequired } from '@auth0/nextjs-auth0'
-import getProjectsHandlerData from '../../../../../utils/getProjectsHandlerData'
-import puppeteer, {Page} from 'puppeteer'
-import uploadImageToS3 from '../../../../../requests/s3/uploadImageToS3'
 import {ObjectId} from 'bson'
-import transformIdProperty from '../../../../../utils/transformIdProperty'
-import getImageFromS3 from '../../../../../requests/s3/getImageFromS3'
-import deleteImageFromS3 from '../../../../../requests/s3/deleteImageFromS3'
+import deleteImageFromS3 from '@requests/s3/deleteImageFromS3'
+import getProjectsHandlerData from '@utils/getProjectsHandlerData'
+import transformIdProperty from '@utils/transformIdProperty'
+
 
 export default withApiAuthRequired( async function DELETE(
     req: NextApiRequest,
@@ -18,14 +16,13 @@ export default withApiAuthRequired( async function DELETE(
     const project = await projectsCollection.findOne<Project>({
         _id: new ObjectId(projectId),
         author: user?.email,
-        'pages.url': url,
-        'pages.designs.name': designName,
+        [`pages.${url}.designs.${designName}`]: { $exists: true },
     })
 
     if(project){
-        const page = project.pages.find(page => page.url === url)
+        const page = project.pages[url as string]
         if(page){
-            const design = page.designs.find(design => design.name === designName) as Design
+            const design = page.designs[designName as string] as Design
             if(design){
                 if(design.designSnapshotUrl) {
                     await deleteImageFromS3(design.designSnapshotUrl)
@@ -41,11 +38,11 @@ export default withApiAuthRequired( async function DELETE(
         {
             _id: new ObjectId(projectId),
             author: user?.email,
-            'pages.url': url,
+            [`pages.${url}.designs.${designName}`]: { $exists: true },
         },
         {
-            $pull: {
-                'pages.$.designs': { name: designName },
+            $unset: {
+                [`pages.${url}.designs.${designName}`]: 1,
             },
         },
         {

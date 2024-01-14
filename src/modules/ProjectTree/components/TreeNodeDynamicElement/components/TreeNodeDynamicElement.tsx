@@ -1,47 +1,58 @@
-import {useRouter} from 'next/router'
-import {RESET} from 'jotai/utils'
-import useGlobalLoader from '@store/globalLoaderStore'
-import useConfirmationModal from '@store/confirmationModalStore'
-import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
-import Agent from '@/Agent'
-
-import TreeNode, {TreeNodeProps} from '../../TreeNode/components/TreeNode'
-import styles from '../styles/TreeNodeDynamicElement.module.scss'
-import useCurrentProject from "@hooks/useCurrentProject"
+import TreeNode from "../../TreeNode"
+import {TreeNodeProps} from "@modules/ProjectTree/components/TreeNode/components/TreeNode"
+import useConfirmationModal from "@store/confirmationModalStore"
+import {useRouter} from "next/router"
+import useGlobalLoader from "@store/globalLoaderStore"
+import useProjectsEndpoint from "@hooks/useProjectsEndpoint"
+import Agent from "@/Agent"
+import {RESET} from "jotai/utils"
+import styles from "../styles/TreeNodeDynamicElement.module.scss"
+import RunScreenshotUpdateButton
+    from "@modules/ProjectTree/components/TreeNodeWithActions/components/RunScreenshotUpdateButton"
+import ViewDesignComparisonButton
+    from "@modules/ProjectTree/components/TreeNodeWithActions/components/ViewDesignComparisonButton"
 
 type Props = Omit<TreeNodeProps, 'chilren'> & {
     pageUrl: string,
-    dynamicElement: DynamicElement,
-    design: Design
+    designName: string,
+    dynamicElement: DynamicElement
 }
 
-export default function TreeNodeDynamicElement(props: Props){
+export default function TreeNodeWithActions(props: Props){
     const router = useRouter()
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
     const makeRequestAndUpdateState = useProjectsEndpoint()
-    const {project} = useCurrentProject()
 
-    async function runDynamicSnapshot(){
+    async function deleteDynamicElement(){
         const projectId = router.query.id
-        setGlobalLoader({showLoader: true, text: 'Running dynamic snapshot...'})
+        const dynamicElementName = router.query.dynamicElementName
+        setGlobalLoader({showLoader: true, text: 'Deleting dynamic element...'})
 
-        const base64 = await Agent.post<string>(`/api/projects/${projectId}/pages/capture-dynamic-element?url=${props.pageUrl}`, {
-            dynamicElement: props.dynamicElement,
-            design: props.design,
-            projectDomainUrl: project.domainUrl
-        })
-        console.log(base64)
+        await makeRequestAndUpdateState(() => Agent.delete(
+            `/api/projects/${projectId}/pages/delete-dynamic-element?url=${props.pageUrl}&designName=${props.name}&dynamicElementName=${dynamicElementName}`)
+        )
+
         setGlobalLoader(RESET)
-        setConfirmationModal(RESET)
+    }
+
+    async function onDeleteClick(){
+        setConfirmationModal({modalTitle: 'Are you sure you want to delete the dynamic element?', onConfirm: deleteDynamicElement, showModal: true})
     }
 
     return (
         <TreeNode {...props}
-            className={styles.treeNodeWithActions}
-            onDeleteClick={() => {}}>
+                  className={styles.treeNodeDynamicElements}
+                  onDeleteClick={onDeleteClick}>
             <div className={styles.buttons}>
-                <button onClick={runDynamicSnapshot}>Run</button>
+                <RunScreenshotUpdateButton
+                    pageOnly
+                    designName={props.name}
+                />
+
+                <RunScreenshotUpdateButton designName={props.name}/>
+
+                <ViewDesignComparisonButton designName={props.name}/>
             </div>
         </TreeNode>
     )

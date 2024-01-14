@@ -29,11 +29,13 @@ export default function ImageComparison({pageUrl, designName, projectId}: Props)
         <div className={styles.imageComparison}>
             <div>
                 <h3>Design snapshot</h3>
+                {design?.designSnapshotLastUpdated ? <p>Last updated: {design.designSnapshotLastUpdated}</p> : null}
                 {design?.designSnapshotUrl ? designSnapshot ? <img src={'data:image/jpeg;base64,' + designSnapshot}
                     alt="screenshot"/> : <p>Loading...</p> : <p>No website snapshot</p>}
             </div>
             <div>
                 <h3>Website snapshot</h3>
+                {design?.websiteSnapshotLastUpdated ? <p>Last updated: {design.websiteSnapshotLastUpdated}</p> : null}
                 {design?.websiteSnapshotUrl ? websiteSnapshot ? <img src={'data:image/jpeg;base64,' + websiteSnapshot}
                     alt="screenshot"/> : <p>Loading...</p> : <p>No design snapshot</p>}
             </div>

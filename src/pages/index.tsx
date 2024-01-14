@@ -10,7 +10,7 @@ export default function Home() {
 
     useEffect(() => {
         if (user) {
-            router.push('/projects')
+            router.push('/project')
         }
     }, [user])
 

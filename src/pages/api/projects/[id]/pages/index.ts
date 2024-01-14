@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'bson'
 import { withApiAuthRequired } from '@auth0/nextjs-auth0'
-import transformIdProperty from '../../../../../utils/transformIdProperty'
-import getProjectsHandlerData from '../../../../../utils/getProjectsHandlerData'
+import getProjectsHandlerData from "@utils/getProjectsHandlerData"
+import transformIdProperty from "@utils/transformIdProperty"
+
 
 export default withApiAuthRequired(async function handler(
     req: NextApiRequest,

@@ -1,12 +1,13 @@
 import styles from '../styles/RunScreenshotUpdateButton.module.scss'
 import {RESET} from 'jotai/utils'
-import updateDesign from '../requests/updateDesign'
 import {useUser} from '@auth0/nextjs-auth0/client'
 import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useGlobalLoader from '@store/globalLoaderStore'
 import useCurrentProject from '@hooks/useCurrentProject'
 import Agent from '@/Agent'
 import RunButton from '@ui/RunButton'
+import updateDesignSnapshot from "@requests/project/design/updateDesignSnapshot"
+import updatePageSnapshot from "@requests/project/page/updatePageSnapshot"
 
 
 type Props = {
@@ -28,17 +29,14 @@ export default function RunScreenshotUpdateButton({pageOnly = false, designName}
 
             setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${pageUrl} in ${design.width} width`})
 
-            await makeRequestAndUpdateState(() =>
-                Agent.post(`/api/projects/${project.id}/pages/make-screenshot?url=${pageUrl}`,
-                    {design, projectDomainUrl: project.domainUrl, designName})
-            )
+            await makeRequestAndUpdateState(() => updatePageSnapshot(project, pageUrl, design, designName))
 
             setGlobalLoader(RESET)
 
             if(!pageOnly && design){
                 setGlobalLoader({showLoader: true, text: `Exporting new snapshot of the ${pageUrl || ''} page design from figma`})
 
-                await makeRequestAndUpdateState(() => updateDesign(project, pageUrl, design, designName, user?.email || undefined))
+                await makeRequestAndUpdateState(() => updateDesignSnapshot(project, pageUrl, design, designName, user?.email || undefined))
 
                 setGlobalLoader(RESET)
             }

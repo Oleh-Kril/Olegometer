@@ -3,6 +3,7 @@ import { withApiAuthRequired } from '@auth0/nextjs-auth0'
 import {ObjectId} from 'bson'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import transformIdProperty from '@utils/transformIdProperty'
+import getCurrentTimeString from "@utils/dateUtils"
 
 export default withApiAuthRequired( async function POST(
     req: NextApiRequest,
@@ -12,6 +13,7 @@ export default withApiAuthRequired( async function POST(
 
     const { url } = req.query
     const {design, designName} = req.body
+    design.designSnapshotLastUpdated = getCurrentTimeString()
 
     const updatedProject = await projectsCollection.findOneAndUpdate(
         {

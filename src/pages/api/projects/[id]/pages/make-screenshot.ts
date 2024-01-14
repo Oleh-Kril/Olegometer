@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withApiAuthRequired } from '@auth0/nextjs-auth0'
 import puppeteer from 'puppeteer'
-import {ObjectId} from 'bson'
 import waitTillHTMLRendered from '@utils/waitTillHTMLRendered'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import uploadImageToS3 from '@requests/s3/uploadImageToS3'
-import transformIdProperty from '@utils/transformIdProperty'
+import getCurrentTimeString from "@utils/dateUtils"
+import updateDesignQuery from "@requests/project/design/updateDesignQuery"
 
 interface Body {
     design: Design;
@@ -43,26 +43,21 @@ export default withApiAuthRequired(async function handler(
                 const key = `${user.email}:/${projectId}:${url}:/${design.width}`
 
                 uploadImageToS3(key, imageBuffer).then(async () => {
-                    const updatedProject = await projectsCollection.findOneAndUpdate(
-                        {
-                            _id: new ObjectId(projectId),
-                            author: user?.email,
-                            [`pages.${url}.designs.${designName}`]: { $exists: true },
-                        },
-                        {
-                            $set: {
-                                [`pages.${url}.designs.${designName}.websiteSnapshotUrl`]: key,
-                            },
-                        },
-                        {
-                            returnDocument: 'after',
-                        }
+                    design.websiteSnapshotUrl = key
+                    design.websiteSnapshotLastUpdated = getCurrentTimeString()
+
+                    const updatedProject = await updateDesignQuery(
+                        projectsCollection,
+                        user.email,
+                        projectId,
+                        url as string,
+                        designName, design
                     )
 
                     if (updatedProject) {
-                        res.status(200).json(transformIdProperty(updatedProject))
+                        res.status(200).json(updatedProject)
                     } else {
-                        res.status(404).json({ error: 'Project not found' })
+                        res.status(404).json({ error: 'Not found' })
                     }
                 })
 

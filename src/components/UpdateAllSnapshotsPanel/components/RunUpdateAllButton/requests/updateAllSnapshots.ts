@@ -1,5 +1,6 @@
-import parseFigmaUrl from '@utils/parseFigmaUrl'
 import Agent from '@/Agent'
+import updateDesignSnapshot from "@requests/project/design/updateDesignSnapshot"
+import updatePageSnapshot from "@requests/project/page/updatePageSnapshot"
 
 export default async function updateAllSnapshots(project: Project, userEmail?: string, exportFigmaDesigns?: boolean){
 
@@ -12,46 +13,22 @@ export default async function updateAllSnapshots(project: Project, userEmail?: s
     }
 
     const promises: Promise<void>[] = []
-    const updatedProject: Project = {...project}
+    let updatedProject: Project = {...project}
 
     Object.entries(project.pages).forEach(([pageUrl, page]) => {
         Object.entries(page.designs).forEach(([designName, design]) => {
-            const promiseForPageSnapshot = Agent.post<Project>(`/api/projects/${project.id}/pages/make-screenshot?url=${pageUrl}`,
-                {design, projectDomainUrl: project.domainUrl, designName}).then((updates) => {
-                updatedProject.pages = updates.pages
+            const promiseForPageSnapshot = updatePageSnapshot(project, pageUrl, design, designName).then(updates => {
+                updatedProject = updates
             })
 
             if(exportFigmaDesigns){
-                const {fileKey, imageId} = parseFigmaUrl(design.designUrl)
+                const promise = updateDesignSnapshot(project, pageUrl, design, designName).then(updates => {
+                    updatedProject = updates
 
-                if(fileKey && imageId){
-                    const promise = Agent.get<{images: any}>(`https://api.figma.com/v1/images/${fileKey}?ids=${imageId}&format=jpg`, {
-                        headers: {
-                            'X-FIGMA-TOKEN': project.figmaToken,
-                        },
-                    }).then(({images}) => {
-                        const imageUrl = images[imageId.replace(/-/g, ':')]
+                    return promiseForPageSnapshot
+                })
 
-                        return Agent.post<Design>('/api/s3/upload-from-figma', {
-                            projectId: project.id,
-                            pageUrl,
-                            designUrl: design.designUrl,
-                            userEmail,
-                            imageUrl,
-                        }).then((updates: Design) => {
-                            const updatedDesign: Design = {
-                                ...design,
-                                width: updates.width,
-                                designSnapshotUrl: updates.designSnapshotUrl,
-                            }
-
-                            updatedProject.pages[pageUrl].designs[designName] = updatedDesign
-
-                            return promiseForPageSnapshot
-                        })
-                    })
-                    promises.push(promise)
-                }
+                promises.push(promise)
             }else{
                 promises.push(promiseForPageSnapshot)
             }

@@ -7,7 +7,6 @@ import useCurrentProject from '@hooks/useCurrentProject'
 import RunButton from '@ui/RunButton'
 import {Tooltip} from "react-tooltip"
 
-
 type Props = {
     updateDesigns?: boolean,
 }
@@ -24,7 +23,7 @@ export default function RunUpdateAllButton({updateDesigns = false}: Props){
         setGlobalLoader({
             showLoader: true,
             text: updateDesigns
-                ? 'Making new snapshots of all pages and exporting all designs'
+                ? 'Making new snapshots of all pages and exporting all design'
                 : 'Making new snapshots of all pages'
         })
 
@@ -40,7 +39,7 @@ export default function RunUpdateAllButton({updateDesigns = false}: Props){
                 isDoubleIcon={isDoubleIcon}
                 onClick={runScreenshotUpdate}/>
             <Tooltip anchorSelect={`#update-all-button-designs-${updateDesigns}`} place="top" delayShow={1000}>
-                {updateDesigns ? 'Update all pages + designs' : 'Update all pages'}
+                {updateDesigns ? 'Update all pages + design' : 'Update all pages'}
             </Tooltip>
         </>
     )

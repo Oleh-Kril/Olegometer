@@ -1,15 +1,7 @@
 import parseFigmaUrl from '@utils/parseFigmaUrl'
 import Agent from '@/Agent'
 
-export default async function updateDesign(project: Project, pageUrl: string, design: Design, designName: string, userEmail?: string){
-    if(!userEmail){
-        throw new Error('User not authorized')
-    }
-
-    if(userEmail !== project.author){
-        throw new Error('User has no access to this project')
-    }
-
+export default async function updateDesignSnapshot(project: Project, pageUrl: string, design: Design, designName: string, userEmail?: string){
     const {fileKey, imageId} = parseFigmaUrl(design.designUrl)
 
     if(!fileKey || !imageId){
@@ -40,10 +32,8 @@ export default async function updateDesign(project: Project, pageUrl: string, de
         designSnapshotUrl: updates.designSnapshotUrl,
     }
 
-    const updatedProject: Project = await Agent.put(
+    return Agent.put<Project>(
         `/api/projects/${project.id}/pages/update-design?url=${pageUrl}`,
         {design: updatedDesign, designName}
     )
-
-    return updatedProject
 }

@@ -1,11 +1,11 @@
 import styles from '../styles/ProjectCard.module.scss'
 import {useRouter} from 'next/router'
 import React from 'react'
-import Agent from '../../../../../Agent'
-import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
-import useConfirmationModal from '../../../../../store/confirmationModalStore'
 import {RESET} from 'jotai/utils'
-import useProjects from "@store/projectsStore";
+import useProjects from "@store/projectsStore"
+import useProjectsEndpoint from "@hooks/useProjectsEndpoint"
+import useConfirmationModal from "@store/confirmationModalStore"
+import Agent from "@/Agent"
 
 export default function ProjectCard({name, domainUrl, id}: Project){
     const router = useRouter()
@@ -19,7 +19,7 @@ export default function ProjectCard({name, domainUrl, id}: Project){
     }
 
     async function deleteProject(){
-        if(project.pages.length === 0){
+        if(Object.entries(project.pages).length === 0){
             await callApiAndUpdateState(() => Agent.delete<string>(`/api/projects/${id}`), 'DELETE')
         }else{
             window.alert('NOT deleted. You can not delete project with pages. Please delete all pages first.')

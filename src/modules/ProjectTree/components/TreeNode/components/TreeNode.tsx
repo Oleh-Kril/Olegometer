@@ -26,7 +26,7 @@ export default function TreeNode({name, onDeleteClick, children, className, isOu
         if(page && Object.keys(page.designs).length === 0) {
             await makeRequestAndUpdateState(() => Agent.delete<string>(`/api/projects/${project.id}/pages?url=${name}`))
         }else{
-            window.alert('You can only delete pages without designs')
+            window.alert('You can only delete pages without design')
         }
         setConfirmationModal(RESET)
     }

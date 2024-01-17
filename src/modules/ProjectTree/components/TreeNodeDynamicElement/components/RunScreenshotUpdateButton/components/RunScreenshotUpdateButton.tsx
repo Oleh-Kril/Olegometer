@@ -1,4 +1,3 @@
-import styles from '../styles/RunScreenshotUpdateButton.module.scss'
 import {RESET} from 'jotai/utils'
 import {useUser} from '@auth0/nextjs-auth0/client'
 import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
@@ -43,7 +42,7 @@ export default function RunScreenshotUpdateButton({pageOnly = false, designName}
     }
 
     return (
-        <RunButton className={styles.runScreenshotUpdateButton}
+        <RunButton
             isDoubleIcon={isDoubleIcon}
             onClick={runScreenshotUpdate}/>
     )

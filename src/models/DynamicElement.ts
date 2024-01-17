@@ -1,11 +1,13 @@
+type Selector = "class" | "id" | "text"
+type ActionType = 'click' | 'hover'
+
 type Action = {
-    type: string,
-    className: string
+    type: ActionType,
+    element: Record<Selector, string>
 }
 
 interface DynamicElement {
     actions: Action[],
-    elementToCapture: {
-        className: string
-    },
+    designUrl: string,
+    elementToCapture: Record<Selector, string>
 }

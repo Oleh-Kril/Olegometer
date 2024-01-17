@@ -7,10 +7,8 @@ import useProjectsEndpoint from "@hooks/useProjectsEndpoint"
 import Agent from "@/Agent"
 import {RESET} from "jotai/utils"
 import styles from "../styles/TreeNodeDynamicElement.module.scss"
-import RunScreenshotUpdateButton
-    from "@modules/ProjectTree/components/TreeNodeWithActions/components/RunScreenshotUpdateButton"
-import ViewDesignComparisonButton
-    from "@modules/ProjectTree/components/TreeNodeWithActions/components/ViewDesignComparisonButton"
+import RunScreenshotUpdateButton from "./RunScreenshotUpdateButton"
+import ViewDesignComparisonButton from "./ViewDesignComparisonButton"
 
 type Props = Omit<TreeNodeProps, 'chilren'> & {
     pageUrl: string,

@@ -1,6 +1,6 @@
 import React from 'react'
 import {FieldValues, useForm} from 'react-hook-form'
-import styles from '../styles/AddPageModal.module.scss'
+import styles from '../styles/AddDesignModal.module.scss'
 import addDesign from '../requests/addDesign'
 import {useUser} from '@auth0/nextjs-auth0/client'
 

@@ -6,6 +6,8 @@ import uploadImageToS3 from '../../../../../requests/s3/uploadImageToS3'
 import {ObjectId} from 'bson'
 import transformIdProperty from '../../../../../utils/transformIdProperty'
 import waitTillHTMLRendered from "@utils/waitTillHTMLRendered"
+import Agent from "@/Agent"
+import sizeOf from "image-size"
 
 export default withApiAuthRequired(async function handler(
     req: NextApiRequest,
@@ -17,7 +19,34 @@ export default withApiAuthRequired(async function handler(
 
         switch (method) {
         case 'POST':
-            const { design, projectDomainUrl, dynamicElement } = req.body as { design: Design, projectDomainUrl: string, dynamicElement: DynamicElement }
+            const { dynamicElement, dynamicElementName } = req.body as {
+                dynamicElementName: string,
+                dynamicElement: DynamicElement,
+                imageUrl: string,
+            }
+
+            Agent.get(imageUrl,{
+                method: 'GET',
+                responseType: 'arraybuffer',
+            })
+                .then(async (data: any) => {
+                    const imageBuffer = Buffer.from(data, 'base64')
+                    const dimensions = sizeOf(imageBuffer)
+                    const { width } = dimensions
+
+                    const key = `${userEmail}:/${projectId}:${pageUrl}:/${width}:design`
+
+                    uploadImageToS3(key, data).then(async () => {
+                        const design = {
+                            width: width || 1900,
+                            designUrl,
+                            designSnapshotUrl: key,
+                        } as Design
+
+                        res.status(200).json(design)
+
+                    })
+                })
 
             if (!design || !projectDomainUrl || !dynamicElement) {
                 return res.status(400).json({ error: 'Missing required parameters.' })

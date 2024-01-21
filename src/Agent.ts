@@ -1,10 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import useProjects from './store/projectsStore'
 
 axios.interceptors.response.use(
     async (response) => response,
     ({ message }: AxiosError) => {
-        window.alert(message)
+        console.log(message)
 
         return Promise.reject(message)
     },

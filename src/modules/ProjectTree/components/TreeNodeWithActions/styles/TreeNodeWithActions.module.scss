@@ -3,7 +3,7 @@
 .treeNodeWithActions{
     background: beige;
     position: relative;
-    z-index: 1000;
+    z-index: 2;
 
     .buttons{
         @include flex-center();

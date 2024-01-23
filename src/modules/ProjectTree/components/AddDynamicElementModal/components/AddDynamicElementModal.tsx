@@ -31,12 +31,14 @@ function AddDynamicElementModal({showModal, onRequestClose, design, designName} 
 
         const dynamicElement: DynamicElement = {
             designUrl: data.url,
+            // @ts-ignore
             elementToCapture: {
                 [data.actionElementSelector]: data.actionElementSelectorValue
             },
             actions: [
                 {
                     type: data.actionType,
+                    // @ts-ignore
                     element: {
                         [data.actionElementSelector]: data.actionElementSelectorValue
                     }

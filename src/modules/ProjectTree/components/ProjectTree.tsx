@@ -31,45 +31,42 @@ export default function ProjectTree({pages} : Props){
     }, [activePageUrl, activeDesignName])
 
     function getActiveStateFromUrl(){
-        const pageUrl = router.query.pageUrl as string
-        const designName = router.query.designName as string
+        const pageUrl = router.query.pageUrl as (string | undefined)
+        const designName = router.query.designName as (string | undefined)
 
         if(pageUrl){
             setActivePageUrl(pageUrl)
             if(designName){
                 setActiveDesignName(designName)
-            }else{
-                const firstDesignName = Object.keys(pages[pageUrl].designs)[0]
-                setActiveDesignName(firstDesignName)
-            }
-        }else{
-            const firstPageUrl = Object.keys(pages)[0]
-            setActivePageUrl(firstPageUrl)
-
-            if(designName) {
-                setActiveDesignName(designName)
-            }else{
-                const firstDesignName = Object.keys(pages[firstPageUrl].designs)[0]
-                setActiveDesignName(firstDesignName)
             }
         }
     }
 
     function updateUrlBasedOnActiveState(){
         if(activePageUrl){
-            const pageUrl = router.query.pageUrl as string
-            const designName = router.query.designName as string
+            const pageUrl = router.query.pageUrl as (string | undefined)
+            const designName  = router.query.designName as (string | undefined)
+
+            let route = `/projects/${router.query.id}`
+
+            if(activePageUrl){
+                route += `?pageUrl=${activePageUrl}`
+
+                if(activeDesignName){
+                    route += `&designName=${activeDesignName}`
+                }
+            }
 
             if(pageUrl !== activePageUrl || designName !== activeDesignName){
-                router.push(
-                    `/projects/${router.query.id}?pageUrl=${activePageUrl}&designName=${activeDesignName}`,
-                    undefined,
-                    {shallow: true}
-                )
+                router.push(route, undefined, {shallow: true})
             }
         }
     }
-    const onPageNodeClick = (event: any) => setActivePageUrl(event.target.id)
+    const onPageNodeClick = (event: any) => {
+        setActivePageUrl(event.target.id)
+        setActiveDesignName(null)
+    }
+
     const onDesignNodeClick = (event: any) => {
         const id = event.target.id
         const designName = id.split(':')[1]
@@ -93,7 +90,7 @@ export default function ProjectTree({pages} : Props){
             </div>
             {activePageUrl && currentPage
                 ? <div className={styles.treeLeafs}>
-                    {Object.entries(currentPage.designs)?.map(([designName, design], designIdx) =>
+                    {Object.entries(currentPage.designs)?.map(([designName, design]) =>
                         <>
                             <TreeNodeWithActions key={design.designUrl}
                                 id={`${activePageUrl}:${designName}`}

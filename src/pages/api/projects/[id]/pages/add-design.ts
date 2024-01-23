@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withApiAuthRequired } from '@auth0/nextjs-auth0'
 import {ObjectId} from 'bson'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import transformIdProperty from '@utils/transformIdProperty'
 import getCurrentTimeString from "@utils/dateUtils"
 
-export default withApiAuthRequired( async function POST(
+export default async function POST(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -34,4 +33,4 @@ export default withApiAuthRequired( async function POST(
     } else {
         res.status(404).json({ error: 'Project not found' })
     }
-})
+}

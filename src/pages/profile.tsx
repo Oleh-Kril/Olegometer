@@ -1,4 +1,4 @@
-import { useUser } from '@auth0/nextjs-auth0/client'
+import {useUser} from '@hooks/useUser'
 import Agent from "@/Agent"
 
 export default function ProfileClient() {
@@ -17,7 +17,6 @@ export default function ProfileClient() {
     return (
         user && (
             <div>
-                <img src={user.picture as string} alt={user.name as string} />
                 <h2>{user.name}</h2>
                 <p>{user.email}</p>
                 <button onClick={onGetProjects}>Get Projects</button>

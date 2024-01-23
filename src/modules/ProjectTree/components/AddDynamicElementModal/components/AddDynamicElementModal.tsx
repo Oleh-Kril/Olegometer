@@ -2,15 +2,13 @@ import React from 'react'
 import {FieldValues, useForm} from 'react-hook-form'
 import styles from '../styles/AddDynamicElementModal.module.scss'
 import addDynamicElement from '../requests/addDynamicElement'
-import {useUser} from '@auth0/nextjs-auth0/client'
+import {useUser} from '@hooks/useUser'
 
 import {RESET} from 'jotai/utils'
 import Modal, {ModalProps} from '@ui/Modal'
 import useGlobalLoader from '@store/globalLoaderStore'
 import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
-import DynamicElement from "@/models/DynamicElement"
-
 
 type Props = Omit<ModalProps, 'children'> & {
     design: Design,
@@ -70,10 +68,10 @@ function AddDynamicElementModal({showModal, onRequestClose, design, designName} 
         defaultValues: {
             name: 'modal',
             url: 'https://www.figma.com/file/EH0gHvwosCd7pVbE9NRWey/site.pt2?type=design&node-id=4013-765&mode=design&t=pnV04DI3vl2XIrM5-0',
-            elementToSnapshotSelector: 'class',
+            elementToSnapshotSelector: 'class' as Selector,
             elementToSnapshotSelectorValue: 'loginModal',
             actionType: 'click',
-            actionElementSelector: 'class',
+            actionElementSelector: 'class' as Selector,
             actionElementSelectorValue: 'loginBtn'
         }
     })

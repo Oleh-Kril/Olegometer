@@ -10,7 +10,7 @@ type Props = {
 
 }
 
-function ConfirmationModal({}: Props){
+export default function ConfirmationModal({}: Props){
     const [mounted, setMounted] = useState(false)
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
 
@@ -28,5 +28,3 @@ function ConfirmationModal({}: Props){
         document.getElementById('modal-root') || document.body
     ) : null
 }
-
-export default ConfirmationModal

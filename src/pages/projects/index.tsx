@@ -1,15 +1,12 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import {useState} from 'react'
-import {useUser} from '@auth0/nextjs-auth0/client'
 import ProjectsList from '../../modules/ProjectsList'
 import Link from 'next/link'
 import AddProjectModal from '../../components/AddProjectModal'
 
-export default withPageAuthRequired(function Projects() {
-    const { user, error, isLoading } = useUser()
+export default function Projects() {
     const [showModal, setShowModal] = useState(false)
-    if (isLoading) return <div>Loading...</div>
-    if (error) return <div>{error.message}</div>
+    // if (isLoading) return <div>Loading...</div>
+    // if (error) return <div>{error.message}</div>
 
     const handleCreateProject = async () => {
         setShowModal(true)
@@ -19,7 +16,7 @@ export default withPageAuthRequired(function Projects() {
         <>
             <div style={{width: '80vw'}}>
                 <p>WELCOME TO OLEGOMETER</p>
-                <Link href='/api/auth/logout'>Logout</Link>
+                <Link href='/'>Logout</Link>
 
                 <h1>Projects Page</h1>
 
@@ -30,5 +27,5 @@ export default withPageAuthRequired(function Projects() {
             <AddProjectModal showModal={showModal} setShowModal={setShowModal}/>
         </>
     )
-})
+}
 

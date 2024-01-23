@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import {withApiAuthRequired} from '@auth0/nextjs-auth0'
 import transformIdProperty from '@utils/transformIdProperty'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 
 
-export default withApiAuthRequired(async function handler(
+export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -41,4 +40,4 @@ export default withApiAuthRequired(async function handler(
     }catch{
         return res
     }
-})
+}

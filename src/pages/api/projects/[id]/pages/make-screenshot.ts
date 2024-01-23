@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withApiAuthRequired } from '@auth0/nextjs-auth0'
 import puppeteer from 'puppeteer'
 import waitTillHTMLRendered from '@utils/waitTillHTMLRendered'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
@@ -13,7 +12,7 @@ interface Body {
     designName: string;
 }
 
-export default withApiAuthRequired(async function handler(
+export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -75,5 +74,5 @@ export default withApiAuthRequired(async function handler(
     }catch{
         return res
     }
-})
+}
 

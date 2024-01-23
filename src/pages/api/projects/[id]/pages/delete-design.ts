@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withApiAuthRequired } from '@auth0/nextjs-auth0'
+
 import {ObjectId} from 'bson'
 import deleteImageFromS3 from '@requests/s3/deleteImageFromS3'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import transformIdProperty from '@utils/transformIdProperty'
 
 
-export default withApiAuthRequired( async function DELETE(
+export default async function DELETE(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -55,4 +55,4 @@ export default withApiAuthRequired( async function DELETE(
     } else {
         res.status(404).json({ error: 'Project not found' })
     }
-})
+}

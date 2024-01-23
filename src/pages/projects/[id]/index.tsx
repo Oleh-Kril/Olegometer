@@ -1,10 +1,9 @@
 import {useRouter} from 'next/router'
 import useCurrentProject from "@hooks/useCurrentProject"
 import ProjectTree from "@modules/ProjectTree"
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import UpdateAllSnapshotsPanel from "@components/UpdateAllSnapshotsPanel"
 
-export default withPageAuthRequired(function ProjectPage(){
+export default function ProjectPage(){
     const router = useRouter()
     const { project } = useCurrentProject()
 
@@ -22,4 +21,4 @@ export default withPageAuthRequired(function ProjectPage(){
         </div>
 
     )
-})
+}

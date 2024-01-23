@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withApiAuthRequired } from '@auth0/nextjs-auth0'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import getCurrentTimeString from "@utils/dateUtils"
 import updateDesignQuery from "@requests/project/design/updateDesignQuery"
@@ -9,7 +8,7 @@ interface Body {
     designName: string;
 }
 
-export default withApiAuthRequired( async function PUT(
+export default async function PUT(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -33,4 +32,4 @@ export default withApiAuthRequired( async function PUT(
     } else {
         res.status(404).json({ error: 'Not found' })
     }
-})
+}

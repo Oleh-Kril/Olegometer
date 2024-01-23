@@ -13,7 +13,7 @@ import ViewDesignComparisonButton from "./ViewDesignComparisonButton"
 type Props = Omit<TreeNodeProps, 'chilren'> & {
     pageUrl: string,
     designName: string,
-    dynamicElement: DynamicElement
+    dynamicElement: DynamicElementModel
 }
 
 export default function TreeNodeWithActions(props: Props){

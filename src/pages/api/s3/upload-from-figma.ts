@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withApiAuthRequired } from '@auth0/nextjs-auth0'
 import sizeOf from 'image-size'
 import Agent from '@/Agent'
 import uploadImageToS3 from '@requests/s3/uploadImageToS3'
 
-export default withApiAuthRequired(async function handler(
+export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -45,4 +44,4 @@ export default withApiAuthRequired(async function handler(
     }catch{
         return res
     }
-})
+}

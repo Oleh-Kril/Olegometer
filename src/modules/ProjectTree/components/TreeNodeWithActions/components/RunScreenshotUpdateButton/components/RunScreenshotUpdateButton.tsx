@@ -1,6 +1,6 @@
 import styles from '../styles/RunScreenshotUpdateButton.module.scss'
 import {RESET} from 'jotai/utils'
-import {useUser} from '@auth0/nextjs-auth0/client'
+import {useUser} from '@hooks/useUser'
 import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useGlobalLoader from '@store/globalLoaderStore'
 import useCurrentProject from '@hooks/useCurrentProject'

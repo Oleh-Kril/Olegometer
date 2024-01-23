@@ -1,5 +1,4 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getSession, Session} from '@auth0/nextjs-auth0'
 import clientPromise from '../db'
 
 const COLLECTION_NAME = 'projects'
@@ -8,7 +7,7 @@ export default async function getProjectsHandlerData(
     req: NextApiRequest,
     res: NextApiResponse
 ){
-    const { user } = await getSession(req, res) as Session
+    const { user } = {user: {email: 'mayorford777@gmail.com', name: 'Mayor Ford'}}
     const { method } = req
 
     const client = await clientPromise

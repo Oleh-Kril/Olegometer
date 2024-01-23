@@ -6,7 +6,7 @@ type Props = {
     setShowModal: (value: boolean) => void
 }
 
-function AddProjectModal({showModal, setShowModal}: Props) {
+export default function AddProjectModal({showModal, setShowModal}: Props) {
     return (
         <Modal showModal={showModal}
             onRequestClose={() => setShowModal(false)}>
@@ -14,6 +14,3 @@ function AddProjectModal({showModal, setShowModal}: Props) {
         </Modal>
     )
 }
-
-
-export default AddProjectModal

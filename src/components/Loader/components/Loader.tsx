@@ -16,7 +16,7 @@ interface ImageWithOpacity {
     key: number;
 }
 
-function Loader(){
+export default function Loader(){
     const [mounted, setMounted] = useState(false)
     const [globalLoader, _] = useGlobalLoader()
     const [images, setImages] = useState<ImageWithOpacity[]>(getDefaultImages())
@@ -72,5 +72,3 @@ function Loader(){
     document.getElementById('loader-root') || document.body
     ): null
 }
-
-export default Loader

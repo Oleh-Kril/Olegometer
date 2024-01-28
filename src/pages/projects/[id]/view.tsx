@@ -34,14 +34,11 @@ export default function ViewPage(){
     }
 
     return (
-        <div>
+        <div style={{alignSelf: 'flex-start'}}>
             <button onClick={routerBack}>
                 Back to project tree
             </button>
-            <h1>Project View Page</h1>
-            <p>Project ID: {slug?.id}</p>
-            <p>Page ID: {slug?.pageUrl}</p>
-            <p>Design ID: {slug?.designName}</p>
+            <h3>Project ID: {slug?.id} Page ID: {slug?.pageUrl} Design ID: {slug?.designName}</h3>
             {
                 slug?.pageUrl && slug?.designName && slug?.id
                     ? <ImageComparison

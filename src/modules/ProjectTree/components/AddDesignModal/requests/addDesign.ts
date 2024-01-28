@@ -1,16 +1,7 @@
 import parseFigmaUrl from '@utils/parseFigmaUrl'
 import Agent from '@/Agent'
-import getCurrentTimeString from "@utils/dateUtils";
 
 export default async function addDesign(project: Project, pageUrl: string, designUrl: string, name: string, userEmail?: string){
-    if(!userEmail){
-        throw new Error('User not authorized')
-    }
-
-    if(userEmail !== project.author){
-        throw new Error('User has no access to this project')
-    }
-
     const {fileKey, imageId} = parseFigmaUrl(designUrl)
 
     if(!fileKey || !imageId){

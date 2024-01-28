@@ -1,0 +1,20 @@
+@import "src/styles/mixins";
+
+.sideBySideMode{
+  display: flex;
+  gap: 2rem;
+
+  img {
+    border: 1px solid black;
+    padding: 1rem;
+    max-width: 100%;
+    align-self: start;
+    object-fit: contain;
+  }
+
+  & > *{
+    width: 50%;
+    max-width: 50%;
+  }
+}
+

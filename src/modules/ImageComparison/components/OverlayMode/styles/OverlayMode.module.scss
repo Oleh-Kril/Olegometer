@@ -1,0 +1,35 @@
+@import "src/styles/mixins";
+
+.overlayMode{
+  cursor: pointer;
+  display: flex;
+  gap: 2rem;
+  background: rgba(chocolate, 0.5);
+  width: 100vw;
+  position: relative;
+
+  img {
+    border: 1px solid black;
+    padding: 1rem;
+    max-width: 100%;
+    align-self: start;
+    object-fit: contain;
+  }
+
+  & > *{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .active{
+    opacity: 1;
+  }
+
+  .hidden{
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+

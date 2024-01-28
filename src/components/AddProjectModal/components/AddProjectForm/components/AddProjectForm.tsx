@@ -10,12 +10,16 @@ export default function AddProjectForm({}: Props){
     const makeRequestAndUpdateState = useProjectsEndpoint()
 
     const onCreateProjectSubmit = async (data: FieldValues) => {
+        if((data.url as string).endsWith('/')){
+            data.url = (data.url as string).slice(0, -1)
+        }
+
         const project: Omit<Project, 'id'> = {
             author: '',
             name: data.name,
             domainUrl: data.url,
             figmaToken: data.figmaToken,
-            pages: new Map<Url, Page>()
+            pages: {}
         }
 
         await makeRequestAndUpdateState( () => Agent.post<Project>('/api/projects', project), 'POST')

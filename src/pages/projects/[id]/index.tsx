@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router'
-import useCurrentProject from "@hooks/useCurrentProject"
-import ProjectTree from "@modules/ProjectTree"
-import UpdateAllSnapshotsPanel from "@components/UpdateAllSnapshotsPanel"
+import useCurrentProject from '@hooks/useCurrentProject'
+import ProjectTree from '@modules/ProjectTree'
+import UpdateAllSnapshotsPanel from '@components/UpdateAllSnapshotsPanel'
 
 export default function ProjectPage(){
     const router = useRouter()

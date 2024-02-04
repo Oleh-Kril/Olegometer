@@ -3,8 +3,8 @@ import puppeteer from 'puppeteer'
 import waitTillHTMLRendered from '@utils/waitTillHTMLRendered'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import uploadImageToS3 from '@requests/s3/uploadImageToS3'
-import getCurrentTimeString from "@utils/dateUtils"
-import updateDesignQuery from "@requests/project/design/updateDesignQuery"
+import getCurrentTimeString from '@utils/dateUtils'
+import updateDesignQuery from '@requests/project/design/updateDesignQuery'
 
 interface Body {
     design: Design;

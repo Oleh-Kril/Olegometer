@@ -2,7 +2,7 @@ export const useUser = (): {user: User, error: {message: string} | null, isLoadi
     return {
         user: {
             name: 'John Doe',
-            email: "mayorfrod777@gmail.com"
+            email: 'mayorfrod777@gmail.com'
         },
         error: null,
         isLoading: false

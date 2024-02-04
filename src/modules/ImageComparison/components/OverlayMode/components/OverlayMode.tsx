@@ -1,6 +1,6 @@
 import styles from '../styles/OverlayMode.module.scss'
-import React from "react"
-import ModeProps from "@modules/ImageComparison/types/modeProps.type"
+import React from 'react'
+import ModeProps from '@modules/ImageComparison/types/modeProps.type'
 
 export default function OverlayMode({image1, image2, image1LastUpdated, image2LastUpdated}: ModeProps){
     const [isFirstVisible, setIsFirstVisible] = React.useState<boolean>(true)

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
-import getCurrentTimeString from "@utils/dateUtils"
-import updateDesignQuery from "@requests/project/design/updateDesignQuery"
+import getCurrentTimeString from '@utils/dateUtils'
+import updateDesignQuery from '@requests/project/design/updateDesignQuery'
 
 interface Body {
     design: Design;

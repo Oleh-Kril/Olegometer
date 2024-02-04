@@ -1,5 +1,5 @@
-import RunUpdateAllButton from "./RunUpdateAllButton"
-import styles from "../styles/UpdateAllSnapshotsPanel.module.scss"
+import RunUpdateAllButton from './RunUpdateAllButton'
+import styles from '../styles/UpdateAllSnapshotsPanel.module.scss'
 
 export default function UpdateAllSnapshotsPanel(){
     return (

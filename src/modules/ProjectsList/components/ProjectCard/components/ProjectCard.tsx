@@ -2,10 +2,10 @@ import styles from '../styles/ProjectCard.module.scss'
 import {useRouter} from 'next/router'
 import React from 'react'
 import {RESET} from 'jotai/utils'
-import useProjects from "@store/projectsStore"
-import useProjectsEndpoint from "@hooks/useProjectsEndpoint"
-import useConfirmationModal from "@store/confirmationModalStore"
-import Agent from "@/Agent"
+import useProjects from '@store/projectsStore'
+import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
+import useConfirmationModal from '@store/confirmationModalStore'
+import Agent from '@/Agent'
 
 export default function ProjectCard({name, domainUrl, id}: Project){
     const router = useRouter()

@@ -5,7 +5,7 @@ import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useGlobalLoader from '@store/globalLoaderStore'
 import useCurrentProject from '@hooks/useCurrentProject'
 import RunButton from '@ui/RunButton'
-import {Tooltip} from "react-tooltip"
+import {Tooltip} from 'react-tooltip'
 
 type Props = {
     updateDesigns?: boolean,

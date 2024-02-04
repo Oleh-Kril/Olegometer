@@ -6,8 +6,8 @@ import useGlobalLoader from '@store/globalLoaderStore'
 import useCurrentProject from '@hooks/useCurrentProject'
 import Agent from '@/Agent'
 import RunButton from '@ui/RunButton'
-import updateDesignSnapshot from "@requests/project/design/updateDesignSnapshot"
-import updatePageSnapshot from "@requests/project/page/updatePageSnapshot"
+import updateDesignSnapshot from '@requests/project/design/updateDesignSnapshot'
+import updatePageSnapshot from '@requests/project/page/updatePageSnapshot'
 
 
 type Props = {

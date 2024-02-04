@@ -20,7 +20,7 @@ export default async function addDynamicElement(project: Project, pageUrl: strin
     const imageUrl = images[imageId.replace(/-/g, ':')]
 
     if(!imageUrl){
-        window.alert(`Dynamic element isn't added. Please check Figma URL and try again`)
+        window.alert('Dynamic element isn\'t added. Please check Figma URL and try again')
     }
 
     const updatedProject: Project = await Agent.post(

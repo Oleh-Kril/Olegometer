@@ -1,4 +1,4 @@
-type Selector = "class" | "id" | "text"
+type Selector = 'class' | 'id' | 'text'
 type ActionType = 'click' | 'hover'
 
 type Action = {

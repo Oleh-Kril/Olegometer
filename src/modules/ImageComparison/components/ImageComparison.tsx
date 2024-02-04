@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import styles from '../styles/ImageComparison.module.scss'
-import OverlayMode from "@modules/ImageComparison/components/OverlayMode"
-import SideBySideMode from "@modules/ImageComparison/components/SideBySideMode"
-import ModeProps from "../types/modeProps.type"
-import useCurrentProject from "@hooks/useCurrentProject"
-import Agent from "@/Agent"
+import OverlayMode from '@modules/ImageComparison/components/OverlayMode'
+import SideBySideMode from '@modules/ImageComparison/components/SideBySideMode'
+import ModeProps from '../types/modeProps.type'
+import useCurrentProject from '@hooks/useCurrentProject'
+import Agent from '@/Agent'
 
 type ComparisonMode = 'side-by-side' | 'overlay'
 

@@ -1,13 +1,13 @@
 import {useUser} from '@hooks/useUser'
-import Agent from "@/Agent"
+import Agent from '@/Agent'
 
 export default function ProfileClient() {
     const { user, error, isLoading } = useUser()
 
     function onGetProjects(){
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem('token')
         Agent.get('http://localhost:5000/projects/some-id', {token}).then((res) => {
-            console.log("RESPONSE", res)
+            console.log('RESPONSE', res)
         })
     }
 

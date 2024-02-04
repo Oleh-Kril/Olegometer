@@ -1,4 +1,4 @@
-import {Page} from "puppeteer"
+import {Page} from 'puppeteer'
 
 export default async function waitTillHTMLRendered(page: Page, timeout = 30000){
     const checkDurationMsecs = 1000

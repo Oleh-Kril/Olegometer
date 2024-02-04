@@ -1,6 +1,6 @@
 import Agent from '@/Agent'
-import updateDesignSnapshot from "@requests/project/design/updateDesignSnapshot"
-import updatePageSnapshot from "@requests/project/page/updatePageSnapshot"
+import updateDesignSnapshot from '@requests/project/design/updateDesignSnapshot'
+import updatePageSnapshot from '@requests/project/page/updatePageSnapshot'
 
 export default async function updateAllSnapshots(project: Project, userEmail?: string, exportFigmaDesigns?: boolean){
 

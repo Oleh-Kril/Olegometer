@@ -19,7 +19,7 @@ export default async function addDesign(project: Project, pageUrl: string, desig
     const imageUrl = images[imageId.replace(/-/g, ':')]
 
     if(!imageUrl){
-        window.alert(`Design isn't added. Please check Figma URL and try again`)
+        window.alert('Design isn\'t added. Please check Figma URL and try again')
     }
 
     const design: Design = await Agent.post('/api/s3/upload-from-figma', {

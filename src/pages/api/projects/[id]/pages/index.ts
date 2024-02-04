@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectId } from 'bson'
 
-import getProjectsHandlerData from "@utils/getProjectsHandlerData"
-import transformIdProperty from "@utils/transformIdProperty"
+import getProjectsHandlerData from '@utils/getProjectsHandlerData'
+import transformIdProperty from '@utils/transformIdProperty'
 
 
 export default async function handler(

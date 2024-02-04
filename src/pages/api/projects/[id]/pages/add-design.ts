@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import {ObjectId} from 'bson'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import transformIdProperty from '@utils/transformIdProperty'
-import getCurrentTimeString from "@utils/dateUtils"
+import getCurrentTimeString from '@utils/dateUtils'
 
 export default async function POST(
     req: NextApiRequest,

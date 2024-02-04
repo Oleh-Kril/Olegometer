@@ -1,14 +1,14 @@
-import TreeNode from "../../TreeNode"
-import {TreeNodeProps} from "@modules/ProjectTree/components/TreeNode/components/TreeNode"
-import useConfirmationModal from "@store/confirmationModalStore"
-import {useRouter} from "next/router"
-import useGlobalLoader from "@store/globalLoaderStore"
-import useProjectsEndpoint from "@hooks/useProjectsEndpoint"
-import Agent from "@/Agent"
-import {RESET} from "jotai/utils"
-import styles from "../styles/TreeNodeDynamicElement.module.scss"
-import RunScreenshotUpdateButton from "./RunScreenshotUpdateButton"
-import ViewDesignComparisonButton from "./ViewDesignComparisonButton"
+import TreeNode from '../../TreeNode'
+import {TreeNodeProps} from '@modules/ProjectTree/components/TreeNode/components/TreeNode'
+import useConfirmationModal from '@store/confirmationModalStore'
+import {useRouter} from 'next/router'
+import useGlobalLoader from '@store/globalLoaderStore'
+import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
+import Agent from '@/Agent'
+import {RESET} from 'jotai/utils'
+import styles from '../styles/TreeNodeDynamicElement.module.scss'
+import RunScreenshotUpdateButton from './RunScreenshotUpdateButton'
+import ViewDesignComparisonButton from './ViewDesignComparisonButton'
 
 type Props = Omit<TreeNodeProps, 'chilren'> & {
     pageUrl: string,
@@ -40,8 +40,8 @@ export default function TreeNodeWithActions(props: Props){
 
     return (
         <TreeNode {...props}
-                  className={styles.treeNodeDynamicElements}
-                  onDeleteClick={onDeleteClick}>
+            className={styles.treeNodeDynamicElements}
+            onDeleteClick={onDeleteClick}>
             <div className={styles.buttons}>
                 <RunScreenshotUpdateButton
                     pageOnly

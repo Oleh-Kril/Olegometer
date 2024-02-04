@@ -1,7 +1,7 @@
 import parseFigmaUrl from '@utils/parseFigmaUrl'
 import Agent from '@/Agent'
 
-export default async function addDynamicElement(project: Project, pageUrl: string, designName: string, dynamicElementName: string, dynamicElement: DynamicElementModel, userEmail?: string){
+export default async function addDynamicElement(project: Project, pageUrl: string, designName: string, dynamicElementName: string, dynamicElement: DynamicElement, userEmail?: string){
 
     const {fileKey, imageId} = parseFigmaUrl(dynamicElement.designUrl)
 

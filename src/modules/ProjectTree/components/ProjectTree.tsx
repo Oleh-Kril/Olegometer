@@ -109,24 +109,24 @@ export default function ProjectTree({pages} : Props){
                         pageUrl={activePageUrl}
                         key={-2}/>
                 </div> : null}
-            {activePageUrl && activeDesignName && currentDesign?
-                <div className={styles.treeLeafs}>
-                    {Object.entries(currentDesign.dynamicElements).map(([dynamicElementName, dynamicElement]) =>(
-                        <>
-                            <TreeNodeDynamicElement
-                                id={`${activePageUrl}:${activeDesignName}:${dynamicElementName}`}
-                                key={dynamicElementName}
-                                name={dynamicElementName}
-                                pageUrl={activePageUrl}
-                                designName={activeDesignName}
-                                dynamicElement={dynamicElement} />
+            {/*{activePageUrl && activeDesignName && currentDesign ?*/}
+            {/*    <div className={styles.treeLeafs}>*/}
+            {/*        {Object.entries(currentDesign.dynamicElements).map(([dynamicElementName, dynamicElement]) =>(*/}
+            {/*            <>*/}
+            {/*                <TreeNodeDynamicElement*/}
+            {/*                    id={`${activePageUrl}:${activeDesignName}:${dynamicElementName}`}*/}
+            {/*                    key={dynamicElementName}*/}
+            {/*                    name={dynamicElementName}*/}
+            {/*                    pageUrl={activePageUrl}*/}
+            {/*                    designName={activeDesignName}*/}
+            {/*                    dynamicElement={dynamicElement} />*/}
 
-                            <TreeNodeArrow start={`${activePageUrl}:${activeDesignName}`}
-                                           end = {`${activePageUrl}:${activeDesignName}:${dynamicElementName}`}/>
-                        </>
-                    ))}
-                    <TreeNode isOutlined key={-1} name={'Add dynamic element'} onClick={()=>setShowAddDesignModal(true)}/>
-                </div> : null}
+            {/*                <TreeNodeArrow start={`${activePageUrl}:${activeDesignName}`}*/}
+            {/*                               end = {`${activePageUrl}:${activeDesignName}:${dynamicElementName}`}/>*/}
+            {/*            </>*/}
+            {/*        ))}*/}
+            {/*        <TreeNode isOutlined key={-1} name={'Add dynamic element'} onClick={()=>setShowAddDesignModal(true)}/>*/}
+            {/*    </div> : null}*/}
         </div>
     )
 }

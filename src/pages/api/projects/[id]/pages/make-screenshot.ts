@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import puppeteer from 'puppeteer'
-import waitTillHTMLRendered from '@utils/waitTillHTMLRendered'
+import { chromium } from 'playwright'
 import getProjectsHandlerData from '@utils/getProjectsHandlerData'
 import uploadImageToS3 from '@requests/s3/uploadImageToS3'
 import getCurrentTimeString from '@utils/dateUtils'
@@ -29,14 +28,16 @@ export default async function handler(
             }
 
             try {
-                const browser = await puppeteer.launch()
+
+                const browser = await chromium.launch()
                 const page = await browser.newPage()
-                await page.goto(projectDomainUrl + (url as string), { waitUntil: 'networkidle0' })
+                await page.goto(projectDomainUrl + (url as string), { waitUntil: 'networkidle' })
 
-                await waitTillHTMLRendered(page)
+                await page.waitForLoadState('networkidle')
 
-                await page.setViewport({width: design.width, height: 1080 })
-                const imageBuffer = await page.screenshot({ encoding: 'binary', fullPage: true})
+                await page.setViewportSize({ width: design.width, height: 1080 })
+                const imageBuffer = await page.screenshot({ type: 'jpeg', fullPage: true })
+
                 await browser.close()
 
                 const key = `${user.email}:/${projectId}:${url}:/${design.width}`

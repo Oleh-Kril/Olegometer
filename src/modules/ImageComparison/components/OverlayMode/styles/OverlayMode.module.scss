@@ -8,6 +8,11 @@
   width: 100vw;
   position: relative;
 
+  h3{
+    top: 0;
+    position: sticky;
+    background: white;
+  }
   img {
     border: 1px solid black;
     padding: 1rem;

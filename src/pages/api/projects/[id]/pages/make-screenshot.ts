@@ -9,6 +9,7 @@ interface Body {
     design: Design;
     projectDomainUrl: string;
     designName: string;
+    timeout?: number;
 }
 
 export default async function handler(
@@ -21,26 +22,30 @@ export default async function handler(
 
         switch (method) {
         case 'POST':
-            const { design, projectDomainUrl, designName }: Body = req.body
+            const { design, projectDomainUrl, designName, timeout }: Body = req.body
 
             if (!design) {
                 return res.status(400).json({ error: 'Missing required design parameter.' })
             }
 
             try {
-
                 const browser = await chromium.launch()
                 const page = await browser.newPage()
                 await page.goto(projectDomainUrl + (url as string), { waitUntil: 'networkidle' })
 
                 await page.waitForLoadState('networkidle')
 
-                await page.setViewportSize({ width: design.width, height: 1080 })
+                await page.setViewportSize({ width: design.width, height: design.height })
+
+                if(timeout){
+                    await page.waitForTimeout(timeout*1000)
+                }
+
                 const imageBuffer = await page.screenshot({ type: 'jpeg', fullPage: true })
 
                 await browser.close()
 
-                const key = `${user.email}:/${projectId}:${url}:/${design.width}`
+                const key = `${user.email}/${projectId}/${url}/${design.width}:${design.height}.jpeg`
 
                 uploadImageToS3(key, imageBuffer).then(async () => {
                     design.websiteSnapshotUrl = key

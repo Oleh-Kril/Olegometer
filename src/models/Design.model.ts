@@ -1,5 +1,6 @@
 interface Design {
     width: number;
+    height: number;
     designUrl: string;
     dynamicElements: Record<string, DynamicElement>;
     designSnapshotUrl?: string;

@@ -1,4 +1,3 @@
-import Agent from '@/Agent'
 import updateDesignSnapshot from '@requests/project/design/updateDesignSnapshot'
 import updatePageSnapshot from '@requests/project/page/updatePageSnapshot'
 
@@ -6,10 +5,6 @@ export default async function updateAllSnapshots(project: Project, userEmail?: s
 
     if(!userEmail){
         throw new Error('User not authorized')
-    }
-
-    if(userEmail !== project.author){
-        throw new Error('User has no access to this project')
     }
 
     const promises: Promise<void>[] = []

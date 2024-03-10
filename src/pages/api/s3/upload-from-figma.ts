@@ -23,13 +23,15 @@ export default async function handler(
             .then(async (data: any) => {
                 const imageBuffer = Buffer.from(data, 'base64')
                 const dimensions = sizeOf(imageBuffer)
-                const { width } = dimensions
 
-                const key = `${userEmail}:/${projectId}:${pageUrl}:/${width}:design`
+                const { width, height } = dimensions
+
+                const key = `${userEmail}/${projectId}/${pageUrl}/${width}:${height}:design.jpeg`
 
                 uploadImageToS3(key, data).then(async () => {
                     const design = {
-                        width: width || 1900,
+                        width: width || 1920,
+                        height: height || 1080,
                         designUrl,
                         designSnapshotUrl: key,
                     } as Design

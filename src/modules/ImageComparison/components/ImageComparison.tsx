@@ -35,7 +35,7 @@ export default function ImageComparison({pageUrl, designName, projectId}: Props)
         image1: designSnapshot ? 'data:image/jpeg;base64,' + designSnapshot : '',
         image2: websiteSnapshot ? 'data:image/jpeg;base64,' + websiteSnapshot : '',
         image1LastUpdated: design?.designSnapshotLastUpdated,
-        image2LastUpdated: design?.websiteSnapshotLastUpdated
+        image2LastUpdated: design?.websiteSnapshotLastUpdated,
     }
 
     return (

@@ -29,6 +29,7 @@ export default async function updateDesignSnapshot(project: Project, pageUrl: st
     const updatedDesign: Design = {
         ...design,
         width: updates.width,
+        height: updates.height,
         designSnapshotUrl: updates.designSnapshotUrl,
     }
 

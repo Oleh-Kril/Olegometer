@@ -8,7 +8,7 @@ export default function ProjectPage(){
     const { project } = useCurrentProject()
 
     return (
-        <div>
+        <>
             <button style={{position: 'absolute', top: '1rem', left: '1rem'}}
                 onClick={() => router.push('/projects')}>Back to all projects</button>
             {
@@ -18,7 +18,6 @@ export default function ProjectPage(){
                     <p>Loading..</p>
             }
             <UpdateAllSnapshotsPanel />
-        </div>
-
+        </>
     )
 }

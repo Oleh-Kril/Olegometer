@@ -5,8 +5,8 @@
   display: flex;
   gap: 2rem;
   background: rgba(chocolate, 0.5);
-  width: 100vw;
   position: relative;
+  width: calc(100vw - 20px);
 
   h3{
     top: 0;

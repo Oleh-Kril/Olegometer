@@ -34,7 +34,7 @@ export default function ViewPage(){
     }
 
     return (
-        <div style={{alignSelf: 'flex-start'}}>
+        <div style={{alignSelf: 'flex-start', padding: "0px 10px"}}>
             <button onClick={routerBack}>
                 Back to project tree
             </button>

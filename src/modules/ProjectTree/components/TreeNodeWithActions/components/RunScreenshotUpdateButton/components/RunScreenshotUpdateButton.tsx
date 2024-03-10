@@ -27,12 +27,6 @@ export default function RunScreenshotUpdateButton({pageOnly = false, designName}
         if(page && pageUrl){
             const design = page.designs[designName] as Design
 
-            setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${pageUrl} in ${design.width} width`})
-
-            await makeRequestAndUpdateState(() => updatePageSnapshot(project, pageUrl, design, designName))
-
-            setGlobalLoader(RESET)
-
             if(!pageOnly && design){
                 setGlobalLoader({showLoader: true, text: `Exporting new snapshot of the ${pageUrl || ''} page design from figma`})
 
@@ -40,6 +34,12 @@ export default function RunScreenshotUpdateButton({pageOnly = false, designName}
 
                 setGlobalLoader(RESET)
             }
+
+            setGlobalLoader({showLoader: true, text: `Making new screenshot of the ${pageUrl} in ${design.width} width`})
+
+            await makeRequestAndUpdateState(() => updatePageSnapshot(project, pageUrl, design, designName))
+
+            setGlobalLoader(RESET)
         }
     }
 

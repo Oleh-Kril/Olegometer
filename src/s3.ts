@@ -10,11 +10,11 @@ AWS.config.update({
 })
 
 declare global {
-    var _s3Instance: AWS.S3
+    var _s3Instance: AWS.S3 | undefined
 }
 
 class S3Singleton {
-    private static _instance: S3Singleton
+    private static _instance: S3Singleton | undefined
     private s3Instance: AWS.S3
 
     private constructor() {
@@ -27,7 +27,14 @@ class S3Singleton {
         }
     }
 
-    public static get instance() {
+    public static get instance(): AWS.S3 {
+        if (process.env.NODE_ENV === 'development') {
+            if (!global._s3Instance) {
+                global._s3Instance = new AWS.S3()
+            }
+            return global._s3Instance
+        }
+
         if (!this._instance) {
             this._instance = new S3Singleton()
         }

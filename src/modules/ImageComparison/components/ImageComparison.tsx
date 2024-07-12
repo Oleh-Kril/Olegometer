@@ -4,7 +4,7 @@ import OverlayMode from '@modules/ImageComparison/components/OverlayMode'
 import SideBySideMode from '@modules/ImageComparison/components/SideBySideMode'
 import ModeProps from '../types/modeProps.type'
 import useCurrentProject from '@hooks/useCurrentProject'
-import Agent from '@/Agent'
+import useGetFile from "@hooks/useGetFile"
 
 type ComparisonMode = 'side-by-side' | 'overlay'
 
@@ -16,20 +16,10 @@ type Props = {
 
 export default function ImageComparison({pageUrl, designName, projectId}: Props){
     const [comparisonMode, setComparisonMode] = useState<ComparisonMode>('side-by-side')
-    const [designSnapshot, setDesignSnapshot] = useState<string>('')
-    const [websiteSnapshot, setWebsiteSnapshot] = useState<string>('')
     const {design} = useCurrentProject(true, true)
 
-    useEffect(() => {
-        if(design){
-            if(design.websiteSnapshotUrl){
-                Agent.get<string>('/api/s3/get-image?key=' + design.websiteSnapshotUrl).then(snapshot => setWebsiteSnapshot(snapshot))
-            }
-            if(design.designSnapshotUrl){
-                Agent.get<string>('/api/s3/get-image?key=' + design.designSnapshotUrl).then(snapshot => setDesignSnapshot(snapshot))
-            }
-        }
-    }, [design])
+    const {data: websiteSnapshot} = useGetFile(design?.websiteSnapshotUrl ?? '')
+    const {data: designSnapshot} = useGetFile(design?.websiteSnapshotUrl ?? '')
 
     const modeProps: ModeProps = {
         image1: designSnapshot ? 'data:image/jpeg;base64,' + designSnapshot : '',

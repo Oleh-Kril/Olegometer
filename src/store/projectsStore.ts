@@ -1,22 +1,21 @@
-import { atom, useAtom } from 'jotai'
-import useSWR from 'swr'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Agent from '@/Agent'
 
-const fetcher = async (url: string) => await Agent.get<Project[]>(url)
+const fetchProjects = async () => {
+   return await Agent.get<Project[]>('/projects')
+}
 
-const projectsAtom = atom<Project[] | null>(null)
+function useProjects() {
+    const queryClient = useQueryClient()
 
-function useProjects(){
-    const [projects, setProjects] = useAtom(projectsAtom)
+    const { data: projects, error, isLoading, ...rest } = useQuery<Project[]>({
+        queryKey: ['projects'],
+        queryFn: fetchProjects,
+        initialData: () => queryClient.getQueryData<Project[]>(['projects']),
+        staleTime: 1000 * 60 * 5, // 5 minutes
+    })
 
-    const { data: apiProjects, error } = useSWR('/api/projects', fetcher)
-
-    if (projects === null && apiProjects) {
-        setProjects(apiProjects)
-        return {projects: apiProjects, setProjects: setProjects}
-    }
-
-    return {projects: projects || [], setProjects: setProjects}
+    return { projects: projects || [], error, isLoading, ...rest }
 }
 
 export default useProjects

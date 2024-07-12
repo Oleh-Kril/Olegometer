@@ -1,30 +1,38 @@
 import { useCallback } from 'react'
 import useProjects from '../store/projectsStore'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 
 const useCurrentProject = (getPage?: boolean, getDesign?: boolean) => {
-    const { projects, setProjects } = useProjects()
+    const { projects, error, isLoading } = useProjects()
     const router = useRouter()
 
     const getProjectAndData = useCallback(() => {
         const project = projects.find(project => project.id === router.query.id) as Project
 
-        if(getPage){
+        if (getPage) {
             const pageUrl = router.query.pageUrl as string
             const page = project?.pages[pageUrl] as Page
 
-            if(getDesign){
+            if (getDesign) {
                 const designName = router.query.designName as string
                 const design = page?.designs[designName] as Design
 
-                return {project, page, pageUrl, design, designName}
+                return { project, page, pageUrl, design, designName }
             }
 
-            return {project, page, pageUrl}
+            return { project, page, pageUrl }
         }
 
-        return {project}
+        return { project }
     }, [router.query, projects])
+
+    if (isLoading) {
+        return { isLoading, project: null, page: null, design: null } // Adjust as needed
+    }
+
+    if (error) {
+        return { error, project: null, page: null, design: null } // Adjust as needed
+    }
 
     return getProjectAndData()
 }

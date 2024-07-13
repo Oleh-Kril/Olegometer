@@ -2,6 +2,7 @@ import {useState} from 'react'
 import ProjectsList from '../../modules/ProjectsList'
 import Link from 'next/link'
 import AddProjectModal from '../../components/AddProjectModal'
+import FlexContainer from "@ui/FlexContainer"
 
 export default function Projects() {
     const [showModal, setShowModal] = useState(false)
@@ -14,7 +15,7 @@ export default function Projects() {
 
     return (
         <>
-            <div style={{width: '80vw'}}>
+            <FlexContainer style={{width: '80vw'}}>
                 <p>WELCOME TO OLEGOMETER</p>
                 <Link href='/'>Logout</Link>
 
@@ -22,8 +23,8 @@ export default function Projects() {
 
                 <button onClick={handleCreateProject}>Create New Project</button>
 
-                <ProjectsList />
-            </div>
+                <ProjectsList style={{width: '100%'}}/>
+            </FlexContainer>
             <AddProjectModal showModal={showModal} setShowModal={setShowModal}/>
         </>
     )

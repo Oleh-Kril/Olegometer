@@ -1,3 +1,5 @@
+@import "src/styles/mixins";
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -17,4 +19,19 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button{
+  @include flex-center();
+  gap: 0.2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+
+  &:hover{
+    background-color: #e1e1e1;
+  }
 }

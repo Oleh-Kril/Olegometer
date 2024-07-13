@@ -3,6 +3,7 @@ import {FieldValues, useForm} from 'react-hook-form'
 import React from 'react'
 import Agent from '../../../../../Agent'
 import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
+import FlexContainer from "@ui/FlexContainer"
 type Props = {
 
 }
@@ -40,16 +41,17 @@ export default function AddProjectForm({}: Props){
     )
 
     return (
-        <div className={styles.addProjectForm}>
-            <form onSubmit={handleSubmit(onCreateProjectSubmit)}>
+        <form onSubmit={handleSubmit(onCreateProjectSubmit)}>
+            <FlexContainer>
                 <input {...register('url', { required: true })} />
                 {errors.url && <p>Please enter base domain url of project website before saving.</p>}
                 <input {...register('name', { required: true })} />
                 {errors.name && <p>Please enter name of project before saving.</p>}
                 <input {...register('figmaToken', { required: true })} />
                 {errors.figmaToken && <p>Please enter figmaToken of account that has access to view your designs before saving.</p>}
-                <input type="submit" />
-            </form>
-        </div>
+                <button type="submit" >Submit</button>
+            </FlexContainer>
+        </form>
+
     )
 }

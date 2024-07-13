@@ -7,4 +7,6 @@ interface Design {
     websiteSnapshotUrl?: string;
     designSnapshotLastUpdated?: string;
     websiteSnapshotLastUpdated?: string;
+    comparisonResult?: ComparisonResult;
+    comparisonLastUpdated?: string;
 }

@@ -7,6 +7,7 @@ import Agent from '../../../../../Agent'
 import {useRouter} from 'next/router'
 import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
 import useCurrentProject from '../../../../../hooks/useCurrentProject'
+import FlexContainer from "@ui/FlexContainer"
 
 type Props = Omit<ModalProps, 'children'>
 
@@ -41,15 +42,21 @@ function AddPageModal({showModal, onRequestClose} : Props){
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm()
+    } = useForm({
+        defaultValues: {
+            url: '/home',
+        }
+    })
 
     return (
         <Modal showModal={showModal} onRequestClose={onRequestClose}>
             <div className={styles.addPageModal}>
                 <form onSubmit={handleSubmit(onCreatePageSubmit)}>
-                    <input {...register('url', { required: true })} />
-                    {errors.url && <p>Please enter url before saving.</p>}
-                    <input type="submit" />
+                    <FlexContainer>
+                        <input {...register('url', { required: true })} />
+                        {errors.url && <p>Please enter url before saving.</p>}
+                        <button type="submit" >Submit</button>
+                    </FlexContainer>
                 </form>
             </div>
         </Modal>

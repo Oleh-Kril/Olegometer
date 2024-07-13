@@ -1,4 +1,9 @@
 .imageComparison{
     padding-bottom: 10rem;
-    user-select: none
+    user-select: none;
+
+    .controlsMenu{
+        display: flex;
+        gap: 1rem;
+    }
 }

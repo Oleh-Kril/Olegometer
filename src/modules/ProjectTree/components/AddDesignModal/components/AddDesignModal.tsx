@@ -9,6 +9,7 @@ import Modal, {ModalProps} from '@ui/Modal'
 import useGlobalLoader from '@store/globalLoaderStore'
 import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
+import FlexContainer from "@ui/FlexContainer"
 
 
 type Props = Omit<ModalProps, 'children'> & {
@@ -55,11 +56,13 @@ function AddDesignModal({showModal, onRequestClose, page, pageUrl} : Props){
         <Modal showModal={showModal} onRequestClose={onRequestClose}>
             <div className={styles.addPageModal}>
                 <form onSubmit={handleSubmit(onCreateDesignSubmit)}>
-                    <input {...register('url', { required: true })} />
-                    {errors.url && <p>Please enter url before saving.</p>}
-                    <input {...register('name', { required: true })} />
-                    {errors.name && <p>Please enter name before saving.</p>}
-                    <input type="submit" />
+                    <FlexContainer>
+                        <input {...register('url', { required: true })} />
+                        {errors.url && <p>Please enter url before saving.</p>}
+                        <input {...register('name', { required: true })} />
+                        {errors.name && <p>Please enter name before saving.</p>}
+                        <button type="submit" >Submit</button>
+                    </FlexContainer>
                 </form>
             </div>
         </Modal>

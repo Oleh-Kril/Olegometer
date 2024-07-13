@@ -9,6 +9,7 @@ import Modal, {ModalProps} from '@ui/Modal'
 import useGlobalLoader from '@store/globalLoaderStore'
 import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
+import FlexContainer from "@ui/FlexContainer"
 
 type Props = Omit<ModalProps, 'children'> & {
     design: Design,
@@ -80,7 +81,7 @@ function AddDynamicElementModal({showModal, onRequestClose, design, designName} 
 
     return (
         <Modal showModal={showModal} onRequestClose={onRequestClose}>
-            <div className={styles.addPageModal}>
+            <FlexContainer>
                 <form onSubmit={handleSubmit(onCreateDynamicElementSubmit)}>
                     <input {...register('url', { required: true })} />
                     {errors.url && <p>Please enter url before saving.</p>}
@@ -98,9 +99,9 @@ function AddDynamicElementModal({showModal, onRequestClose, design, designName} 
                     {errors.elementToSnapshotSelector && <p>Please enter selector type for element to snapshot before saving.</p>}
                     <input {...register('elementToSnapshotSelectorValue', { required: true })} />
                     {errors.elementToSnapshotSelectorValue && <p>Please enter selector value for element to snapshot before saving.</p>}
-                    <input type="submit" />
+                    <button type="submit" >Submit</button>
                 </form>
-            </div>
+            </FlexContainer>
         </Modal>
     )
 }

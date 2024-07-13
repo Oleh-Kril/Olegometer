@@ -21,7 +21,7 @@ const Agent = {
             .then(responseBody)
     },
 
-    post: async <T> (url: string, body: object, headers?: object) => {
+    post: async <T> (url: string, body: object = {}, headers?: object) => {
         return axiosInstance.post<T>(url, body, headers)
             .then(responseBody)
     },

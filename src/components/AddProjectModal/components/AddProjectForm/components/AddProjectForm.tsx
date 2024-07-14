@@ -1,30 +1,45 @@
-import styles from '../styles/AddProjectForm.module.scss'
 import {FieldValues, useForm} from 'react-hook-form'
-import React from 'react'
-import Agent from '../../../../../Agent'
-import useProjectsEndpoint from '../../../../../hooks/useProjectsEndpoint'
+import React, {useEffect} from 'react'
 import FlexContainer from "@ui/FlexContainer"
-type Props = {
+import useCreateProject from "@hooks/react-query/projects/useCreateProject"
+import useSnackbar from "@hooks/useSnackbar"
 
+type Props = {
+    onSuccess: () => void
 }
-export default function AddProjectForm({}: Props){
-    const makeRequestAndUpdateState = useProjectsEndpoint()
+
+export default function AddProjectForm({onSuccess}: Props){
+    const { mutateAsync: createProject, error, isSuccess } = useCreateProject()
 
     const onCreateProjectSubmit = async (data: FieldValues) => {
         if((data.url as string).endsWith('/')){
             data.url = (data.url as string).slice(0, -1)
         }
 
-        const project: Omit<Project, 'id'> = {
-            author: '',
+        const newProject: CreateProjectDto = {
             name: data.name,
             domainUrl: data.url,
             figmaToken: data.figmaToken,
-            pages: {}
         }
 
-        await makeRequestAndUpdateState( () => Agent.post<Project>('/api/projects', project), 'POST')
+        await createProject(newProject)
+        onSuccess()
     }
+
+    const snackbar = useSnackbar()
+
+    snackbar([
+        {
+            message: 'Project created successfully',
+            severity: 'success',
+            condition: isSuccess
+        },
+        {
+            message: error?.message ?? 'An error occurred while creating the project',
+            severity: 'error',
+            condition: !!error
+        },
+    ])
 
     const {
         register,

@@ -6,10 +6,14 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
     async (response) => response,
-    ({ message }: AxiosError) => {
-        console.log(message)
+    (error: AxiosError) => {
+        console.log((error as any).response.data.message)
 
-        return Promise.reject(message)
+        const errorMessage = Array.isArray((error as any).response.data.message)
+            ? (error as any).response.data.message[0]
+            : (error as any).response.data.message
+
+        return Promise.reject({message: errorMessage})
     },
 )
 

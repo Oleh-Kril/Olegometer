@@ -11,6 +11,7 @@ import Layout from '../modules/Layout'
 import {Signika_Negative} from 'next/font/google'
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import {Analytics} from '@vercel/analytics/react'
+import Snackbar from "@components/Snackbar"
 
 const signikaFont = Signika_Negative({ subsets: ['latin'] })
 
@@ -29,6 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Loader />
                 <SpeedInsights />
                 <Analytics />
+                <Snackbar />
             </main>
         </QueryClientProvider>
     )

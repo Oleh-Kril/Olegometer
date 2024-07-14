@@ -1,3 +1,4 @@
+@import "src/styles/mixins";
 
 .modalBackground {
     position: fixed;
@@ -10,6 +11,8 @@
     background-color: rgba(0, 0, 0, 0.5);
 
     .modalBody {
+        @include flex-center($flex-direction: column);
+        gap: 1rem;
         background-color: white;
         margin: 10% auto;
         padding: 20px;

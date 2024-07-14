@@ -7,10 +7,12 @@ type Props = {
 }
 
 export default function AddProjectModal({showModal, setShowModal}: Props) {
+    const closeModal = () => setShowModal(false)
+
     return (
         <Modal showModal={showModal}
-            onRequestClose={() => setShowModal(false)}>
-            <AddProjectForm />
+            onRequestClose={closeModal}>
+            <AddProjectForm onSuccess={closeModal}/>
         </Modal>
     )
 }

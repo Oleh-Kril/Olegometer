@@ -1,7 +1,7 @@
 'use client'
 
-import Modal from '../../../ui/Modal'
-import useConfirmationModal from '../../../store/confirmationModalStore'
+import Modal from '@ui/Modal'
+import useConfirmationModal from '@store/confirmationModalStore'
 import {RESET} from 'jotai/utils'
 import {createPortal} from 'react-dom'
 import {useEffect, useState} from 'react'
@@ -22,8 +22,8 @@ export default function ConfirmationModal({}: Props){
 
     return mounted ? createPortal(
         <Modal showModal={confirmationModal.showModal} onRequestClose={onModalResetHandler}>
-            <button onClick={confirmationModal.onConfirm}>OK</button>
             <p>{confirmationModal.modalTitle}</p>
+            <button onClick={confirmationModal.onConfirm}>OK</button>
         </Modal>,
         document.getElementById('modal-root') || document.body
     ) : null

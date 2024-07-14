@@ -10,7 +10,7 @@ export default function ProjectsList(props: any){
 
     return (
         <div className={styles.projectsList} {...props}>
-            {projects.map((project) => <ProjectCard key={project.id} {...project}/>)}
+            {projects?.map((project) => <ProjectCard key={project.id} {...project}/>)}
         </div>
     )
 }

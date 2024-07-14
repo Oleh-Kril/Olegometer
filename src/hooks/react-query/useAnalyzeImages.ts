@@ -15,7 +15,7 @@ function useAnalyzeImages() {
     const mutation = useMutation({
         mutationFn: compareScreenshots,
         onSuccess: () => {
-            queryClient.invalidateQueries()
+            queryClient.invalidateQueries({ queryKey: ['projects']})
         },
     })
 

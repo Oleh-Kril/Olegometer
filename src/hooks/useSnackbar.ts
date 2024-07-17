@@ -9,7 +9,15 @@ const useSnackbar = () => {
         setSnackbars(validMessages)
     }
 
-    return showSnackbar
+    const showError = (message: string) => {
+        setSnackbars((prev) => ([...prev, { message, severity: 'error', condition: true }]))
+
+        setTimeout(() => {
+            setSnackbars((prev) => (prev.filter((msg) => msg.message !== message)))
+        }, 3500)
+    }
+
+    return {snackbar: showSnackbar, showError}
 }
 
 export default useSnackbar

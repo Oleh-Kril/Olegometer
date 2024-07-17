@@ -26,7 +26,7 @@ export default function AddProjectForm({onSuccess}: Props){
         onSuccess()
     }
 
-    const snackbar = useSnackbar()
+    const { snackbar }= useSnackbar()
 
     snackbar([
         {
@@ -48,9 +48,9 @@ export default function AddProjectForm({onSuccess}: Props){
     } = useForm(
         {
             defaultValues: {
-                name: 'Google project',
+                name: 'Google project' + Math.random(),
                 url: 'https://google.com',
-                figmaToken: 'secretFirmaToken'
+                figmaToken: 'figd_uyjcLfydp8l7paMM_MXQNi7IqG4Th4eTLGV7O-4v'
             }
         }
     )

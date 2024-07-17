@@ -10,6 +10,10 @@ import useGlobalLoader from '@store/globalLoaderStore'
 import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
 import FlexContainer from "@ui/FlexContainer"
+import useCreateProject from "@hooks/react-query/projects/useCreateProject"
+import useAddPage from "@hooks/react-query/projects/useAddPage"
+import useSnackbar from "@hooks/useSnackbar"
+import useAddDesign from "@hooks/react-query/projects/useAddDesign"
 
 
 type Props = Omit<ModalProps, 'children'> & {
@@ -18,23 +22,44 @@ type Props = Omit<ModalProps, 'children'> & {
 }
 
 function AddDesignModal({showModal, onRequestClose, page, pageUrl} : Props){
-    const { user, error, isLoading } = useUser()
+    const { user} = useUser()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
-    const makeRequestAndUpdateState = useProjectsEndpoint()
     const {project} = useCurrentProject()
+
+    const { mutateAsync: addDesign, error: errorAddDesign, isSuccess: addDesignIsSuccess } = useAddDesign()
+
+    const { snackbar, showError } = useSnackbar()
+
+    snackbar([
+        {
+            message: 'Design added successfully',
+            severity: 'success',
+            condition: addDesignIsSuccess
+        },
+        {
+            message: errorAddDesign?.message ?? 'An error occurred while adding the design',
+            severity: 'error',
+            condition: !!errorAddDesign
+        },
+    ])
+
 
     const onCreateDesignSubmit = async (data: FieldValues) => {
         if(page?.designs[data.name]){
-            window.alert('Design with this name already exists.')
+            showError('Design with this name already exists.')
             return
         }
 
         setGlobalLoader({showLoader: true, text: 'Exporting frame from figma to create design...'})
 
         try {
-            await makeRequestAndUpdateState(() => addDesign(project, pageUrl, data.url, data.name, user?.email ?? undefined))
+            if(project){
+                await addDesign({projectName: project.name, pageUrl: pageUrl, designDto: {name: data.name, designUrl: data.url}})
+            }else{
+                showError('Project not found. Please try again or reload current page.')
+            }
         }catch (e){
-            window.alert(`Design isn't added. Please try again. ${e}`)
+            showError(`Design isn't added. Please try again. ${e}`)
         }
 
         setGlobalLoader(RESET)

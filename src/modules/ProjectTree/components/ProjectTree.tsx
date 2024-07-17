@@ -19,7 +19,7 @@ export default function ProjectTree({pages} : Props){
     const [showAddDesignModal, setShowAddDesignModal] = useState(false)
 
     const currentPage: Page | null = pages[activePageUrl ?? '']
-    const currentDesign: Design | null = currentPage && currentPage.designs[activeDesignName ?? '']
+    // const currentDesign: Design | null = currentPage && currentPage.designs[activeDesignName ?? '']
 
     const router = useRouter()
     useEffect(() => {

@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import useProjects from '../store/projectsStore'
 import { useRouter } from 'next/router'
 
-const useCurrentProject = (getPage?: boolean, getDesign?: boolean) => {
+const useCurrentProject = (getPage?: boolean, getDesign?: boolean, pageName?: string, designName?: string) => {
     const { projects, error, isLoading } = useProjects()
     const router = useRouter()
 
@@ -21,6 +21,18 @@ const useCurrentProject = (getPage?: boolean, getDesign?: boolean) => {
             }
 
             return { project, page, pageUrl }
+        }
+
+        if (pageName) {
+            const page = project?.pages[pageName] as Page
+
+            if (designName) {
+                const design = page?.designs[designName] as Design
+
+                return { project, page, pageUrl: pageName, design, designName }
+            }
+
+            return { project, page, pageUrl: pageName }
         }
 
         return { project }

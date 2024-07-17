@@ -12,7 +12,6 @@ import useSnackbar from "@hooks/useSnackbar"
 
 export default function ProjectCard({name, domainUrl, id}: Project){
     const router = useRouter()
-    const callApiAndUpdateState = useProjectsEndpoint()
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
     const { projects } = useProjects()
     const project = projects.find(project => project.id === id) as Project
@@ -23,9 +22,6 @@ export default function ProjectCard({name, domainUrl, id}: Project){
         router?.push('/projects/' + id)
     }
 
-    useEffect(() => {
-        console.log(isSuccess, error)
-    }, [isSuccess, error])
     async function handleProjectDelete(){
         if(Object.entries(project.pages).length === 0){
             await deleteProject(project.name)
@@ -36,7 +32,7 @@ export default function ProjectCard({name, domainUrl, id}: Project){
         setConfirmationModal(RESET)
     }
 
-    const snackbar = useSnackbar()
+    const { snackbar } = useSnackbar()
 
     snackbar([
         {

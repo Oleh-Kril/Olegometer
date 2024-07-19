@@ -15,7 +15,6 @@ type Props = Omit<TreeNodeProps, 'chilren'> & {
 }
 
 export default function TreeNodeWithActions(props: Props){
-    const router = useRouter()
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
     const { project } = useCurrentProject()

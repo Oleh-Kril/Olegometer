@@ -22,7 +22,6 @@ type Props = Omit<ModalProps, 'children'> & {
 }
 
 function AddDesignModal({showModal, onRequestClose, page, pageUrl} : Props){
-    const { user} = useUser()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
     const {project} = useCurrentProject()
 

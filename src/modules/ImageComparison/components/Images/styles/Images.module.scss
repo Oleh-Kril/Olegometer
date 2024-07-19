@@ -1,31 +1,24 @@
 @import "src/styles/mixins";
 
-.overlayMode{
-  cursor: pointer;
+.container{
   display: flex;
   gap: 2rem;
-  background: rgba(chocolate, 0.5);
-  position: relative;
   width: calc(100vw - 20px);
+  justify-content: space-evenly;
+  position: relative;
 
   h3{
     top: 0;
     position: sticky;
     background: white;
   }
+
   img {
     border: 1px solid black;
     padding: 1rem;
     max-width: 100%;
     align-self: start;
     object-fit: contain;
-  }
-
-  & > *{
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
   }
 
   .active{
@@ -35,6 +28,18 @@
   .hidden{
     opacity: 0;
     pointer-events: none;
+  }
+
+  .sideBySideMode{
+
+  }
+
+  .overlayMode{
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 

@@ -1,16 +1,12 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useMemo, useState} from 'react'
 import styles from '../styles/ImageComparison.module.scss'
-import OverlayMode from '@modules/ImageComparison/components/OverlayMode'
-import dynamic from "next/dynamic"
-const SideBySideMode = dynamic(() => import("@modules/ImageComparison/components/SideBySideMode"), {
-    ssr: false,
-})
 import ModeProps from '../types/modeProps.type'
 import useCurrentProject from '@hooks/useCurrentProject'
 import useGetFile from "@hooks/react-query/useGetFile"
 import useAnalyzeImages from "@hooks/react-query/useAnalyzeImages"
+import Images from "@modules/ImageComparison/components/Images"
 
-type ComparisonMode = 'side-by-side' | 'overlay'
+export type ComparisonMode = 'side-by-side' | 'overlay'
 
 type Props = {
     pageUrl: string;
@@ -33,7 +29,8 @@ export default function ImageComparison({pageUrl, designName, projectId}: Props)
         image2LastUpdated: design?.websiteSnapshotLastUpdated,
         showComparisonResult: showAnalysis,
         comparisonResult: design?.comparisonResult,
-    }), [designSnapshot, websiteSnapshot, design?.designSnapshotLastUpdated, design?.websiteSnapshotLastUpdated, showAnalysis, design?.comparisonResult])
+        comparisonMode,
+    }), [designSnapshot, websiteSnapshot, design?.designSnapshotLastUpdated, design?.websiteSnapshotLastUpdated, showAnalysis, design?.comparisonResult, comparisonMode])
 
     const { mutate, data, error, isSuccess } = useAnalyzeImages()
 
@@ -67,11 +64,7 @@ export default function ImageComparison({pageUrl, designName, projectId}: Props)
                 }
             </div>
 
-
-            {comparisonMode === 'side-by-side'
-                ? <SideBySideMode {...modeProps}/>
-                : <OverlayMode {...modeProps}/>
-            }
+            <Images {...modeProps}/>
         </div>
     )
 }

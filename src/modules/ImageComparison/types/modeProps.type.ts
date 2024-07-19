@@ -1,3 +1,5 @@
+import {ComparisonMode} from "@modules/ImageComparison/components/ImageComparison"
+
 type ModeProps ={
     image1?: string;
     image2?: string;
@@ -5,6 +7,7 @@ type ModeProps ={
     image2LastUpdated?: string;
     comparisonResult?: ComparisonResult;
     showComparisonResult?: boolean;
+    comparisonMode: ComparisonMode;
 }
 
 export default ModeProps

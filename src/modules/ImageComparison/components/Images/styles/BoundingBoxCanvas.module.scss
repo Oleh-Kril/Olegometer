@@ -1,0 +1,18 @@
+@import "src/styles/mixins";
+
+.container{
+  overflow: scroll;
+  position: relative;
+
+  canvas{
+    border: 1px solid black !important;
+  }
+
+  .message{
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 1rem;
+    border: 1px solid black;
+  }
+}
+

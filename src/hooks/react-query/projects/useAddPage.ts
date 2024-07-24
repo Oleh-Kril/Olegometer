@@ -1,10 +1,10 @@
 import Agent from "@/Agent"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-const addPage = async ({ projectName, pageUrl }: { projectName: string, pageUrl: string }) => {
+const addPage = async ({ projectName, ...payload }: { projectName: string, pageUrl: string, avoidAuth?: boolean, authPage?: boolean }) => {
     const encodedProjectName = encodeURIComponent(projectName)
 
-    return await Agent.post(`/projects/${encodedProjectName}`, { pageUrl })
+    return await Agent.post(`/projects/${encodedProjectName}`, payload)
 }
 
 function useAddPage() {

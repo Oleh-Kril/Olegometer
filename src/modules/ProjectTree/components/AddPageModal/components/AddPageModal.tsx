@@ -48,7 +48,7 @@ function AddPageModal({showModal, onRequestClose} : Props){
                 url = url.replace(project.domainUrl, '')
             }
 
-            addPage({projectName: project.name, pageUrl: url})
+            addPage({projectName: project.name, pageUrl: url, avoidAuth: data.avoidAuth, authPage: data.authPage})
         }
     }
 
@@ -59,6 +59,8 @@ function AddPageModal({showModal, onRequestClose} : Props){
     } = useForm({
         defaultValues: {
             url: '/home',
+            avoidAuth: false,
+            authPage: false,
         }
     })
 
@@ -69,6 +71,14 @@ function AddPageModal({showModal, onRequestClose} : Props){
                     <FlexContainer>
                         <input {...register('url', { required: true })} />
                         {errors.url && <p>Please enter url before saving.</p>}
+                        <label>
+                            <input {...register('avoidAuth', { required: false })} type={"checkbox"} style={{marginRight: 5}}/>
+                            <span>Anonymous page</span>
+                        </label>
+                        <label>
+                            <input {...register('authPage', { required: false })} type={"checkbox"} style={{marginRight: 5}}/>
+                            <span>Page that should be used for auth</span>
+                        </label>
                         <button type="submit" >Submit</button>
                     </FlexContainer>
                 </form>

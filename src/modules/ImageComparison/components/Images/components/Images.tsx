@@ -37,6 +37,9 @@ export default function Images({
             const bbox = parseBoundingBox(key)
             if (!bbox) continue
             values.forEach((value: any) => {
+                if(value.type === 'size'){
+                    value.message = `This element ${value.diffWidthInPercents}% ${value.width_diff_sign === "+" ? "wider" : "shorter"} and ${value.diffHeightInPercents}% ${value.height_diff_sign === "+" ? "higher" : "lower"}`
+                }
                 const boundingBox = {
                     ...bbox,
                     type: value.type,
@@ -58,7 +61,7 @@ export default function Images({
     return (
         <div className={styles.container}>
             <div className={`${comparisonMode === "overlay" ? styles.overlayMode : styles.sideBySideMode} 
-                             ${isFirstVisible ? styles.active : styles.hidden}`}
+                             ${!isFirstVisible && comparisonMode === "overlay" ? styles.hidden : styles.active}`}
                  onClick={comparisonMode === "overlay" ? toggleIsFirstVisible : undefined}>
                 <h3>Design snapshot</h3>
                 {image1LastUpdated ? <p>Last updated: {image1LastUpdated}</p> : null}
@@ -66,12 +69,13 @@ export default function Images({
                     image1 ? (
                         <BoundingBoxCanvas
                             imageUrl={image1}
+                            comparisonMode={comparisonMode}
                             boundingBoxes={designBoundingBoxes}/>
                     ) : (
                         <p>Loading...</p>
                     )
                 ) : (
-                    <p>No website snapshot</p>
+                    <p>No design snapshot</p>
                 )}
             </div>
             <div className={`${comparisonMode === "overlay" ? styles.overlayMode : styles.sideBySideMode} 
@@ -83,6 +87,7 @@ export default function Images({
                     image2 ? (
                         <BoundingBoxCanvas
                             imageUrl={image2}
+                            comparisonMode={comparisonMode}
                             boundingBoxes={websiteBoundingBoxes} />
                     ) : (
                         <p>Loading...</p>

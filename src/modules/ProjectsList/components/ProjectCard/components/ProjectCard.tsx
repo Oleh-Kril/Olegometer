@@ -3,10 +3,7 @@ import {useRouter} from 'next/router'
 import React, {useEffect} from 'react'
 import {RESET} from 'jotai/utils'
 import useProjects from '@store/projectsStore'
-import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useConfirmationModal from '@store/confirmationModalStore'
-import Agent from '@/Agent'
-import useCreateProject from "@hooks/react-query/projects/useCreateProject"
 import useDeleteProject from "@hooks/react-query/projects/useDeleteProject"
 import useSnackbar from "@hooks/useSnackbar"
 

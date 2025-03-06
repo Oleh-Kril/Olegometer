@@ -1,13 +1,10 @@
 import React from 'react'
 import {FieldValues, useForm} from 'react-hook-form'
-import styles from '../styles/AddDynamicElementModal.module.scss'
-import addDynamicElement from '../requests/addDynamicElement'
 import {useUser} from '@hooks/useUser'
 
 import {RESET} from 'jotai/utils'
 import Modal, {ModalProps} from '@ui/Modal'
 import useGlobalLoader from '@store/globalLoaderStore'
-import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
 import FlexContainer from "@ui/FlexContainer"
 
@@ -19,7 +16,6 @@ type Props = Omit<ModalProps, 'children'> & {
 function AddDynamicElementModal({showModal, onRequestClose, design, designName} : Props){
     const { user, error, isLoading } = useUser()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
-    const makeRequestAndUpdateState = useProjectsEndpoint()
     const {project, pageUrl} = useCurrentProject(true)
 
     const onCreateDynamicElementSubmit = async (data: FieldValues) => {
@@ -47,17 +43,17 @@ function AddDynamicElementModal({showModal, onRequestClose, design, designName} 
             ]
         }
 
-        try {
-            await makeRequestAndUpdateState(() => addDynamicElement(
-                project,
-                pageUrl as string,
-                designName,
-                data.name,
-                dynamicElement,
-                user?.email ?? undefined))
-        }catch (e){
-            window.alert(`Design isn't added. Please try again. ${e}`)
-        }
+        // try {
+        //     await makeRequestAndUpdateState(() => addDynamicElement(
+        //         project,
+        //         pageUrl as string,
+        //         designName,
+        //         data.name,
+        //         dynamicElement,
+        //         user?.email ?? undefined))
+        // }catch (e){
+        //     window.alert(`Design isn't added. Please try again. ${e}`)
+        // }
 
         setGlobalLoader(RESET)
         onRequestClose()

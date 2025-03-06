@@ -3,7 +3,6 @@ import Modal from '@ui/Modal'
 import {ModalProps} from '@ui/Modal'
 import {FieldValues, useForm} from 'react-hook-form'
 import styles from '../styles/AddPageModal.module.scss'
-import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
 import FlexContainer from "@ui/FlexContainer"
 import useSnackbar from "@hooks/useSnackbar"
@@ -12,7 +11,6 @@ import useAddPage from "@hooks/react-query/projects/useAddPage"
 type Props = Omit<ModalProps, 'children'>
 
 function AddPageModal({showModal, onRequestClose} : Props){
-    const makeRequestAndUpdateState = useProjectsEndpoint()
     const { project } = useCurrentProject()
     const { snackbar, showError } = useSnackbar()
     const { mutateAsync: addPageAsync, error, isSuccess } = useAddPage()

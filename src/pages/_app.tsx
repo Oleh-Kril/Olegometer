@@ -1,8 +1,7 @@
 import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import {useState} from "react"
-
+import { useState } from "react"
 import Header from '../modules/Header'
 import Footer from '../modules/Footer'
 import ConfirmationModal from '../components/ConfirmationModal'

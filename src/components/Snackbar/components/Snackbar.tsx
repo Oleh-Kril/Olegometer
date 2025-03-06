@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
-import { useAtom } from 'jotai'
-import { snackbarsAtom } from '@/store/snackbarStore'
-import styles from '../styles/Snackbar.module.scss'
+import React, { useEffect } from "react"
+import { useAtom } from "jotai"
+import { snackbarsAtom } from "@/store/snackbarStore"
+import styles from "../styles/Snackbar.module.scss"
 
 const Snackbar = () => {
     const [snackbars, setSnackbars] = useAtom(snackbarsAtom)
+    useEffect(() => {
+        console.log("snackbars", snackbars)
+    }, [snackbars])
 
     useEffect(() => {
         if (snackbars.length) {
@@ -14,7 +17,7 @@ const Snackbar = () => {
 
             return () => clearTimeout(timer)
         }
-    }, [snackbars, setSnackbars])
+    }, [snackbars])
 
     return (
         <div className={styles.snackbarContainer}>

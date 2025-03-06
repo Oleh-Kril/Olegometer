@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {FieldValues, useForm} from 'react-hook-form'
 import styles from '../styles/AddDesignModal.module.scss'
 import addDesign from '../requests/addDesign'
@@ -29,18 +29,20 @@ function AddDesignModal({showModal, onRequestClose, page, pageUrl} : Props){
 
     const { snackbar, showError } = useSnackbar()
 
-    snackbar([
-        {
-            message: 'Design added successfully',
-            severity: 'success',
-            condition: addDesignIsSuccess
-        },
-        {
-            message: errorAddDesign?.message ?? 'An error occurred while adding the design',
-            severity: 'error',
-            condition: !!errorAddDesign
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Design added successfully',
+                severity: 'success',
+                condition: addDesignIsSuccess
+            },
+            {
+                message: errorAddDesign?.message ?? 'An error occurred while adding the design',
+                severity: 'error',
+                condition: !!errorAddDesign
+            },
+        ])
+    }, [ addDesignIsSuccess, errorAddDesign])
 
 
     const onCreateDesignSubmit = async (data: FieldValues) => {

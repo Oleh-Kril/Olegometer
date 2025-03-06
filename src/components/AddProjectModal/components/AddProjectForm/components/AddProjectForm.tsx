@@ -28,18 +28,21 @@ export default function AddProjectForm({onSuccess}: Props){
 
     const { snackbar }= useSnackbar()
 
-    snackbar([
-        {
-            message: 'Project created successfully',
-            severity: 'success',
-            condition: isSuccess
-        },
-        {
-            message: error?.message ?? 'An error occurred while creating the project',
-            severity: 'error',
-            condition: !!error
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Project created successfully',
+                severity: 'success',
+                condition: isSuccess
+            },
+            {
+                message: error?.message ?? 'An error occurred while creating the project',
+                severity: 'error',
+                condition: !!error
+            },
+        ])
+    }, [ isSuccess, error])
+
 
     const {
         register,

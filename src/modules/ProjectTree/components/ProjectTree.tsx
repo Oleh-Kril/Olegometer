@@ -83,9 +83,9 @@ export default function ProjectTree({pages} : Props){
                         name={url}
                         onClick={onPageNodeClick}/>
                 )}
-                <TreeNode isOutlined key={-1} name={'Add page'} onClick={()=>setShowAddPageModal(true)}/>
+                <TreeNode isOutlined key={-1} name={'Add page'} onClick={() => setShowAddPageModal(true)}/>
                 <AddPageModal showModal={showAddPageModal}
-                    onRequestClose={()=>setShowAddPageModal(false)}
+                    onRequestClose={() => setShowAddPageModal(false)}
                     key={-2}/>
             </div>
             {activePageUrl && currentPage
@@ -98,8 +98,11 @@ export default function ProjectTree({pages} : Props){
                                 pageUrl={activePageUrl}
                                 onClick={onDesignNodeClick}/>
 
-                            <TreeNodeArrow start={activePageUrl}
-                                end = {`${activePageUrl}:${designName}`}/>
+                            <TreeNodeArrow
+                                start={activePageUrl}
+                                end={`${activePageUrl}:${designName}`}
+                                key={Math.random() * 1_000_000}
+                            />
                         </>
                     )}
                     <TreeNode isOutlined key={-1} name={'Add design'} onClick={()=>setShowAddDesignModal(true)}/>

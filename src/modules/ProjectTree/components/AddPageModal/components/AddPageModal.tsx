@@ -15,20 +15,23 @@ function AddPageModal({showModal, onRequestClose} : Props){
     const makeRequestAndUpdateState = useProjectsEndpoint()
     const { project } = useCurrentProject()
     const { snackbar, showError } = useSnackbar()
-    const { mutate: addPage, error, isSuccess } = useAddPage()
+    const { mutateAsync: addPageAsync, error, isSuccess } = useAddPage()
 
-    snackbar([
-        {
-            message: 'Page added successfully',
-            severity: 'success',
-            condition: isSuccess
-        },
-        {
-            message: error?.message ?? 'An error occurred while adding the page',
-            severity: 'error',
-            condition: !!error
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Page added successfully',
+                severity: 'success',
+                condition: isSuccess
+            },
+            {
+                message: error?.message ?? 'An error occurred while adding the page',
+                severity: 'error',
+                condition: !!error
+            },
+        ])
+    }, [ isSuccess, error])
+
 
     const onCreatePageSubmit = async (data: FieldValues) => {
         if(project){
@@ -48,7 +51,9 @@ function AddPageModal({showModal, onRequestClose} : Props){
                 url = url.replace(project.domainUrl, '')
             }
 
-            addPage({projectName: project.name, pageUrl: url})
+            await addPageAsync({projectName: project.name, pageUrl: url})
+
+            onRequestClose()
         }
     }
 

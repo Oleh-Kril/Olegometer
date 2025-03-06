@@ -9,6 +9,7 @@ import {Tooltip} from 'react-tooltip'
 import useDeleteDesign from "@hooks/react-query/projects/useDeleteDesign"
 import useSnackbar from "@hooks/useSnackbar"
 import useUpdateAllScreenshots from "@hooks/react-query/projects/useUpdateAllScreenshots"
+import {useEffect} from "react"
 
 type Props = {
     updateDesigns?: boolean,
@@ -24,18 +25,21 @@ export default function RunUpdateAllButton({updateDesigns = false}: Props){
 
     const { snackbar, showError } = useSnackbar()
 
-    snackbar([
-        {
-            message: 'All screenshots updated successfully',
-            severity: 'success',
-            condition: updateAllScreenshotsIsSucess
-        },
-        {
-            message: errorUpdateAllScreenshots?.message ?? 'An error occurred while updating screenshots',
-            severity: 'error',
-            condition: !!errorUpdateAllScreenshots
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'All screenshots updated successfully',
+                severity: 'success',
+                condition: updateAllScreenshotsIsSucess
+            },
+            {
+                message: errorUpdateAllScreenshots?.message ?? 'An error occurred while updating screenshots',
+                severity: 'error',
+                condition: !!errorUpdateAllScreenshots
+            },
+        ])
+    }, [ updateAllScreenshotsIsSucess, errorUpdateAllScreenshots])
+
 
     async function runScreenshotUpdate(){
         if(project){

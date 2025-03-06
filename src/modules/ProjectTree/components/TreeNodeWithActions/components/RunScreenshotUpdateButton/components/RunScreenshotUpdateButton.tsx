@@ -25,28 +25,30 @@ export default function RunScreenshotUpdateButton({pageOnly = false, designName}
 
     const { snackbar, showError } = useSnackbar()
 
-    snackbar([
-        {
-            message: 'Snapshot of website updated successfully',
-            severity: 'success',
-            condition: makePageScreenshotIsSuccess
-        },
-        {
-            message: errorMakePageScreenshot?.message ?? 'An error occurred while updating snapshot of website',
-            severity: 'error',
-            condition: !!errorMakePageScreenshot
-        },
-        {
-            message: 'Snapshot of design updated successfully',
-            severity: 'success',
-            condition: exportDesignIsSuccess
-        },
-        {
-            message: errorExportDesign?.message ?? 'An error occurred while updating snapshot of design',
-            severity: 'error',
-            condition: !!errorExportDesign
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Snapshot of website updated successfully',
+                severity: 'success',
+                condition: makePageScreenshotIsSuccess
+            },
+            {
+                message: errorMakePageScreenshot?.message ?? 'An error occurred while updating snapshot of website',
+                severity: 'error',
+                condition: !!errorMakePageScreenshot
+            },
+            {
+                message: 'Snapshot of design updated successfully',
+                severity: 'success',
+                condition: exportDesignIsSuccess
+            },
+            {
+                message: errorExportDesign?.message ?? 'An error occurred while updating snapshot of design',
+                severity: 'error',
+                condition: !!errorExportDesign
+            },
+        ])
+    }, [ makePageScreenshotIsSuccess, errorMakePageScreenshot, exportDesignIsSuccess, errorExportDesign])
 
     async function runScreenshotUpdate(){
         if(page && pageUrl && project){

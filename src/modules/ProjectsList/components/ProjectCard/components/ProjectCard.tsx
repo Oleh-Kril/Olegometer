@@ -34,18 +34,20 @@ export default function ProjectCard({name, domainUrl, id}: Project){
 
     const { snackbar } = useSnackbar()
 
-    snackbar([
-        {
-            message: 'Project deleted successfully',
-            severity: 'success',
-            condition: isSuccess
-        },
-        {
-            message: error?.message ?? 'An error occurred while deleting the project',
-            severity: 'error',
-            condition: !!error
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Project deleted successfully',
+                severity: 'success',
+                condition: isSuccess
+            },
+            {
+                message: error?.message ?? 'An error occurred while deleting the project',
+                severity: 'error',
+                condition: !!error
+            },
+        ])
+    }, [isSuccess, error])
 
     function onDeleteRequest(e: React.MouseEvent<HTMLButtonElement>){
         e.stopPropagation()

@@ -12,23 +12,15 @@ const useCurrentProject = (getPage?: boolean, getDesign?: boolean, pageName?: st
         const project = projects.find(project => project.id === router.query.id) as Project
 
         if (getPage) {
-            const pageUrl = router.query.pageUrl as string
-            const page = project?.pages[pageUrl] as Page
-
-            if (getDesign) {
-                const designName = router.query.designName as string
-                const design = page?.designs[designName] as Design
-
-                return { project, page, pageUrl, design, designName, isLoading, error }
+            if (!pageName){
+                pageName = router.query.pageUrl as string
             }
-
-            return { project, page, pageUrl, isLoading, error }
-        }
-
-        if (pageName) {
             const page = project?.pages[pageName] as Page
 
-            if (designName) {
+            if (getDesign) {
+                if (!designName){
+                    designName = router.query.designName as string
+                }
                 const design = page?.designs[designName] as Design
 
                 return { project, page, pageUrl: pageName, design, designName, isLoading, error }

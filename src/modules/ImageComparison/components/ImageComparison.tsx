@@ -1,10 +1,11 @@
-import React, {useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import styles from '../styles/ImageComparison.module.scss'
 import ModeProps from '../types/modeProps.type'
 import useCurrentProject from '@hooks/useCurrentProject'
 import useGetFile from "@hooks/react-query/useGetFile"
 import useAnalyzeImages from "@hooks/react-query/useAnalyzeImages"
 import Images from "@modules/ImageComparison/components/Images"
+import useSnackbar from "@hooks/useSnackbar"
 
 export type ComparisonMode = 'side-by-side' | 'overlay'
 
@@ -37,6 +38,23 @@ export default function ImageComparison({pageUrl, designName, projectId}: Props)
     const analyzeImages = () => {
         mutate({ projectName: project?.name ?? '', pageUrl, designName })
     }
+
+    const { snackbar, showError } = useSnackbar()
+
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Images analyzed successfully',
+                severity: 'success',
+                condition: isSuccess
+            },
+            {
+                message: error?.message ?? 'An error occurred while analyzing the images',
+                severity: 'error',
+                condition: !!error
+            },
+        ])
+    }, [isSuccess, error])
 
     return (
         <div className={styles.imageComparison}>

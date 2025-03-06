@@ -58,7 +58,7 @@ export default function Images({
     return (
         <div className={styles.container}>
             <div className={`${comparisonMode === "overlay" ? styles.overlayMode : styles.sideBySideMode} 
-                             ${isFirstVisible ? styles.active : styles.hidden}`}
+                             ${!isFirstVisible && comparisonMode === "overlay" ? styles.hidden : styles.active}`}
                  onClick={comparisonMode === "overlay" ? toggleIsFirstVisible : undefined}>
                 <h3>Design snapshot</h3>
                 {image1LastUpdated ? <p>Last updated: {image1LastUpdated}</p> : null}

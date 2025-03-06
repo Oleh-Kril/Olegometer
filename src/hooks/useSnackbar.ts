@@ -6,6 +6,7 @@ const useSnackbar = () => {
 
     const showSnackbar = (messages: SnackbarItem[]) => {
         const validMessages = messages.filter((msg) => msg.condition)
+        if(validMessages.length === 0) return
         setSnackbars(validMessages)
     }
 

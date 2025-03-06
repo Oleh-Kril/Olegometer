@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5050',
+    baseURL: process.env.NEXT_PUBLIC_BE_URL,
 })
 
 axiosInstance.interceptors.response.use(

@@ -1,17 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {FieldValues, useForm} from 'react-hook-form'
 import styles from '../styles/AddDesignModal.module.scss'
-import addDesign from '../requests/addDesign'
-import {useUser} from '@hooks/useUser'
-
 import {RESET} from 'jotai/utils'
 import Modal, {ModalProps} from '@ui/Modal'
 import useGlobalLoader from '@store/globalLoaderStore'
-import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
 import FlexContainer from "@ui/FlexContainer"
-import useCreateProject from "@hooks/react-query/projects/useCreateProject"
-import useAddPage from "@hooks/react-query/projects/useAddPage"
 import useSnackbar from "@hooks/useSnackbar"
 import useAddDesign from "@hooks/react-query/projects/useAddDesign"
 
@@ -29,18 +23,20 @@ function AddDesignModal({showModal, onRequestClose, page, pageUrl} : Props){
 
     const { snackbar, showError } = useSnackbar()
 
-    snackbar([
-        {
-            message: 'Design added successfully',
-            severity: 'success',
-            condition: addDesignIsSuccess
-        },
-        {
-            message: errorAddDesign?.message ?? 'An error occurred while adding the design',
-            severity: 'error',
-            condition: !!errorAddDesign
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Design added successfully',
+                severity: 'success',
+                condition: addDesignIsSuccess
+            },
+            {
+                message: errorAddDesign?.message ?? 'An error occurred while adding the design',
+                severity: 'error',
+                condition: !!errorAddDesign
+            },
+        ])
+    }, [ addDesignIsSuccess, errorAddDesign])
 
 
     const onCreateDesignSubmit = async (data: FieldValues) => {

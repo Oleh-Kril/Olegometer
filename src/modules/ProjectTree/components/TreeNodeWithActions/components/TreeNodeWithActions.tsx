@@ -9,6 +9,7 @@ import styles from '../styles/TreeNodeWithActions.module.scss'
 import useSnackbar from "@hooks/useSnackbar"
 import useCurrentProject from "@hooks/useCurrentProject"
 import useDeleteDesign from "@hooks/react-query/projects/useDeleteDesign"
+import {useEffect} from "react"
 
 type Props = Omit<TreeNodeProps, 'chilren'> & {
     pageUrl: string,
@@ -23,18 +24,20 @@ export default function TreeNodeWithActions(props: Props){
 
     const { snackbar, showError } = useSnackbar()
 
-    snackbar([
-        {
-            message: 'Page deleted successfully',
-            severity: 'success',
-            condition: isSuccess
-        },
-        {
-            message: error?.message ?? 'An error occurred while deleting the page',
-            severity: 'error',
-            condition: !!error
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Design deleted successfully',
+                severity: 'success',
+                condition: isSuccess
+            },
+            {
+                message: error?.message ?? 'An error occurred while deleting the design',
+                severity: 'error',
+                condition: !!error
+            },
+        ])
+    }, [isSuccess, error])
 
     async function handleDeleteDesign(){
         if(!project){

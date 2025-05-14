@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5050',
+    // baseURL: process.env.NEXT_PUBLIC_BE_URL,
+    baseURL: 'https://olegometerapi-production.up.railway.app',
 })
 
 axiosInstance.interceptors.response.use(

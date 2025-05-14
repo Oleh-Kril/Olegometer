@@ -3,8 +3,6 @@ import {TreeNodeProps} from '@modules/ProjectTree/components/TreeNode/components
 import useConfirmationModal from '@store/confirmationModalStore'
 import {useRouter} from 'next/router'
 import useGlobalLoader from '@store/globalLoaderStore'
-import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
-import Agent from '@/Agent'
 import {RESET} from 'jotai/utils'
 import styles from '../styles/TreeNodeDynamicElement.module.scss'
 import RunScreenshotUpdateButton from './RunScreenshotUpdateButton'
@@ -20,16 +18,15 @@ export default function TreeNodeWithActions(props: Props){
     const router = useRouter()
     const [confirmationModal, setConfirmationModal] = useConfirmationModal()
     const [globalLoader, setGlobalLoader] = useGlobalLoader()
-    const makeRequestAndUpdateState = useProjectsEndpoint()
 
     async function deleteDynamicElement(){
         const projectId = router.query.id
         const dynamicElementName = router.query.dynamicElementName
         setGlobalLoader({showLoader: true, text: 'Deleting dynamic element...'})
 
-        await makeRequestAndUpdateState(() => Agent.delete(
-            `/api/projects/${projectId}/pages/delete-dynamic-element?url=${props.pageUrl}&designName=${props.name}&dynamicElementName=${dynamicElementName}`)
-        )
+        // await makeRequestAndUpdateState(() => Agent.delete(
+        //     `/api/projects/${projectId}/pages/delete-dynamic-element?url=${props.pageUrl}&designName=${props.name}&dynamicElementName=${dynamicElementName}`)
+        // )
 
         setGlobalLoader(RESET)
     }

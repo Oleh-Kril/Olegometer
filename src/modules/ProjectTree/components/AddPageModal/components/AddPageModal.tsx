@@ -3,7 +3,6 @@ import Modal from '@ui/Modal'
 import {ModalProps} from '@ui/Modal'
 import {FieldValues, useForm} from 'react-hook-form'
 import styles from '../styles/AddPageModal.module.scss'
-import useProjectsEndpoint from '@hooks/useProjectsEndpoint'
 import useCurrentProject from '@hooks/useCurrentProject'
 import FlexContainer from "@ui/FlexContainer"
 import useSnackbar from "@hooks/useSnackbar"
@@ -12,23 +11,25 @@ import useAddPage from "@hooks/react-query/projects/useAddPage"
 type Props = Omit<ModalProps, 'children'>
 
 function AddPageModal({showModal, onRequestClose} : Props){
-    const makeRequestAndUpdateState = useProjectsEndpoint()
     const { project } = useCurrentProject()
     const { snackbar, showError } = useSnackbar()
-    const { mutate: addPage, error, isSuccess } = useAddPage()
+    const { mutateAsync: addPageAsync, error, isSuccess } = useAddPage()
 
-    snackbar([
-        {
-            message: 'Page added successfully',
-            severity: 'success',
-            condition: isSuccess
-        },
-        {
-            message: error?.message ?? 'An error occurred while adding the page',
-            severity: 'error',
-            condition: !!error
-        },
-    ])
+    useEffect(() => {
+        snackbar([
+            {
+                message: 'Page added successfully',
+                severity: 'success',
+                condition: isSuccess
+            },
+            {
+                message: error?.message ?? 'An error occurred while adding the page',
+                severity: 'error',
+                condition: !!error
+            },
+        ])
+    }, [ isSuccess, error])
+
 
     const onCreatePageSubmit = async (data: FieldValues) => {
         if(project){
@@ -48,7 +49,9 @@ function AddPageModal({showModal, onRequestClose} : Props){
                 url = url.replace(project.domainUrl, '')
             }
 
-            addPage({projectName: project.name, pageUrl: url, avoidAuth: data.avoidAuth, authPage: data.authPage})
+            await addPageAsync({projectName: project.name, pageUrl: url})
+
+            onRequestClose()
         }
     }
 
@@ -59,8 +62,6 @@ function AddPageModal({showModal, onRequestClose} : Props){
     } = useForm({
         defaultValues: {
             url: '/home',
-            avoidAuth: false,
-            authPage: false,
         }
     })
 
@@ -71,14 +72,6 @@ function AddPageModal({showModal, onRequestClose} : Props){
                     <FlexContainer>
                         <input {...register('url', { required: true })} />
                         {errors.url && <p>Please enter url before saving.</p>}
-                        <label>
-                            <input {...register('avoidAuth', { required: false })} type={"checkbox"} style={{marginRight: 5}}/>
-                            <span>Anonymous page</span>
-                        </label>
-                        <label>
-                            <input {...register('authPage', { required: false })} type={"checkbox"} style={{marginRight: 5}}/>
-                            <span>Page that should be used for auth</span>
-                        </label>
                         <button type="submit" >Submit</button>
                     </FlexContainer>
                 </form>

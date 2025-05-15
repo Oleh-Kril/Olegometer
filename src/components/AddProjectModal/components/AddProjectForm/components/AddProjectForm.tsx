@@ -54,8 +54,8 @@ export default function AddProjectForm({onSuccess}: Props){
                 name: 'Google project' + Math.random(),
                 url: 'https://google.com',
                 figmaToken: 'figd_uyjcLfydp8l7paMM_MXQNi7IqG4Th4eTLGV7O-4v',
-                authUserLogin: 'test_user@gmail.com',
-                authUserPassword: 'password123'
+                // authUserLogin: 'test_user@gmail.com',
+                // authUserPassword: 'password123'
             }
         }
     )
@@ -69,8 +69,8 @@ export default function AddProjectForm({onSuccess}: Props){
                 {errors.name && <p>Please enter name of project before saving.</p>}
                 <input {...register('figmaToken', { required: true })} />
                 {errors.figmaToken && <p>Please enter figmaToken of account that has access to view your designs before saving.</p>}
-                <input {...register('authUserLogin', { required: false })} />
-                <input {...register('authUserPassword', { required: false })} />
+                {/*<input {...register('authUserLogin', { required: false })} />*/}
+                {/*<input {...register('authUserPassword', { required: false })} />*/}
                 <button type="submit" >Submit</button>
             </FlexContainer>
         </form>

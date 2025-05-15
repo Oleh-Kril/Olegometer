@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const axiosInstance = axios.create({
-    // baseURL: process.env.NEXT_PUBLIC_BE_URL,
+    withCredentials: true,
     baseURL: 'https://olegometerapi-production.up.railway.app',
 })
 

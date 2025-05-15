@@ -20,7 +20,6 @@ export default function AddProjectForm({onSuccess}: Props){
             name: data.name,
             domainUrl: data.url,
             figmaToken: data.figmaToken,
-            users: data.authUserToken ? {user1: data.authUserToken} : undefined
         }
 
         await createProject(newProject)

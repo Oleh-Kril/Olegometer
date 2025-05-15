@@ -1,23 +1,39 @@
 import {useState} from 'react'
 import ProjectsList from '../../modules/ProjectsList'
-import Link from 'next/link'
 import AddProjectModal from '../../components/AddProjectModal'
 import FlexContainer from "@ui/FlexContainer"
+import useLogout from '@/hooks/react-query/useLogout'
 
 export default function Projects() {
     const [showModal, setShowModal] = useState(false)
-    // if (isLoading) return <div>Loading...</div>
-    // if (error) return <div>{error.message}</div>
+    const logoutMutation = useLogout()
 
     const handleCreateProject = async () => {
         setShowModal(true)
+    }
+
+    const handleLogout = () => {
+        logoutMutation.mutate()
     }
 
     return (
         <>
             <FlexContainer style={{width: '80vw'}}>
                 <p>WELCOME TO OLEGOMETER</p>
-                <Link href='/'>Logout</Link>
+                <button
+                    onClick={handleLogout}
+                    disabled={logoutMutation.isPending}
+                    style={{
+                        padding: '8px 15px',
+                        backgroundColor: '#f44336',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                    }}
+                >
+                    {logoutMutation.isPending ? 'Logging out...' : 'Logout'}
+                </button>
 
                 <h1>Projects Page</h1>
 
